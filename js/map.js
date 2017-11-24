@@ -1,5 +1,11 @@
 'use strict';
 
+var NUMBER_OF_ADVERTS = 8;
+var similarMapCardTemplate = document.querySelector('template').content;
+var cityMap = document.querySelector('.map');
+cityMap.classList.remove('.map--faded');
+var adverts = [];
+
 function getRandomIndex(min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
 }
@@ -26,7 +32,7 @@ function getArrayAdvert(advertNumber) {
 
   function findFeatures() {
     var MANY_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-    var numberRepeat = getRandomIndex(0, MANY_FEATURES.length);
+    var numberRepeat = getRandomIndex(1, MANY_FEATURES.length);
     var CHOOSE_FEATURES = [];
     for (var k = 0; k < numberRepeat; k++) {
       CHOOSE_FEATURES.push(getUniquePart(MANY_FEATURES));
@@ -34,7 +40,6 @@ function getArrayAdvert(advertNumber) {
     return CHOOSE_FEATURES;
   }
 
-  var adverts = [];
   for (var j = 0; j < advertNumber; j++) {
     adverts.push({
       'author': {
@@ -43,11 +48,11 @@ function getArrayAdvert(advertNumber) {
 
       'offer': {
         'title': '' + getUniquePart(TITLE_TEXTS),
-        'address': '{{location.' + COORDINATES_X[j] + '}}, {{location.' + COORDINATES_Y[j] + '}}',
+        'address': 'location.' + COORDINATES_X[j] + ', location.' + COORDINATES_Y[j],
         'price': getRandomIndex(1000, 1000000),
         'type': HOTEL_TYPES[getRandomIndex(0, HOTEL_TYPES.length - 1)],
         'rooms': getRandomIndex(1, 5),
-        'guests': getRandomIndex(1, 100),
+        'guests': getRandomIndex(1, 30),
         'checkin': '' + CHECK_TIMES[getRandomIndex(0, CHECK_TIMES.length - 1)],
         'checkout': '' + CHECK_TIMES[getRandomIndex(0, CHECK_TIMES.length - 1)],
         'features': findFeatures(),
@@ -63,3 +68,33 @@ function getArrayAdvert(advertNumber) {
   }
   return adverts;
 }
+
+function createAdvert(advert) {
+  var advertElement = similarMapCardTemplate.cloneNode(true);
+  var text = '';
+  if (advert.offer.type.length !== 4) {
+    advert.offer.type.length === 7 ? text = 'Бунгало' : text = 'Дом';
+  } else {
+    text = 'Квартира';
+  }
+
+  advertElement.querySelector('h3').textContent = advert.offer.title;
+  advertElement.querySelector('small').textContent = advert.offer.address;
+  advertElement.querySelector('.popup__price').textContent = advert.offer.price + '&#x20bd;' + '/ночь';
+  advertElement.querySelector('h4').textContent = text;
+  advertElement.querySelectorAll('p')[2].textContent = 'Для ' + advert.offer.guests + ' гостей в ' + advert.offer.rooms + ' комнатаx';
+  advertElement.querySelectorAll('p')[3].textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
+  // advertElement.querySelector('.popup__features').textContent = advert.offer.title;
+  advertElement.querySelector('.popup__avatar').textContent = advert.author.avatar;
+
+  return advertElement;
+}
+
+(function insertAdvert() {
+  var fragment = document.createDocumentFragment();
+  getArrayAdvert(NUMBER_OF_ADVERTS);
+  for (var i = 0; i < 1; i++) {
+    fragment.appendChild(createAdvert(adverts[0]));
+  }
+  cityMap.appendChild(fragment);
+})();

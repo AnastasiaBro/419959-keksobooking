@@ -43,7 +43,7 @@ function getArrayAdvert(advertNumber) {
   for (var j = 0; j < advertNumber; j++) {
     adverts.push({
       'author': {
-        'avatar': 'img/avatars/user{{' + getUniquePart(NUMBER_AVATAR) + '}}.png',
+        'avatar': 'img/avatars/user' + getUniquePart(NUMBER_AVATAR) + '.png',
       },
 
       'offer': {
@@ -72,6 +72,7 @@ function getArrayAdvert(advertNumber) {
 function createAdvert(advert) {
   var advertElement = similarMapCardTemplate.cloneNode(true);
   var text = '';
+
   if (advert.offer.type.length !== 4) {
     advert.offer.type.length === 7 ? text = 'Бунгало' : text = 'Дом';
   } else {
@@ -84,8 +85,20 @@ function createAdvert(advert) {
   advertElement.querySelector('h4').textContent = text;
   advertElement.querySelectorAll('p')[2].textContent = 'Для ' + advert.offer.guests + ' гостей в ' + advert.offer.rooms + ' комнатаx';
   advertElement.querySelectorAll('p')[3].textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
-  // advertElement.querySelector('.popup__features').textContent = advert.offer.title;
-  advertElement.querySelector('.popup__avatar').textContent = advert.author.avatar;
+
+  if (advert.offer.features.length < 6) {
+    for (var m = advert.offer.features.length; m < 6; m++) {
+      var help = advertElement.querySelectorAll('.popup__features li')[advert.offer.features.length];
+      advertElement.querySelector('.popup__features').removeChild(help);
+    }
+  }
+
+  for (var n = 0; n < advert.offer.features.length; n++) {
+    advertElement.querySelectorAll('.popup__features li')[n].setAttribute('class', 'feature feature--' + advert.offer.features[n]);
+  }
+
+  advertElement.querySelectorAll('p')[4].textContent = advert.offer.description;
+  advertElement.querySelector('.popup__avatar').setAttribute('src', advert.author.avatar);
 
   return advertElement;
 }

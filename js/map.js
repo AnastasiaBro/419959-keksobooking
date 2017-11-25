@@ -71,10 +71,7 @@ function getArrayAdvert(advertNumber) {
   return adverts;
 }
 
-// var advertElement = similarMapCardTemplate.cloneNode(true);
-
 function createAllAdverts(advert) {
-  // var advertElement = mapButtonTemplate.cloneNode(true);
   var advertElement = document.createElement('button');
   advertElement.setAttribute('class', 'map__pin');
   advertElement.setAttribute('style', 'left: ' + advert.location.x + 'px; top: ' + advert.location.y + 'px;');
@@ -85,21 +82,12 @@ function createAllAdverts(advert) {
 
 function createOneAdvert(advert) {
   var advertElement = mapCardTemplate.cloneNode(true);
-
-  function getTextType() {
-    var text = '';
-    if (advert.offer.type.length !== 4) {
-      text = (advert.offer.type.length === 7) ? 'Бунгало' : 'Дом';
-    } else {
-      text = 'Квартира';
-    }
-    return text;
-  }
+  var text = (advert.offer.type.length !== 4) ? ((advert.offer.type.length === 7) ? 'Бунгало' : 'Дом') : 'Квартира';
 
   advertElement.querySelector('h3').textContent = advert.offer.title;
   advertElement.querySelector('small').textContent = advert.offer.address;
   advertElement.querySelector('.popup__price').textContent = advert.offer.price + String.fromCharCode(8381) + '/ночь';
-  advertElement.querySelector('h4').textContent = getTextType();
+  advertElement.querySelector('h4').textContent = text;
   advertElement.querySelectorAll('p')[2].textContent = advert.offer.rooms + ' комнат для ' + advert.offer.guests + ' гостей';
   advertElement.querySelectorAll('p')[3].textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
 

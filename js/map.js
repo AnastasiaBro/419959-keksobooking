@@ -85,14 +85,15 @@ function createAllAdverts(advert) {
 
 function createOneAdvert(advert) {
   var advertElement = mapCardTemplate.cloneNode(true);
-  var text = '';
 
   function getTextType() {
+    var text = '';
     if (advert.offer.type.length !== 4) {
-      return advert.offer.type.length === 7 ? text = 'Бунгало' : text = 'Дом';
+      advert.offer.type.length === 7 ? text = 'Бунгало' : text = 'Дом';
     } else {
-      return text = 'Квартира';
+      text = 'Квартира';
     }
+    return text;
   }
 
   advertElement.querySelector('h3').textContent = advert.offer.title;

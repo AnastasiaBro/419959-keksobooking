@@ -3,7 +3,6 @@
 var NUMBER_OF_ADVERTS = 8;
 var similarMapCardTemplate = document.querySelector('template').content;
 var mapCardTemplate = similarMapCardTemplate.querySelector('article.map__card');
-var mapButtonTemplate = similarMapCardTemplate.querySelector('button.map__pin');
 var cityMap = document.querySelector('.map');
 var mapPins = document.querySelector('.map__pins');
 var adverts = [];
@@ -79,7 +78,7 @@ function createAllAdverts(advert) {
   var advertElement = document.createElement('button');
   advertElement.setAttribute('class', 'map__pin');
   advertElement.setAttribute('style', 'left: ' + advert.location.x + 'px; top: ' + advert.location.y + 'px;');
-  advertElement.innerHTML = '<img width="40" height="40" draggable="false">'
+  advertElement.innerHTML = '<img width="40" height="40" draggable="false">';
   advertElement.querySelector('img').setAttribute('src', advert.author.avatar);
   return advertElement;
 }
@@ -88,16 +87,18 @@ function createOneAdvert(advert) {
   var advertElement = mapCardTemplate.cloneNode(true);
   var text = '';
 
-  if (advert.offer.type.length !== 4) {
-    advert.offer.type.length === 7 ? text = 'Бунгало' : text = 'Дом';
-  } else {
-    text = 'Квартира';
+  function getTextType() {
+    if (advert.offer.type.length !== 4) {
+      return advert.offer.type.length === 7 ? text = 'Бунгало' : text = 'Дом';
+    } else {
+      return text = 'Квартира';
+    }
   }
 
   advertElement.querySelector('h3').textContent = advert.offer.title;
   advertElement.querySelector('small').textContent = advert.offer.address;
   advertElement.querySelector('.popup__price').textContent = advert.offer.price + String.fromCharCode(8381) + '/ночь';
-  advertElement.querySelector('h4').textContent = text;
+  advertElement.querySelector('h4').textContent = getTextType();
   advertElement.querySelectorAll('p')[2].textContent = advert.offer.rooms + ' комнат для ' + advert.offer.guests + ' гостей';
   advertElement.querySelectorAll('p')[3].textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
 

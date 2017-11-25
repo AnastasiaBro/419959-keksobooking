@@ -85,7 +85,12 @@ function createOneAdvert(advert) {
 
   function getTextType() {
     var text = '';
-    return text = (advert.offer.type.length !== 4) ? ((advert.offer.type.length === 7) ? 'Бунгало' : 'Дом') : 'Квартира';
+    if (advert.offer.type.length !== 4) {
+      text = (advert.offer.type.length === 7) ? 'Бунгало' : 'Дом';
+    } else {
+      text = 'Квартира';
+    }
+    return text;
   }
 
   advertElement.querySelector('h3').textContent = advert.offer.title;

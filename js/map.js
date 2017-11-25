@@ -82,12 +82,16 @@ function createAllAdverts(advert) {
 
 function createOneAdvert(advert) {
   var advertElement = mapCardTemplate.cloneNode(true);
-  var text = (advert.offer.type.length !== 4) ? ((advert.offer.type.length === 7) ? 'Бунгало' : 'Дом') : 'Квартира';
+
+  function getTextType() {
+    var text = '';
+    return text = (advert.offer.type.length !== 4) ? ((advert.offer.type.length === 7) ? 'Бунгало' : 'Дом') : 'Квартира';
+  }
 
   advertElement.querySelector('h3').textContent = advert.offer.title;
   advertElement.querySelector('small').textContent = advert.offer.address;
   advertElement.querySelector('.popup__price').textContent = advert.offer.price + String.fromCharCode(8381) + '/ночь';
-  advertElement.querySelector('h4').textContent = text;
+  advertElement.querySelector('h4').textContent = getTextType();
   advertElement.querySelectorAll('p')[2].textContent = advert.offer.rooms + ' комнат для ' + advert.offer.guests + ' гостей';
   advertElement.querySelectorAll('p')[3].textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
 

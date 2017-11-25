@@ -89,7 +89,7 @@ function createOneAdvert(advert) {
   function getTextType() {
     var text = '';
     if (advert.offer.type.length !== 4) {
-      advert.offer.type.length === 7 ? text = 'Бунгало' : text = 'Дом';
+      text = (advert.offer.type.length === 7) ? 'Бунгало' : 'Дом';
     } else {
       text = 'Квартира';
     }

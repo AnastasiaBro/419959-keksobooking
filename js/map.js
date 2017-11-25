@@ -102,8 +102,8 @@ function createOneAdvert(advert) {
 
   if (advert.offer.features.length < 6) {
     for (var m = advert.offer.features.length; m < 6; m++) {
-      var help = advertElement.querySelectorAll('.popup__features li')[advert.offer.features.length];
-      advertElement.querySelector('.popup__features').removeChild(help);
+      var extra = advertElement.querySelectorAll('.popup__features li')[advert.offer.features.length];
+      advertElement.querySelector('.popup__features').removeChild(extra);
     }
   }
   for (var n = 0; n < advert.offer.features.length; n++) {

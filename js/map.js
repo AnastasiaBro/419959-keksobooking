@@ -120,9 +120,9 @@ function createOneAdvert(advert) {
   var fragment = document.createDocumentFragment();
   getArrayAdvert(NUMBER_OF_ADVERTS);
 
-  for (var i = 0; i < 1; i++) {
-    fragment.appendChild(createOneAdvert(adverts[0]));
-  }
+  // for (var i = 0; i < 1; i++) {
+  fragment.appendChild(createOneAdvert(adverts[0]));
+  // }
   cityMap.appendChild(fragment);
 
   for (var j = 0; j < NUMBER_OF_ADVERTS; j++) {

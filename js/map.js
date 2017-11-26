@@ -6,6 +6,7 @@ var mapCardTemplate = similarMapCardTemplate.querySelector('article.map__card');
 var cityMap = document.querySelector('.map');
 var mapPins = document.querySelector('.map__pins');
 var adverts = [];
+var COUNT_FEATURES = 6;
 cityMap.classList.remove('map--faded');
 
 function getRandomIndex(min, max) {
@@ -27,8 +28,8 @@ function getArrayAdvert(advertNumber) {
 
   (function findCoordinates() {
     for (var i = 0; i < advertNumber; i++) {
-      COORDINATES_X.push(getRandomIndex(300, 900));
-      COORDINATES_Y.push(getRandomIndex(100, 500));
+      COORDINATES_X.push(getRandomIndex(300, 900) + 23);
+      COORDINATES_Y.push(getRandomIndex(100, 500) + 62);
     }
   })();
 
@@ -100,15 +101,17 @@ function createOneAdvert(advert) {
   advertElement.querySelectorAll('p')[2].textContent = advert.offer.rooms + ' комнат для ' + advert.offer.guests + ' гостей';
   advertElement.querySelectorAll('p')[3].textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
 
-  if (advert.offer.features.length < 6) {
-    for (var m = advert.offer.features.length; m < 6; m++) {
-      var extra = advertElement.querySelectorAll('.popup__features li')[advert.offer.features.length];
-      advertElement.querySelector('.popup__features').removeChild(extra);
+  (function addFeatures() {
+    if (advert.offer.features.length < COUNT_FEATURES) {
+      for (var m = advert.offer.features.length; m < COUNT_FEATURES; m++) {
+        var extra = advertElement.querySelectorAll('.popup__features li')[advert.offer.features.length];
+        advertElement.querySelector('.popup__features').removeChild(extra);
+      }
     }
-  }
-  for (var n = 0; n < advert.offer.features.length; n++) {
-    advertElement.querySelectorAll('.popup__features li')[n].setAttribute('class', 'feature feature--' + advert.offer.features[n]);
-  }
+    for (var n = 0; n < advert.offer.features.length; n++) {
+      advertElement.querySelectorAll('.popup__features li')[n].setAttribute('class', 'feature feature--' + advert.offer.features[n]);
+    }
+  })();
 
   advertElement.querySelectorAll('p')[4].textContent = advert.offer.description;
   advertElement.querySelector('.popup__avatar').setAttribute('src', advert.author.avatar);
@@ -120,9 +123,7 @@ function createOneAdvert(advert) {
   var fragment = document.createDocumentFragment();
   getArrayAdvert(NUMBER_OF_ADVERTS);
 
-  // for (var i = 0; i < 1; i++) {
   fragment.appendChild(createOneAdvert(adverts[0]));
-  // }
   cityMap.appendChild(fragment);
 
   for (var j = 0; j < NUMBER_OF_ADVERTS; j++) {

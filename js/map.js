@@ -44,11 +44,11 @@ function getArrayAdvert(advertNumber) {
   function findFeatures() {
     var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
     var numberRepeat = getRandomIndex(1, features.length);
-    var choises = [];
+    var chooseFeatures = [];
     for (var i = 0; i < numberRepeat; i++) {
-      choises.push(getUniquePart(features));
+      chooseFeatures.push(getUniquePart(features));
     }
-    return choises;
+    return chooseFeatures;
   }
 
   for (var i = 0; i < advertNumber; i++) {

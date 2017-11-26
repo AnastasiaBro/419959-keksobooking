@@ -96,7 +96,7 @@ function createOneAdvert(advert) {
 
   advertElement.querySelector('h3').textContent = advert.offer.title;
   advertElement.querySelector('small').textContent = advert.offer.address;
-  advertElement.querySelector('.popup__price').textContent = advert.offer.price + String.fromCharCode(8381) + '/ночь';
+  advertElement.querySelector('.popup__price').textContent = advert.offer.price + ' ' + String.fromCharCode(8381) + ' / ночь';
   advertElement.querySelector('h4').textContent = getTextType();
 
   function addCorrectRoomEnding() {

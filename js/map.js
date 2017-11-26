@@ -27,17 +27,17 @@ function getArrayAdvert(advertNumber) {
   var coordinatesY = [];
 
   function getPictureNumbers(value) {
-    var numbers = [];
+    var pictureNumbers = [];
     for (var i = 1; i <= value; i++) {
-      numbers.push('0' + i);
+      pictureNumbers.push('0' + i);
     }
-    return numbers;
+    return pictureNumbers;
   }
 
   (function findCoordinates() {
     for (var i = 0; i < advertNumber; i++) {
-      coordinatesX.push(getRandomIndex(300, 900) + 20);
-      coordinatesY.push(getRandomIndex(100, 500) + 40);
+      coordinatesX.push(getRandomIndex(300, 900) + 23);
+      coordinatesY.push(getRandomIndex(100, 500) + 62);
     }
   })();
 
@@ -125,13 +125,14 @@ function createOneAdvert(advert) {
   advertElement.querySelectorAll('p')[3].textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
 
   (function addFeatures() {
+    var i = 0;
     if (advert.offer.features.length < COUNT_FEATURES) {
-      for (var i = advert.offer.features.length; i < COUNT_FEATURES; i++) {
+      for (i = advert.offer.features.length; i < COUNT_FEATURES; i++) {
         var extra = advertElement.querySelectorAll('.popup__features li')[advert.offer.features.length];
         advertElement.querySelector('.popup__features').removeChild(extra);
       }
     }
-    for (var i = 0; i < advert.offer.features.length; i++) {
+    for (i = 0; i < advert.offer.features.length; i++) {
       advertElement.querySelectorAll('.popup__features li')[i].setAttribute('class', 'feature feature--' + advert.offer.features[i]);
     }
   })();

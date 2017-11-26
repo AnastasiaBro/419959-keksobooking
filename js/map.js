@@ -51,7 +51,7 @@ function getArrayAdvert(advertNumber) {
 
       'offer': {
         'title': '' + getUniquePart(TITLE_TEXTS),
-        'address': 'location.' + COORDINATES_X[j] + ', location.' + COORDINATES_Y[j],
+        'address': '' + COORDINATES_X[j] + ', ' + COORDINATES_Y[j],
         'price': getRandomIndex(1000, 1000000),
         'type': HOTEL_TYPES[getRandomIndex(0, HOTEL_TYPES.length - 1)],
         'rooms': getRandomIndex(1, 5),
@@ -98,7 +98,23 @@ function createOneAdvert(advert) {
   advertElement.querySelector('small').textContent = advert.offer.address;
   advertElement.querySelector('.popup__price').textContent = advert.offer.price + String.fromCharCode(8381) + '/ночь';
   advertElement.querySelector('h4').textContent = getTextType();
-  advertElement.querySelectorAll('p')[2].textContent = advert.offer.rooms + ' комнат для ' + advert.offer.guests + ' гостей';
+
+  function addCorrectRoomEnding() {
+    var ending = '';
+    if (advert.offer.rooms !== 5) {
+      ending = (advert.offer.rooms === 1) ? 'а' : 'ы';
+    } else {
+      ending = '';
+    }
+    return ending;
+  }
+
+  function addCorrectGuestEnding() {
+    var ending = '';
+    return ending = (advert.offer.guests % 10 === 1 && advert.offer.guests !== 11) === true ? 'я' : 'ей';
+  }
+
+  advertElement.querySelectorAll('p')[2].textContent = advert.offer.rooms + ' комнат' + addCorrectRoomEnding() + ' для ' + advert.offer.guests + ' гост' + addCorrectGuestEnding();
   advertElement.querySelectorAll('p')[3].textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
 
   (function addFeatures() {

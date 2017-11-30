@@ -2,12 +2,14 @@
 
 var NUMBER_OF_ADVERTS = 8;
 var COUNT_FEATURES = 6;
+var MAP_HEIGHT = 44;
+var POINTER_HEIGHT = 18;
 var similarMapCardTemplate = document.querySelector('template').content;
 var mapCardTemplate = similarMapCardTemplate.querySelector('article.map__card');
 var cityMap = document.querySelector('.map');
 var mapPins = document.querySelector('.map__pins');
 var adverts = [];
-cityMap.classList.remove('map--faded');
+// cityMap.classList.remove('map--faded');
 
 function getRandomIndex(min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
@@ -15,7 +17,7 @@ function getRandomIndex(min, max) {
 
 function getUniquePart(array) {
   var index = getRandomIndex(0, array.length - 1);
-  return array.splice(index, 1);
+  return array.splice(index, 1).toString();
 }
 
 function getArrayAdvert(advertNumber) {
@@ -36,19 +38,19 @@ function getArrayAdvert(advertNumber) {
 
   (function findCoordinates() {
     for (var i = 0; i < advertNumber; i++) {
-      coordinatesX.push(getRandomIndex(300, 900) + 23);
-      coordinatesY.push(getRandomIndex(100, 500) + 62);
+      coordinatesX.push(getRandomIndex(300, 900));
+      coordinatesY.push(getRandomIndex(100, 500));
     }
   })();
 
   function findFeatures() {
     var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
     var numberRepeat = getRandomIndex(1, features.length);
-    var chooseFeatures = [];
+    var chosenFeatures = [];
     for (var i = 0; i < numberRepeat; i++) {
-      chooseFeatures.push(getUniquePart(features));
+      chosenFeatures.push(getUniquePart(features));
     }
-    return chooseFeatures;
+    return chosenFeatures;
   }
 
   for (var i = 0; i < advertNumber; i++) {
@@ -83,7 +85,7 @@ function getArrayAdvert(advertNumber) {
 function createAllAdverts(advert) {
   var advertElement = document.createElement('button');
   advertElement.setAttribute('class', 'map__pin');
-  advertElement.setAttribute('style', 'left: ' + advert.location.x + 'px; top: ' + advert.location.y + 'px;');
+  advertElement.setAttribute('style', 'left: ' + advert.location.x + 'px; top: ' + (advert.location.y - MAP_HEIGHT / 2 - POINTER_HEIGHT) + 'px;');
   advertElement.innerHTML = '<img width="40" height="40" draggable="false">';
   advertElement.querySelector('img').setAttribute('src', advert.author.avatar);
   return advertElement;
@@ -146,14 +148,85 @@ function createOneAdvert(advert) {
 function insertAdvert(advertsCount) {
   var fragment = document.createDocumentFragment();
   getArrayAdvert(advertsCount);
+  var i = 0;
 
-  fragment.appendChild(createOneAdvert(adverts[0]));
+  for (i = 0; i < advertsCount; i++) {
+    fragment.appendChild(createOneAdvert(adverts[i]));
+  }
   cityMap.appendChild(fragment);
 
-  for (var i = 0; i < advertsCount; i++) {
+  for (i = 0; i < advertsCount; i++) {
     fragment.appendChild(createAllAdverts(adverts[i]));
   }
   mapPins.appendChild(fragment);
 }
 
 insertAdvert(NUMBER_OF_ADVERTS);
+
+(function hiddenAdverts() {
+  for (var i = 0; i < NUMBER_OF_ADVERTS; i++) {
+    cityMap.querySelectorAll('.map__card')[i].classList.add('hidden');
+    mapPins.querySelectorAll('.map__pin')[i + 1].classList.add('hidden');
+  }
+})();
+
+// задание 4 урока
+
+var mainButton = cityMap.querySelector('.map__pin--main');
+var mapForm = document.querySelector('.notice__form');
+var FORMS_COUNT = 12;
+// var clickedElement = null;
+
+// форма закрыта изначально
+(function disableForm() {
+  for (var i = 0; i < FORMS_COUNT; i++) {
+    mapForm.querySelectorAll('fieldset')[i].setAttribute('disabled', 'disabled');
+  }
+})();
+
+function activeForm() {
+  for (var i = 0; i < FORMS_COUNT; i++) {
+    mapForm.querySelectorAll('fieldset')[i].removeAttribute('disabled');
+  }
+}
+
+// активируем карту и форму
+function openMap() {
+  cityMap.classList.remove('map--faded');
+  mapForm.classList.remove('notice__form--disabled');
+  activeForm();
+  mainButton.setAttribute('disabled', 'disabled');
+
+  for (var i = 0; i < NUMBER_OF_ADVERTS; i++) {
+    mapPins.querySelectorAll('.map__pin')[i + 1].classList.remove('hidden');
+  }
+  // document.addEventListener('keydown', onPopupEscPress);
+}
+
+// событие
+mainButton.addEventListener('mouseup', function () {
+  openMap();
+});
+
+var oneMapPin = mapPins.querySelectorAll('.map__pin');
+
+function showMapPin() {
+  // if (oneMapPin) {
+  oneMapPin[1].classList.add('map__pin--active');
+  // cityMap.querySelectorAll('.map__card').classList.remove('hidden');
+  // oneMapPin.querySelectorAll('.map__pin').setAttribute('class', 'map__pin map__pin--active');
+  // }
+}
+
+oneMapPin[1].addEventListener('click', function () {
+  showMapPin();
+});
+
+/* var clickHandler = function (evt) {
+  if (clickedElement) {
+    clickedElement.classList.remove('clicked');
+  }
+
+  clickedElement = evt.currentTarget;
+  clickedElement.classList.add('clicked');
+};*/

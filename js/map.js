@@ -163,6 +163,10 @@ function insertAdvert(advertsCount) {
 
 insertAdvert(NUMBER_OF_ADVERTS);
 
+// задание 4 урока
+
+// сначала я скрываю все пины и описания (к прошлому заданию добавила генерацию сразу всех объявлений, а не только первого)
+// так как не получалось по-другому
 (function hiddenAdverts() {
   for (var i = 0; i < NUMBER_OF_ADVERTS; i++) {
     cityMap.querySelectorAll('.map__card')[i].classList.add('hidden');
@@ -170,20 +174,18 @@ insertAdvert(NUMBER_OF_ADVERTS);
   }
 })();
 
-// задание 4 урока
+var mainButton = cityMap.querySelector('.map__pin--main'); // это пироженка
+var mapForm = document.querySelector('.notice__form'); // это форма
+var FORMS_COUNT = 12; // это количество fieldset
 
-var mainButton = cityMap.querySelector('.map__pin--main');
-var mapForm = document.querySelector('.notice__form');
-var FORMS_COUNT = 12;
-// var clickedElement = null;
-
-// форма закрыта изначально
+// форма закрыта изначально - все fieldset disabled
 (function disableForm() {
   for (var i = 0; i < FORMS_COUNT; i++) {
     mapForm.querySelectorAll('fieldset')[i].setAttribute('disabled', 'disabled');
   }
 })();
 
+// активация формы, произойдет при openMap
 function activeForm() {
   for (var i = 0; i < FORMS_COUNT; i++) {
     mapForm.querySelectorAll('fieldset')[i].removeAttribute('disabled');
@@ -200,33 +202,50 @@ function openMap() {
   for (var i = 0; i < NUMBER_OF_ADVERTS; i++) {
     mapPins.querySelectorAll('.map__pin')[i + 1].classList.remove('hidden');
   }
-  // document.addEventListener('keydown', onPopupEscPress);
 }
 
-// событие
+// событие - открытие формы при нажатии на пироженку
 mainButton.addEventListener('mouseup', function () {
   openMap();
 });
 
-var oneMapPin = mapPins.querySelectorAll('.map__pin');
+// показывает объявление при нажатии на любой пин, почему-то работает только через enter, а при клике мышкой - нет
+// сначала проверяю, нет ли активного пина, если что - снимаю active
+// дальше проверяю - если событие не на pinsoverlay и не на main, то все ок - добавляем active
+// дальше нахожу для одного из 8 пинов (начинаю с 1, т.к. 0 - это button main) его индекс, чтобы
+// затем найти его карточку (map__card), i-1 т.к. карточек меньше на 1, чем пинов
+function openAdvert(event) {
+  if (mapPins.querySelector('.map__pin--active')) {
+    mapPins.querySelector('.map__pin--active').classList.remove('map__pin--active');
+  }
+  var target = event.target;
 
-function showMapPin() {
-  // if (oneMapPin) {
-  oneMapPin[1].classList.add('map__pin--active');
-  // cityMap.querySelectorAll('.map__card').classList.remove('hidden');
-  // oneMapPin.querySelectorAll('.map__pin').setAttribute('class', 'map__pin map__pin--active');
-  // }
+  if (target.getAttribute('class') !== 'map__pinsoverlay' && target.getAttribute('class') !== 'map__pin map__pin--main') {
+    target.classList.add('map__pin--active');
+    for (var i = 1; i < 9; i++) {
+      if (mapPins.querySelectorAll('.map__pin')[i].getAttribute('class') === 'map__pin map__pin--active') {
+        var pinIndex = i - 1;
+        cityMap.querySelectorAll('.map__card')[pinIndex].classList.remove('hidden');
+      }
+    }
+  }
+  return pinIndex;
 }
 
-oneMapPin[1].addEventListener('click', function () {
-  showMapPin();
+// а это для родителя всех пинов событие
+mapPins.addEventListener('click', openAdvert);
+
+// хотела найти кнопку закрытия и не смогла
+var closePopup = document.querySelector('.popup__close');
+
+closePopup.addEventListener('mouseup', function () {
+  closeAdvert();
 });
 
-/* var clickHandler = function (evt) {
-  if (clickedElement) {
-    clickedElement.classList.remove('clicked');
+var closeAdvert = function () {
+  for (var i = 0; i < 8; i++) {
+    if (cityMap.querySelectorAll('.map__card')[i].getAttribute('class') !== 'map__card popup hidden') {
+      cityMap.querySelectorAll('.map__card')[i].classList.add('hidden');
+    }
   }
-
-  clickedElement = evt.currentTarget;
-  clickedElement.classList.add('clicked');
-};*/
+};

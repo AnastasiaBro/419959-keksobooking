@@ -239,21 +239,20 @@ mapPins.addEventListener('click', openAdvert);
 // var closeCard = document.querySelector('.map__card');
 // var closeButton = document.querySelectorAll('.popup__close');
 
-cityMap.addEventListener('mouseup', function () {
-  closeAdvert();
-});
+cityMap.addEventListener('mouseup', closeAdvert);
 
-var closeAdvert = function () {
-  // var target = event.target;
-
-  for (var j = 1; j < 9; j++) {
-    if (mapPins.querySelectorAll('.map__pin')[j].getAttribute('class') === 'map__pin map__pin--active') {
-      var pinIndex = j - 1;
-      mapPins.querySelectorAll('.map__pin')[j].classList.remove('map__pin--active');
-      cityMap.querySelectorAll('.map__card')[pinIndex].classList.add('hidden');
+function closeAdvert(evt) {
+  var target = evt.target;
+  if (target.getAttribute('class') === 'popup__close') {
+    for (var j = 1; j < 9; j++) {
+      if (mapPins.querySelectorAll('.map__pin')[j].getAttribute('class') === 'map__pin map__pin--active') {
+        var pinIndex = j - 1;
+        mapPins.querySelectorAll('.map__pin')[j].classList.remove('map__pin--active');
+        cityMap.querySelectorAll('.map__card')[pinIndex].classList.add('hidden');
+      }
     }
   }
   /* if (target.getAttribute('class') === 'map__pin map__pin--active') {
     target.classList.remove('map__pin--active');
   }*/
-};
+}

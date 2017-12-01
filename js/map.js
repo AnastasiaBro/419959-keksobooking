@@ -222,7 +222,7 @@ function openAdvert(evt) {
 
   if (target.getAttribute('class') !== 'map__pinsoverlay' && target.getAttribute('class') !== 'map__pin map__pin--main') {
     target.classList.add('map__pin--active');
-    for (var i = 1; i < 9; i++) {
+    for (var i = 1; i <= 8; i++) {
       if (mapPins.querySelectorAll('.map__pin')[i].getAttribute('class') === 'map__pin map__pin--active') {
         var pinIndex = i - 1;
         cityMap.querySelectorAll('.map__card')[pinIndex].classList.remove('hidden');
@@ -235,6 +235,7 @@ function openAdvert(evt) {
 // а это для родителя всех пинов событие
 mapPins.addEventListener('click', openAdvert);
 
+
 // хотела найти кнопку закрытия, прицепила к классу map событие
 // var closeCard = document.querySelector('.map__card');
 // var closeButton = document.querySelectorAll('.popup__close');
@@ -244,7 +245,7 @@ cityMap.addEventListener('mouseup', closeAdvert);
 function closeAdvert(evt) {
   var target = evt.target;
   if (target.getAttribute('class') === 'popup__close') {
-    for (var j = 1; j < 9; j++) {
+    for (var j = 1; j <= 8; j++) {
       if (mapPins.querySelectorAll('.map__pin')[j].getAttribute('class') === 'map__pin map__pin--active') {
         var pinIndex = j - 1;
         mapPins.querySelectorAll('.map__pin')[j].classList.remove('map__pin--active');
@@ -256,3 +257,11 @@ function closeAdvert(evt) {
     target.classList.remove('map__pin--active');
   }*/
 }
+
+/*
+for (var i = 0; i < 8; i++) {
+  if (cityMap.querySelectorAll('.map__card')[i].getAttribute('class') !== 'map__card popup hidden') {
+    var lala = cityMap.querySelectorAll('.map__card .popup')[i];
+    lala.addEventListener('mouseup', closeAdvert);
+  }
+}*/

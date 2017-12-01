@@ -214,11 +214,11 @@ mainButton.addEventListener('mouseup', function () {
 // дальше проверяю - если событие не на pinsoverlay и не на main, то все ок - добавляем active
 // дальше нахожу для одного из 8 пинов (начинаю с 1, т.к. 0 - это button main) его индекс, чтобы
 // затем найти его карточку (map__card), i-1 т.к. карточек меньше на 1, чем пинов
-function openAdvert(event) {
+function openAdvert(evt) {
   if (mapPins.querySelector('.map__pin--active')) {
     mapPins.querySelector('.map__pin--active').classList.remove('map__pin--active');
   }
-  var target = event.target;
+  var target = evt.target;
 
   if (target.getAttribute('class') !== 'map__pinsoverlay' && target.getAttribute('class') !== 'map__pin map__pin--main') {
     target.classList.add('map__pin--active');

@@ -244,16 +244,16 @@ cityMap.addEventListener('mouseup', function () {
 });
 
 var closeAdvert = function () {
-  var target = event.target;
+  // var target = event.target;
 
   for (var j = 1; j < 9; j++) {
     if (mapPins.querySelectorAll('.map__pin')[j].getAttribute('class') === 'map__pin map__pin--active') {
       var pinIndex = j - 1;
+      mapPins.querySelectorAll('.map__pin')[j].classList.remove('map__pin--active');
       cityMap.querySelectorAll('.map__card')[pinIndex].classList.add('hidden');
     }
   }
-
-  if (target.getAttribute('class') === 'map__pin map__pin--active') {
+  /* if (target.getAttribute('class') === 'map__pin map__pin--active') {
     target.classList.remove('map__pin--active');
-  }
+  }*/
 };

@@ -165,8 +165,8 @@ insertAdvert(NUMBER_OF_ADVERTS);
 
 // задание 4 урока
 
-// сначала я скрываю все пины и описания (к прошлому заданию добавила генерацию сразу всех объявлений, а не только первого)
-// так как не получалось по-другому
+// сначала я скрываю все пины и описания (к прошлому заданию добавила генерацию сразу всех объявлений,
+// а не только первого), так как не получалось по-другому
 (function hiddenAdverts() {
   for (var i = 0; i < NUMBER_OF_ADVERTS; i++) {
     cityMap.querySelectorAll('.map__card')[i].classList.add('hidden');
@@ -235,17 +235,25 @@ function openAdvert(event) {
 // а это для родителя всех пинов событие
 mapPins.addEventListener('click', openAdvert);
 
-// хотела найти кнопку закрытия и не смогла
-var closePopup = document.querySelector('.popup__close');
+// хотела найти кнопку закрытия, прицепила к классу map событие
+// var closeCard = document.querySelector('.map__card');
+// var closeButton = document.querySelectorAll('.popup__close');
 
-closePopup.addEventListener('mouseup', function () {
+cityMap.addEventListener('mouseup', function () {
   closeAdvert();
 });
 
 var closeAdvert = function () {
-  for (var i = 0; i < 8; i++) {
-    if (cityMap.querySelectorAll('.map__card')[i].getAttribute('class') !== 'map__card popup hidden') {
-      cityMap.querySelectorAll('.map__card')[i].classList.add('hidden');
+  var target = event.target;
+
+  for (var j = 1; j < 9; j++) {
+    if (mapPins.querySelectorAll('.map__pin')[j].getAttribute('class') === 'map__pin map__pin--active') {
+      var pinIndex = j - 1;
+      cityMap.querySelectorAll('.map__card')[pinIndex].classList.add('hidden');
     }
+  }
+
+  if (target.getAttribute('class') === 'map__pin map__pin--active') {
+    target.classList.remove('map__pin--active');
   }
 };

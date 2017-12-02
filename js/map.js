@@ -210,6 +210,7 @@ mainButton.addEventListener('keydown', function (evt) {
   }
 });
 
+// это событие - нажатие на любой пин
 mapPins.addEventListener('mouseup', function (evt) {
   openAdvert(evt);
 });
@@ -220,6 +221,7 @@ mapPins.addEventListener('keydown', function (evt) {
   }
 });
 
+// ниже второе условие - ограничение - существует ли вообще popup
 function onPopupEscPress(evt) {
   if (evt.keyCode === ESC_KEYCODE && cityMap.querySelector('.map__card')) {
     closeAdvert();
@@ -232,12 +234,21 @@ function onPopupEnterPress(evt) {
   }
 }
 
+// сначала проверка - если не main пин И (это пин ИЛИ (это img И родитель не main))
+// потом условие, чтоб событие сработало на button
+// потом если при открытой карточке нажать на другую - старая закроется
+// если был активный пин - убираем ему класс active
+// а текущему добавляем
+// потом вставляю правильное объявление
+// потом рассматриваю закрытие объявления здесь же, т.к. каждый раз генерируется новое объявление в дом-дереве
+
 function openAdvert(evt) {
   var target = evt.target;
   if (target.getAttribute('class') !== 'map__pin map__pin--main' && (target.getAttribute('class') === 'map__pin' || (target.tagName === 'IMG' && target.parentNode.getAttribute('class') !== 'map__pin map__pin--main'))) {
     if (target.tagName === 'IMG') {
       target = target.parentNode;
     }
+
     if (cityMap.querySelector('.map__card')) {
       var mapCard = cityMap.querySelector('.map__card');
       cityMap.removeChild(mapCard);

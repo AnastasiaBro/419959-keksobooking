@@ -150,10 +150,10 @@ function insertAdvert(advertsCount) {
   getArrayAdvert(advertsCount);
   var i = 0;
 
-  for (i = 0; i < advertsCount; i++) {
-    fragment.appendChild(createOneAdvert(adverts[i]));
+  /* for (i = 0; i < advertsCount; i++) {
+  fragment.appendChild(createOneAdvert(adverts[0]));
   }
-  cityMap.appendChild(fragment);
+  cityMap.appendChild(fragment); */
 
   for (i = 0; i < advertsCount; i++) {
     fragment.appendChild(createAllAdverts(adverts[i]));
@@ -165,13 +165,17 @@ insertAdvert(NUMBER_OF_ADVERTS);
 
 // задание 4 урока
 
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
 // сначала я скрываю все пины и описания (к прошлому заданию добавила генерацию сразу всех объявлений,
 // а не только первого), так как не получалось по-другому
 (function hiddenAdverts() {
   for (var i = 0; i < NUMBER_OF_ADVERTS; i++) {
-    cityMap.querySelectorAll('.map__card')[i].classList.add('hidden');
+    // cityMap.querySelectorAll('.map__card')[i].classList.add('hidden');
     mapPins.querySelectorAll('.map__pin')[i + 1].classList.add('hidden');
   }
+  // cityMap.querySelector('.map__card').classList.add('hidden');
 })();
 
 var mainButton = cityMap.querySelector('.map__pin--main'); // это пироженка
@@ -202,6 +206,7 @@ function openMap() {
   for (var i = 0; i < NUMBER_OF_ADVERTS; i++) {
     mapPins.querySelectorAll('.map__pin')[i + 1].classList.remove('hidden');
   }
+  // cityMap.querySelectorAll('.map__card')[0].classList.remove('hidden');
 }
 
 // событие - открытие формы при нажатии на пироженку
@@ -209,53 +214,84 @@ mainButton.addEventListener('mouseup', function () {
   openMap();
 });
 
+/*
+function onPopupEscPress(evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closeAdvert();
+  }
+}*/
+
 // показывает объявление при нажатии на любой пин, почему-то работает только через enter, а при клике мышкой - нет
 // сначала проверяю, нет ли активного пина, если что - снимаю active
 // дальше проверяю - если событие не на pinsoverlay и не на main, то все ок - добавляем active
 // дальше нахожу для одного из 8 пинов (начинаю с 1, т.к. 0 - это button main) его индекс, чтобы
 // затем найти его карточку (map__card), i-1 т.к. карточек меньше на 1, чем пинов
 function openAdvert(evt) {
+  var target = evt.target;
+  if (target.getAttribute('class') !== 'map__pin map__pin--main' && (target.getAttribute('class') === 'map__pin' || (target.tagName === 'IMG'&&target.parentNode.getAttribute('class') !== 'map__pin map__pin--main'))) {
+  if (target.tagName === 'IMG') {
+    target = target.parentNode;
+  }
+    if (cityMap.querySelector('.map__card')) {
+    var mapCard = cityMap.querySelector('.map__card');
+    cityMap.removeChild(mapCard);
+  }
+
   if (mapPins.querySelector('.map__pin--active')) {
     mapPins.querySelector('.map__pin--active').classList.remove('map__pin--active');
   }
-  var target = evt.target;
 
-  if (target.getAttribute('class') !== 'map__pinsoverlay' && target.getAttribute('class') !== 'map__pin map__pin--main') {
+
+  console.log(target);
+
     target.classList.add('map__pin--active');
-    for (var i = 1; i <= 8; i++) {
-      if (mapPins.querySelectorAll('.map__pin')[i].getAttribute('class') === 'map__pin map__pin--active') {
-        var pinIndex = i - 1;
-        cityMap.querySelectorAll('.map__card')[pinIndex].classList.remove('hidden');
+    console.log('hello');
+    var pinIndex;
+    (function findIndex() {
+      for (var i = 1; i < 9; i++) {
+        if (mapPins.querySelectorAll('.map__pin')[i].getAttribute('class') === 'map__pin map__pin--active') {
+          pinIndex = i - 1;
+        // cityMap.querySelectorAll('.map__card')[pinIndex].classList.remove('hidden');
+        }
       }
-    }
-  }
-  return pinIndex;
-}
 
+      console.log(pinIndex);
+      var fragment = document.createDocumentFragment();
+      fragment.appendChild(createOneAdvert(adverts[pinIndex]));
+      cityMap.appendChild(fragment);
+    })();
+    var closeButton = cityMap.querySelector('.popup__close');
+    closeButton.addEventListener('click', closeAdvert);
+
+  // document.addEventListener('keydown', onPopupEscPress);
+}
+}
 // а это для родителя всех пинов событие
 mapPins.addEventListener('click', openAdvert);
 
 
 // хотела найти кнопку закрытия, прицепила к классу map событие
 // var closeCard = document.querySelector('.map__card');
-// var closeButton = document.querySelectorAll('.popup__close');
-
-cityMap.addEventListener('mouseup', closeAdvert);
 
 function closeAdvert(evt) {
   var target = evt.target;
+  var mapCard = cityMap.querySelector('.map__card');
+  cityMap.removeChild(mapCard);
+  /*
   if (target.getAttribute('class') === 'popup__close') {
-    for (var j = 1; j <= 8; j++) {
+    for (var j = 1; j < 9; j++) {
       if (mapPins.querySelectorAll('.map__pin')[j].getAttribute('class') === 'map__pin map__pin--active') {
         var pinIndex = j - 1;
         mapPins.querySelectorAll('.map__pin')[j].classList.remove('map__pin--active');
         cityMap.querySelectorAll('.map__card')[pinIndex].classList.add('hidden');
       }
     }
-  }
-  /* if (target.getAttribute('class') === 'map__pin map__pin--active') {
-    target.classList.remove('map__pin--active');
   }*/
+  // document.removeEventListener('keydown', onPopupEscPress);
+  cityMap.querySelector('.map__pin--active').classList.remove('map__pin--active');
+  // if (target.getAttribute('class') === 'map__pin map__pin--active') {
+  // target.classList.remove('map__pin--active');
+  // }
 }
 
 /*

@@ -273,6 +273,7 @@ function openAdvert(evt) {
       fragment.appendChild(createOneAdvert(adverts[pinIndex]));
       cityMap.appendChild(fragment);
     })();
+
     getCloseButton();
   }
 }
@@ -293,3 +294,72 @@ function closeAdvert() {
   cityMap.querySelector('.map__pin--active').classList.remove('map__pin--active');
   document.removeEventListener('keydown', onPopupEscPress);
 }
+
+// задание 4.2
+
+(function checkCorrectData() {
+  var address = mapForm.querySelector('#address');
+  var title = mapForm.querySelector('#title');
+  var price = mapForm.querySelector('#price');
+
+  address.setAttribute('readonly', '');
+  address.setAttribute('required', '');
+  address.addEventListener('invalid', function () {
+    return title.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity('');
+  });
+
+  title.setAttribute('minlength', '30');
+  title.setAttribute('maxlength', '100');
+  title.setAttribute('required', '');
+  title.addEventListener('invalid', function () {
+    if (title.validity.tooShort) {
+      title.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
+    } else if (title.validity.tooLong) {
+      title.setCustomValidity('Заголовок не должен превышать 100 символов');
+    } else if (title.validity.valueMissing) {
+      title.setCustomValidity('Обязательное поле');
+    } else {
+      title.setCustomValidity('');
+    }
+  });
+
+  title.addEventListener('input', function (evt) {
+    var target = evt.target;
+    if (target.value.length < 30) {
+      target.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
+    } else {
+      target.setCustomValidity('');
+    }
+  });
+
+  price.setAttribute('type', 'number');
+  price.setAttribute('value', '1000');
+  price.setAttribute('min', '0');
+  price.setAttribute('max', '1000000');
+  price.setAttribute('required', '');
+
+  price.addEventListener('invalid', function () {
+    if (title.validity.valueMissing) {
+      title.setCustomValidity('Обязательное поле');
+    } else {
+      title.setCustomValidity('');
+    }
+  });
+})();
+
+(function synchronizeData() {
+  var timein = mapForm.querySelector('#timein');
+  var timeout = mapForm.querySelector('#timeout');
+
+  timein.addEventListener('change', function () {
+    if (timein.selectedIndex !== -1) {
+      timeout.selectedIndex = timein.selectedIndex;
+    }
+  });
+
+  timeout.addEventListener('change', function () {
+    if (timein.selectedIndex !== -1) {
+      timein.selectedIndex = timeout.selectedIndex;
+    }
+  });
+})();

@@ -2,12 +2,13 @@
 
 var NUMBER_OF_ADVERTS = 8;
 var COUNT_FEATURES = 6;
+var MAP_HEIGHT = 44;
+var POINTER_HEIGHT = 18;
 var similarMapCardTemplate = document.querySelector('template').content;
 var mapCardTemplate = similarMapCardTemplate.querySelector('article.map__card');
 var cityMap = document.querySelector('.map');
 var mapPins = document.querySelector('.map__pins');
 var adverts = [];
-cityMap.classList.remove('map--faded');
 
 function getRandomIndex(min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
@@ -15,7 +16,7 @@ function getRandomIndex(min, max) {
 
 function getUniquePart(array) {
   var index = getRandomIndex(0, array.length - 1);
-  return array.splice(index, 1);
+  return array.splice(index, 1).toString();
 }
 
 function getArrayAdvert(advertNumber) {
@@ -36,19 +37,19 @@ function getArrayAdvert(advertNumber) {
 
   (function findCoordinates() {
     for (var i = 0; i < advertNumber; i++) {
-      coordinatesX.push(getRandomIndex(300, 900) + 23);
-      coordinatesY.push(getRandomIndex(100, 500) + 62);
+      coordinatesX.push(getRandomIndex(300, 900));
+      coordinatesY.push(getRandomIndex(100, 500));
     }
   })();
 
   function findFeatures() {
     var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
     var numberRepeat = getRandomIndex(1, features.length);
-    var chooseFeatures = [];
+    var chosenFeatures = [];
     for (var i = 0; i < numberRepeat; i++) {
-      chooseFeatures.push(getUniquePart(features));
+      chosenFeatures.push(getUniquePart(features));
     }
-    return chooseFeatures;
+    return chosenFeatures;
   }
 
   for (var i = 0; i < advertNumber; i++) {
@@ -83,7 +84,7 @@ function getArrayAdvert(advertNumber) {
 function createAllAdverts(advert) {
   var advertElement = document.createElement('button');
   advertElement.setAttribute('class', 'map__pin');
-  advertElement.setAttribute('style', 'left: ' + advert.location.x + 'px; top: ' + advert.location.y + 'px;');
+  advertElement.setAttribute('style', 'left: ' + advert.location.x + 'px; top: ' + (advert.location.y - MAP_HEIGHT / 2 - POINTER_HEIGHT) + 'px;');
   advertElement.innerHTML = '<img width="40" height="40" draggable="false">';
   advertElement.querySelector('img').setAttribute('src', advert.author.avatar);
   return advertElement;
@@ -147,9 +148,6 @@ function insertAdvert(advertsCount) {
   var fragment = document.createDocumentFragment();
   getArrayAdvert(advertsCount);
 
-  fragment.appendChild(createOneAdvert(adverts[0]));
-  cityMap.appendChild(fragment);
-
   for (var i = 0; i < advertsCount; i++) {
     fragment.appendChild(createAllAdverts(adverts[i]));
   }
@@ -157,3 +155,140 @@ function insertAdvert(advertsCount) {
 }
 
 insertAdvert(NUMBER_OF_ADVERTS);
+
+// задание 4 урока
+
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+var FORMS_COUNT = 12; // это количество fieldset
+var mainButton = cityMap.querySelector('.map__pin--main'); // это пироженка
+var mapForm = document.querySelector('.notice__form'); // это форма
+
+(function hidePins() {
+  for (var i = 0; i < NUMBER_OF_ADVERTS; i++) {
+    mapPins.querySelectorAll('.map__pin')[i + 1].classList.add('hidden');
+  }
+})();
+
+// форма закрыта изначально - все fieldset disabled
+(function disableForm() {
+  for (var i = 0; i < FORMS_COUNT; i++) {
+    mapForm.querySelectorAll('fieldset')[i].setAttribute('disabled', 'disabled');
+  }
+})();
+
+// активация формы, произойдет при openMap
+function activeForm() {
+  for (var i = 0; i < FORMS_COUNT; i++) {
+    mapForm.querySelectorAll('fieldset')[i].removeAttribute('disabled');
+  }
+}
+
+function showMapPins() {
+  for (var i = 0; i < NUMBER_OF_ADVERTS; i++) {
+    mapPins.querySelectorAll('.map__pin')[i + 1].classList.remove('hidden');
+  }
+}
+
+// активируем карту и форму
+function openMap() {
+  cityMap.classList.remove('map--faded');
+  mapForm.classList.remove('notice__form--disabled');
+  mainButton.setAttribute('disabled', 'disabled');
+  activeForm();
+  showMapPins();
+}
+
+// событие - открытие формы при нажатии на пироженку
+mainButton.addEventListener('mouseup', function () {
+  openMap();
+});
+
+mainButton.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openMap();
+  }
+});
+
+// это событие - нажатие на любой пин
+mapPins.addEventListener('mouseup', function (evt) {
+  openAdvert(evt);
+});
+
+mapPins.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openAdvert(evt);
+  }
+});
+
+// ниже второе условие - ограничение - существует ли вообще popup
+function onPopupEscPress(evt) {
+  if (evt.keyCode === ESC_KEYCODE && cityMap.querySelector('.map__card')) {
+    closeAdvert();
+  }
+}
+
+function onPopupEnterPress(evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closeAdvert();
+  }
+}
+
+// сначала проверка - если не main пин И (это пин ИЛИ (это img И родитель не main))
+// потом условие, чтоб событие сработало на button
+// потом если при открытой карточке нажать на другую - старая закроется
+// если был активный пин - убираем ему класс active
+// а текущему добавляем
+// потом вставляю правильное объявление
+// потом рассматриваю закрытие объявления здесь же, т.к. каждый раз генерируется новое объявление в дом-дереве
+
+function openAdvert(evt) {
+  var target = evt.target;
+  if (target.getAttribute('class') !== 'map__pin map__pin--main' && (target.getAttribute('class') === 'map__pin' || (target.tagName === 'IMG' && target.parentNode.getAttribute('class') !== 'map__pin map__pin--main'))) {
+    if (target.tagName === 'IMG') {
+      target = target.parentNode;
+    }
+
+    if (cityMap.querySelector('.map__card')) {
+      var mapCard = cityMap.querySelector('.map__card');
+      cityMap.removeChild(mapCard);
+    }
+
+    if (mapPins.querySelector('.map__pin--active')) {
+      mapPins.querySelector('.map__pin--active').classList.remove('map__pin--active');
+    }
+    // console.log(target);
+
+    target.classList.add('map__pin--active');
+    // console.log('hello');
+    var pinIndex;
+
+    (function findRightAdvert() {
+      for (var i = 1; i <= NUMBER_OF_ADVERTS; i++) {
+        if (mapPins.querySelectorAll('.map__pin')[i].getAttribute('class') === 'map__pin map__pin--active') {
+          pinIndex = i - 1;
+        }
+      }
+
+      // console.log(pinIndex);
+      var fragment = document.createDocumentFragment();
+      fragment.appendChild(createOneAdvert(adverts[pinIndex]));
+      cityMap.appendChild(fragment);
+    })();
+
+    var closeButton = cityMap.querySelector('.popup__close');
+    closeButton.addEventListener('mouseup', function () {
+      closeAdvert();
+    });
+
+    document.addEventListener('keydown', onPopupEscPress);
+    closeButton.addEventListener('keydown', onPopupEnterPress);
+  }
+}
+
+function closeAdvert() {
+  var mapCard = cityMap.querySelector('.map__card');
+  cityMap.removeChild(mapCard);
+  cityMap.querySelector('.map__pin--active').classList.remove('map__pin--active');
+  document.removeEventListener('keydown', onPopupEscPress);
+}

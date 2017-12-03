@@ -297,10 +297,11 @@ function closeAdvert() {
 
 // задание 4.2
 
+var price = mapForm.querySelector('#price');
+
 (function checkCorrectData() {
   var address = mapForm.querySelector('#address');
   var title = mapForm.querySelector('#title');
-  var price = mapForm.querySelector('#price');
 
   address.setAttribute('readonly', '');
   address.setAttribute('required', '');
@@ -352,14 +353,27 @@ function closeAdvert() {
   var timeout = mapForm.querySelector('#timeout');
 
   timein.addEventListener('change', function () {
-    if (timein.selectedIndex !== -1) {
-      timeout.selectedIndex = timein.selectedIndex;
-    }
+    timeout.selectedIndex = timein.selectedIndex;
   });
 
   timeout.addEventListener('change', function () {
-    if (timein.selectedIndex !== -1) {
-      timein.selectedIndex = timeout.selectedIndex;
-    }
+    timein.selectedIndex = timeout.selectedIndex;
   });
+
+  (function setMinPrice() {
+    var minPrices = {
+      'bungalo': 0,
+      'flat': 1000,
+      'house': 5000,
+      'palace': 10000
+    };
+
+    var type = mapForm.querySelector('#type');
+
+    type.addEventListener('change', function () {
+      // console.log(type.options[type.selectedIndex].value);
+      price.setAttribute('min', minPrices[type.options[type.selectedIndex].value]);
+      // console.log(price.getAttribute('min'));
+    });
+  })();
 })();

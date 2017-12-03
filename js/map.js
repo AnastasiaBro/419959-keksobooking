@@ -274,14 +274,18 @@ function openAdvert(evt) {
       cityMap.appendChild(fragment);
     })();
 
-    var closeButton = cityMap.querySelector('.popup__close');
-    closeButton.addEventListener('mouseup', function () {
-      closeAdvert();
-    });
-
-    document.addEventListener('keydown', onPopupEscPress);
-    closeButton.addEventListener('keydown', onPopupEnterPress);
+    onCloseButtonPress();
   }
+}
+
+function onCloseButtonPress() {
+  var closeButton = cityMap.querySelector('.popup__close');
+  closeButton.addEventListener('mouseup', function () {
+    closeAdvert();
+  });
+
+  document.addEventListener('keydown', onPopupEscPress);
+  closeButton.addEventListener('keydown', onPopupEnterPress);
 }
 
 function closeAdvert() {

@@ -111,8 +111,6 @@ function createOneAdvert(advert) {
     var ending = '';
     if (advert.offer.rooms !== 5) {
       ending = (advert.offer.rooms === 1) ? 'а' : 'ы';
-    } else {
-      ending = '';
     }
     return ending;
   }

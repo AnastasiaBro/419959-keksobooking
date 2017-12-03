@@ -340,13 +340,19 @@ var price = mapForm.querySelector('#price');
   price.setAttribute('required', '');
 
   price.addEventListener('invalid', function () {
-    if (title.validity.valueMissing) {
+    if (title.value < 0) {
+      title.setCustomValidity('Цена должна быть не меньше 0');
+    } else if (title.value > 1000000) {
+      title.setCustomValidity('Цена должна быть не больше 1 000 000');
+    } else if (title.validity.valueMissing) {
       title.setCustomValidity('Обязательное поле');
     } else {
       title.setCustomValidity('');
     }
   });
 })();
+
+// ---------------------------------------------------------- //
 
 (function synchronizeData() {
   var timein = mapForm.querySelector('#timein');
@@ -359,21 +365,70 @@ var price = mapForm.querySelector('#price');
   timeout.addEventListener('change', function () {
     timein.selectedIndex = timeout.selectedIndex;
   });
-
-  (function setMinPrice() {
-    var minPrices = {
-      'bungalo': 0,
-      'flat': 1000,
-      'house': 5000,
-      'palace': 10000
-    };
-
-    var type = mapForm.querySelector('#type');
-
-    type.addEventListener('change', function () {
-      // console.log(type.options[type.selectedIndex].value);
-      price.setAttribute('min', minPrices[type.options[type.selectedIndex].value]);
-      // console.log(price.getAttribute('min'));
-    });
-  })();
 })();
+
+// ---------------------------------------------------------- //
+
+var type = mapForm.querySelector('#type');
+
+function onPriceInputChange() {
+  var minPrices = {
+    'bungalo': 0,
+    'flat': 1000,
+    'house': 5000,
+    'palace': 10000
+  };
+  price.setAttribute('min', minPrices[type.options[type.selectedIndex].value]);
+}
+
+type.addEventListener('change', onPriceInputChange);
+
+// ---------------------------------------------------------- //
+
+var room = mapForm.querySelector('#room_number');
+var capacity = mapForm.querySelector('#capacity');
+var OPTION_GUESTS_COUNT = 4;
+
+function onGuestInputChange() {
+  setAllOptions();
+  switch (room.value) {
+    case '1':
+      capacity.querySelectorAll('option')[0].classList.add('hidden');
+      capacity.querySelectorAll('option')[1].classList.add('hidden');
+      capacity.querySelectorAll('option')[3].classList.add('hidden');
+      capacity.querySelectorAll('option')[2].setAttribute('selected', '');
+      break;
+    case '2':
+      capacity.querySelectorAll('option')[0].classList.add('hidden');
+      capacity.querySelectorAll('option')[3].classList.add('hidden');
+      capacity.querySelectorAll('option')[1].setAttribute('selected', '');
+      break;
+    case '3':
+      capacity.querySelectorAll('option')[3].classList.add('hidden');
+      capacity.querySelectorAll('option')[0].setAttribute('selected', '');
+      break;
+    case '100':
+      capacity.querySelectorAll('option')[0].classList.add('hidden');
+      capacity.querySelectorAll('option')[1].classList.add('hidden');
+      capacity.querySelectorAll('option')[2].classList.add('hidden');
+      capacity.querySelectorAll('option')[3].setAttribute('selected', '');
+      break;
+  }
+}
+
+function setAllOptions() {
+  for (var i = 0; i < OPTION_GUESTS_COUNT; i++) {
+    if (capacity.querySelectorAll('option')[i].getAttribute('class', 'hidden')) {
+      capacity.querySelectorAll('option')[i].classList.remove('hidden');
+    }
+    if (capacity.querySelectorAll('option')[i].selected === true) {
+      capacity.querySelectorAll('option')[i].removeAttribute('selected');
+    }
+  }
+}
+
+room.addEventListener('change', onGuestInputChange);
+
+// ---------------------------------------------------------- //
+
+mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');

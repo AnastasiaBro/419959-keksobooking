@@ -340,14 +340,14 @@ var title = mapForm.querySelector('#title');
   price.setAttribute('required', '');
 
   price.addEventListener('invalid', function () {
-    if (title.validity.rangeUnderflow) {
-      title.setCustomValidity('Цена должна быть не меньше 0');
+    if (price.validity.rangeUnderflow) {
+      price.setCustomValidity('Цена должна быть не меньше 0');
     } else if (title.validity.rangeOverflow) {
-      title.setCustomValidity('Цена должна быть не больше 1 000 000');
+      price.setCustomValidity('Цена должна быть не больше 1 000 000');
     } else if (title.validity.valueMissing) {
-      title.setCustomValidity('Обязательное поле');
+      price.setCustomValidity('Обязательное поле');
     } else {
-      title.setCustomValidity('');
+      price.setCustomValidity('');
     }
   });
 })();
@@ -434,7 +434,6 @@ room.addEventListener('change', onGuestInputChange);
 mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
 
 // ---валидация формы по статье "Техники валидации формы"--------------------------------------- //
-
 /*
 function CustomValidation() { }
 
@@ -446,7 +445,7 @@ CustomValidation.prototype = {
   checkValidity: function () {
 
     // var validity = input.validity;
-    title.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity('');
+    address.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity('');
 
     if (title.validity.rangeUnderflow) {
       title.setCustomValidity('Цена должна быть не меньше 0');
@@ -458,14 +457,14 @@ CustomValidation.prototype = {
       title.setCustomValidity('');
     }
 
-    if (title.validity.rangeUnderflow) {
-      title.setCustomValidity('Цена должна быть не меньше 0');
+    if (price.validity.rangeUnderflow) {
+      price.setCustomValidity('Цена должна быть не меньше 0');
     } else if (title.validity.rangeOverflow) {
-      title.setCustomValidity('Цена должна быть не больше 1 000 000');
+      price.setCustomValidity('Цена должна быть не больше 1 000 000');
     } else if (title.validity.valueMissing) {
-      title.setCustomValidity('Обязательное поле');
+      price.setCustomValidity('Обязательное поле');
     } else {
-      title.setCustomValidity('');
+      price.setCustomValidity('');
     }
 
     // И остальные проверки валидности...
@@ -516,3 +515,30 @@ submit.addEventListener('click', function (e) {
   }
 });
 */
+
+function CustomValidation() {
+  address.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity('');
+  if (title.validity.rangeUnderflow) {
+    title.setCustomValidity('Цена должна быть не меньше 0');
+  } else if (title.validity.rangeOverflow) {
+    title.setCustomValidity('Цена должна быть не больше 1 000 000');
+  } else if (title.validity.valueMissing) {
+    title.setCustomValidity('Обязательное поле');
+  } else {
+    title.setCustomValidity('');
+  }
+
+  if (price.validity.rangeUnderflow) {
+    price.setCustomValidity('Цена должна быть не меньше 0');
+  } else if (title.validity.rangeOverflow) {
+    price.setCustomValidity('Цена должна быть не больше 1 000 000');
+  } else if (title.validity.valueMissing) {
+    price.setCustomValidity('Обязательное поле');
+  } else {
+    price.setCustomValidity('');
+  }
+}
+
+var submit = mapForm.querySelector('.form__submit');
+
+submit.addEventListener('click', CustomValidation);

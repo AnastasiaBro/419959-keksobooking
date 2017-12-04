@@ -433,6 +433,38 @@ room.addEventListener('change', onGuestInputChange);
 
 mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
 
+// ---------------------------------------------------------- //
+
+function CustomValidation() {
+  if (title.validity.tooShort) {
+    title.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
+  } else if (title.validity.tooLong) {
+    title.setCustomValidity('Заголовок не должен превышать 100 символов');
+  } else if (title.validity.valueMissing) {
+    title.setCustomValidity('Обязательное поле');
+  } else {
+    title.setCustomValidity('');
+  }
+
+  if (price.validity.rangeUnderflow) {
+    price.setCustomValidity('Цена должна быть не меньше 0 руб.');
+  } else if (price.validity.rangeOverflow) {
+    price.setCustomValidity('Цена должна быть не больше 1 000 000 руб.');
+  } else if (price.validity.valueMissing) {
+    price.setCustomValidity('Обязательное поле');
+  } else {
+    price.setCustomValidity('');
+  }
+  /* title.checkValidity();
+  price.checkValidity();
+  address.checkValidity();*/
+  return address.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity('');
+}
+
+var submit = mapForm.querySelector('.form__submit');
+
+submit.addEventListener('click', CustomValidation);
+
 // ---валидация формы по статье "Техники валидации формы"--------------------------------------- //
 /*
 function CustomValidation() { }
@@ -515,31 +547,3 @@ submit.addEventListener('click', function (e) {
   }
 });
 */
-
-function CustomValidation() {
-  if (title.validity.tooShort) {
-    title.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
-  } else if (title.validity.tooLong) {
-    title.setCustomValidity('Заголовок не должен превышать 100 символов');
-  } else if (title.validity.valueMissing) {
-    title.setCustomValidity('Обязательное поле');
-  } else {
-    title.setCustomValidity('');
-  }
-
-  if (price.validity.rangeUnderflow) {
-    price.setCustomValidity('Цена должна быть не меньше 0 руб.');
-  } else if (price.validity.rangeOverflow) {
-    price.setCustomValidity('Цена должна быть не больше 1 000 000 руб.');
-  } else if (price.validity.valueMissing) {
-    price.setCustomValidity('Обязательное поле');
-  } else {
-    price.setCustomValidity('');
-  }
-
-  return address.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity('');
-}
-
-var submit = mapForm.querySelector('.form__submit');
-
-submit.addEventListener('click', CustomValidation);

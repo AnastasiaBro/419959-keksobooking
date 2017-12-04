@@ -342,9 +342,9 @@ var title = mapForm.querySelector('#title');
   price.addEventListener('invalid', function () {
     if (price.validity.rangeUnderflow) {
       price.setCustomValidity('Цена должна быть не меньше 0 руб.');
-    } else if (title.validity.rangeOverflow) {
+    } else if (price.validity.rangeOverflow) {
       price.setCustomValidity('Цена должна быть не больше 1 000 000 руб.');
-    } else if (title.validity.valueMissing) {
+    } else if (price.validity.valueMissing) {
       price.setCustomValidity('Обязательное поле');
     } else {
       price.setCustomValidity('');
@@ -459,9 +459,9 @@ CustomValidation.prototype = {
 
     if (price.validity.rangeUnderflow) {
       price.setCustomValidity('Цена должна быть не меньше 0');
-    } else if (title.validity.rangeOverflow) {
+    } else if (price.validity.rangeOverflow) {
       price.setCustomValidity('Цена должна быть не больше 1 000 000');
-    } else if (title.validity.valueMissing) {
+    } else if (price.validity.valueMissing) {
       price.setCustomValidity('Обязательное поле');
     } else {
       price.setCustomValidity('');
@@ -529,9 +529,9 @@ function CustomValidation() {
 
   if (price.validity.rangeUnderflow) {
     price.setCustomValidity('Цена должна быть не меньше 0 руб.');
-  } else if (title.validity.rangeOverflow) {
+  } else if (price.validity.rangeOverflow) {
     price.setCustomValidity('Цена должна быть не больше 1 000 000 руб.');
-  } else if (title.validity.valueMissing) {
+  } else if (price.validity.valueMissing) {
     price.setCustomValidity('Обязательное поле');
   } else {
     price.setCustomValidity('');

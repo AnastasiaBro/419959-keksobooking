@@ -298,10 +298,10 @@ function closeAdvert() {
 // задание 4.2
 
 var price = mapForm.querySelector('#price');
+var address = mapForm.querySelector('#address');
+var title = mapForm.querySelector('#title');
 
 (function checkCorrectData() {
-  var address = mapForm.querySelector('#address');
-  var title = mapForm.querySelector('#title');
 
   address.setAttribute('readonly', '');
   address.setAttribute('required', '');
@@ -432,3 +432,87 @@ room.addEventListener('change', onGuestInputChange);
 // ---------------------------------------------------------- //
 
 mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
+
+// ---валидация формы по статье "Техники валидации формы"--------------------------------------- //
+
+/*
+function CustomValidation() { }
+
+CustomValidation.prototype = {
+  // Установим пустой массив сообщений об ошибках
+  invalidities: [],
+
+  // Метод, проверяющий валидность
+  checkValidity: function () {
+
+    // var validity = input.validity;
+    title.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity('');
+
+    if (title.validity.rangeUnderflow) {
+      title.setCustomValidity('Цена должна быть не меньше 0');
+    } else if (title.validity.rangeOverflow) {
+      title.setCustomValidity('Цена должна быть не больше 1 000 000');
+    } else if (title.validity.valueMissing) {
+      title.setCustomValidity('Обязательное поле');
+    } else {
+      title.setCustomValidity('');
+    }
+
+    if (title.validity.rangeUnderflow) {
+      title.setCustomValidity('Цена должна быть не меньше 0');
+    } else if (title.validity.rangeOverflow) {
+      title.setCustomValidity('Цена должна быть не больше 1 000 000');
+    } else if (title.validity.valueMissing) {
+      title.setCustomValidity('Обязательное поле');
+    } else {
+      title.setCustomValidity('');
+    }
+
+    // И остальные проверки валидности...
+  },
+
+  // Добавляем сообщение об ошибке в массив ошибок
+  addInvalidity: function (message) {
+    this.invalidities.push(message);
+  },
+
+  // Получаем общий текст сообщений об ошибках
+  getInvalidities: function () {
+    return this.invalidities.join('. \n');
+  }
+};
+
+var submit = mapForm.querySelector('.form__submit');
+// for (var i = 0; i < 3; i++) {
+var inputs = [title, price, address];
+// inputs.push(mapForm.querySelectorAll[i]);
+// }
+
+// Добавляем обработчик клика на кнопку отправки формы
+submit.addEventListener('click', function (e) {
+  // Пройдёмся по всем полям
+  for (var i = 0; i < inputs.length; i++) {
+
+    var input = inputs[i];
+
+    // Проверим валидность поля, используя встроенную в JavaScript функцию checkValidity()
+    if (input.checkValidity() === false) {
+
+      var inputCustomValidation = new CustomValidation(); // Создадим объект CustomValidation
+      inputCustomValidation.checkValidity(input); // Выявим ошибки
+      var customValidityMessage = inputCustomValidation.getInvalidities(); // Получим все сообщения об ошибках
+      input.setCustomValidity(customValidityMessage); // Установим специальное сообщение об ошибке
+
+      // Добавим ошибки в документ
+      var customValidityMessageForHTML = inputCustomValidation.getInvaliditiesForHTML();
+      input.insertAdjacentHTML('afterend', '<p class="error-message">' + customValidityMessageForHTML + '</p>');
+      var stopSubmit = true;
+
+    } // закончился if
+  } // закончился цикл
+
+  if (stopSubmit) {
+    e.preventDefault();
+  }
+});
+*/

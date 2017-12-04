@@ -341,9 +341,9 @@ var title = mapForm.querySelector('#title');
 
   price.addEventListener('invalid', function () {
     if (price.validity.rangeUnderflow) {
-      price.setCustomValidity('Цена должна быть не меньше 0');
+      price.setCustomValidity('Цена должна быть не меньше 0 руб.');
     } else if (title.validity.rangeOverflow) {
-      price.setCustomValidity('Цена должна быть не больше 1 000 000');
+      price.setCustomValidity('Цена должна быть не больше 1 000 000 руб.');
     } else if (title.validity.valueMissing) {
       price.setCustomValidity('Обязательное поле');
     } else {
@@ -447,10 +447,10 @@ CustomValidation.prototype = {
     // var validity = input.validity;
     address.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity('');
 
-    if (title.validity.rangeUnderflow) {
-      title.setCustomValidity('Цена должна быть не меньше 0');
-    } else if (title.validity.rangeOverflow) {
-      title.setCustomValidity('Цена должна быть не больше 1 000 000');
+    if (title.validity.tooShort) {
+      title.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
+    } else if (title.validity.tooLong) {
+      title.setCustomValidity('Заголовок не должен превышать 100 символов');
     } else if (title.validity.valueMissing) {
       title.setCustomValidity('Обязательное поле');
     } else {
@@ -517,11 +517,10 @@ submit.addEventListener('click', function (e) {
 */
 
 function CustomValidation() {
-  address.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity('');
-  if (title.validity.rangeUnderflow) {
-    title.setCustomValidity('Цена должна быть не меньше 0');
-  } else if (title.validity.rangeOverflow) {
-    title.setCustomValidity('Цена должна быть не больше 1 000 000');
+  if (title.validity.tooShort) {
+    title.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
+  } else if (title.validity.tooLong) {
+    title.setCustomValidity('Заголовок не должен превышать 100 символов');
   } else if (title.validity.valueMissing) {
     title.setCustomValidity('Обязательное поле');
   } else {
@@ -529,14 +528,16 @@ function CustomValidation() {
   }
 
   if (price.validity.rangeUnderflow) {
-    price.setCustomValidity('Цена должна быть не меньше 0');
+    price.setCustomValidity('Цена должна быть не меньше 0 руб.');
   } else if (title.validity.rangeOverflow) {
-    price.setCustomValidity('Цена должна быть не больше 1 000 000');
+    price.setCustomValidity('Цена должна быть не больше 1 000 000 руб.');
   } else if (title.validity.valueMissing) {
     price.setCustomValidity('Обязательное поле');
   } else {
     price.setCustomValidity('');
   }
+
+  return address.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity('');
 }
 
 var submit = mapForm.querySelector('.form__submit');

@@ -306,7 +306,7 @@ var price = mapForm.querySelector('#price');
   address.setAttribute('readonly', '');
   address.setAttribute('required', '');
   address.addEventListener('invalid', function () {
-    return title.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity('');
+    return (title.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity(''));
   });
 
   title.setAttribute('minlength', '30');
@@ -340,9 +340,9 @@ var price = mapForm.querySelector('#price');
   price.setAttribute('required', '');
 
   price.addEventListener('invalid', function () {
-    if (title.value < 0) {
+    if (title.validity.rangeUnderflow) {
       title.setCustomValidity('Цена должна быть не меньше 0');
-    } else if (title.value > 1000000) {
+    } else if (title.validity.rangeOverflow) {
       title.setCustomValidity('Цена должна быть не больше 1 000 000');
     } else if (title.validity.valueMissing) {
       title.setCustomValidity('Обязательное поле');

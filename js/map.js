@@ -308,14 +308,14 @@ var title = mapForm.querySelector('#title');
   address.setAttribute('readonly', '');
   address.setAttribute('required', '');
   address.setAttribute('value', 'x: ' + left + ' y: ' + top);
-  /* address.addEventListener('invalid', function () {
+  address.addEventListener('invalid', function () {
     return (title.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity(''));
-  });*/
+  });
 
   title.setAttribute('minlength', '30');
   title.setAttribute('maxlength', '100');
   title.setAttribute('required', '');
-  /* title.addEventListener('invalid', function () {
+  title.addEventListener('invalid', function () {
     if (title.validity.tooShort) {
       title.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
     } else if (title.validity.tooLong) {
@@ -325,7 +325,7 @@ var title = mapForm.querySelector('#title');
     } else {
       title.setCustomValidity('');
     }
-  });*/
+  });
 
   title.addEventListener('input', function (evt) {
     var target = evt.target;
@@ -458,7 +458,7 @@ function checkBeforeSending() {
 }
 
 function checkForm(formElements) {
-  customValidation();
+  // customValidation();
   for (var i = 0; i < formElements.length; i++) {
     if (!formElements[i].validity.valid) {
       formElements[i].setAttribute('style', 'border: 2px solid red;');
@@ -468,7 +468,7 @@ function checkForm(formElements) {
   }
 }
 
-function customValidation() {
+/* function customValidation() {
   if (title.validity.tooShort) {
     title.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
   } else if (title.validity.tooLong) {
@@ -490,4 +490,4 @@ function customValidation() {
   }
 
   return address.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity('');
-}
+}*/

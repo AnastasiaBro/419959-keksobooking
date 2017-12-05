@@ -306,14 +306,14 @@ var title = mapForm.querySelector('#title');
   address.setAttribute('readonly', '');
   address.setAttribute('required', '');
   address.setAttribute('value', 'x: 0 y: 0');
-  address.addEventListener('invalid', function () {
+  /* address.addEventListener('invalid', function () {
     return (title.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity(''));
-  });
+  });*/
 
   title.setAttribute('minlength', '30');
   title.setAttribute('maxlength', '100');
   title.setAttribute('required', '');
-  title.addEventListener('invalid', function () {
+  /* title.addEventListener('invalid', function () {
     if (title.validity.tooShort) {
       title.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
     } else if (title.validity.tooLong) {
@@ -323,7 +323,7 @@ var title = mapForm.querySelector('#title');
     } else {
       title.setCustomValidity('');
     }
-  });
+  });*/
 
   title.addEventListener('input', function (evt) {
     var target = evt.target;
@@ -340,7 +340,7 @@ var title = mapForm.querySelector('#title');
   price.setAttribute('max', '1000000');
   price.setAttribute('required', '');
 
-  price.addEventListener('invalid', function () {
+  /* price.addEventListener('invalid', function () {
     if (price.validity.rangeUnderflow) {
       price.setCustomValidity('Цена должна быть не меньше ' + minPrices[type.options[type.selectedIndex].value] + ' руб.');
     } else if (price.validity.rangeOverflow) {
@@ -350,7 +350,7 @@ var title = mapForm.querySelector('#title');
     } else {
       price.setCustomValidity('');
     }
-  });
+  });*/
 })();
 
 // ---------------------------------------------------------- //
@@ -378,6 +378,10 @@ var minPrices = {
   'palace': 10000
 };
 
+if (type.querySelectorAll('option')[0].selected === true) {
+  price.setAttribute('min', '1000');
+}
+
 function onPriceInputChange() {
   price.setAttribute('min', minPrices[type.options[type.selectedIndex].value]);
 }
@@ -389,6 +393,8 @@ type.addEventListener('change', onPriceInputChange);
 var room = mapForm.querySelector('#room_number');
 var capacity = mapForm.querySelector('#capacity');
 var OPTION_GUESTS_COUNT = 4;
+
+room.addEventListener('change', onGuestInputChange);
 
 function onGuestInputChange() {
   setAllOptions();
@@ -428,28 +434,11 @@ function setAllOptions() {
   }
 }
 
-room.addEventListener('change', onGuestInputChange);
-
 // ---------------------------------------------------------- //
 
 mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
 
 // ---------------------------------------------------------- //
-
-function checkForm(formElements) {
-  for (var i = 0; i < formElements.length; i++) {
-    if (!formElements[i].validity.valid) {
-      formElements[i].setAttribute('style', 'border: 2px solid red;');
-    }
-  }
-}
-
-function checkBeforeSending() {
-  var allInputs = mapForm.querySelectorAll('input');
-  var allSelects = mapForm.querySelectorAll('select');
-  checkForm(allInputs);
-  checkForm(allSelects);
-}
 
 var submit = mapForm.querySelector('.form__submit');
 
@@ -459,7 +448,24 @@ function onSubmitClick() {
 
 submit.addEventListener('click', onSubmitClick);
 
-/*
+function checkBeforeSending() {
+  var allInputs = mapForm.querySelectorAll('input');
+  var allSelects = mapForm.querySelectorAll('select');
+  checkForm(allInputs);
+  checkForm(allSelects);
+}
+
+function checkForm(formElements) {
+  customValidation();
+  for (var i = 0; i < formElements.length; i++) {
+    if (!formElements[i].validity.valid) {
+      formElements[i].setAttribute('style', 'border: 2px solid red;');
+    } else {
+      formElements[i].removeAttribute('style');
+    }
+  }
+}
+
 function customValidation() {
   if (title.validity.tooShort) {
     title.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
@@ -472,7 +478,7 @@ function customValidation() {
   }
 
   if (price.validity.rangeUnderflow) {
-    price.setCustomValidity('Цена должна быть не меньше 0 руб.');
+    price.setCustomValidity('Цена должна быть не меньше ' + minPrices[type.options[type.selectedIndex].value] + ' руб.');
   } else if (price.validity.rangeOverflow) {
     price.setCustomValidity('Цена должна быть не больше 1 000 000 руб.');
   } else if (price.validity.valueMissing) {
@@ -483,8 +489,3 @@ function customValidation() {
 
   return address.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity('');
 }
-
-var submit = mapForm.querySelector('.form__submit');
-
-submit.addEventListener('click', customValidation);
-*/

@@ -90,37 +90,37 @@ function createAllAdverts(advert) {
   return advertElement;
 }
 
+function translatePlaceType(englishType) {
+  var translate = {
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalo: 'Бунгало'
+  };
+  return translate[englishType];
+}
+
+function addCorrectRoomEnding(advert) {
+  var ending = '';
+  if (advert.offer.rooms !== 5) {
+    ending = (advert.offer.rooms === 1) ? 'а' : 'ы';
+  }
+  return ending;
+}
+
+function addCorrectGuestEnding(advert) {
+  var ending = (advert.offer.guests % 10 === 1 && advert.offer.guests !== 11) === true ? 'я' : 'ей';
+  return ending;
+}
+
 function createOneAdvert(advert) {
   var advertElement = mapCardTemplate.cloneNode(true);
-
-  function translatePlaceType(englishType) {
-    var translate = {
-      flat: 'Квартира',
-      house: 'Дом',
-      bungalo: 'Бунгало'
-    };
-    return translate[englishType];
-  }
 
   advertElement.querySelector('h3').textContent = advert.offer.title;
   advertElement.querySelector('small').textContent = advert.offer.address;
   advertElement.querySelector('.popup__price').textContent = advert.offer.price + ' ' + String.fromCharCode(8381) + ' / ночь';
   advertElement.querySelector('h4').textContent = translatePlaceType(advert.offer.type);
 
-  function addCorrectRoomEnding() {
-    var ending = '';
-    if (advert.offer.rooms !== 5) {
-      ending = (advert.offer.rooms === 1) ? 'а' : 'ы';
-    }
-    return ending;
-  }
-
-  function addCorrectGuestEnding() {
-    var ending = (advert.offer.guests % 10 === 1 && advert.offer.guests !== 11) === true ? 'я' : 'ей';
-    return ending;
-  }
-
-  advertElement.querySelectorAll('p')[2].textContent = advert.offer.rooms + ' комнат' + addCorrectRoomEnding() + ' для ' + advert.offer.guests + ' гост' + addCorrectGuestEnding();
+  advertElement.querySelectorAll('p')[2].textContent = advert.offer.rooms + ' комнат' + addCorrectRoomEnding(advert) + ' для ' + advert.offer.guests + ' гост' + addCorrectGuestEnding(advert);
   advertElement.querySelectorAll('p')[3].textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
 
   (function addFeatures() {
@@ -395,6 +395,9 @@ type.addEventListener('change', onPriceInputChange);
 var room = mapForm.querySelector('#room_number');
 var capacity = mapForm.querySelector('#capacity');
 var OPTION_GUESTS_COUNT = 4;
+if (room.querySelectorAll('option')[0].selected === true) {
+  onGuestInputChange();
+}
 
 room.addEventListener('change', onGuestInputChange);
 
@@ -458,7 +461,6 @@ function checkBeforeSending() {
 }
 
 function checkForm(formElements) {
-  // customValidation();
   for (var i = 0; i < formElements.length; i++) {
     if (!formElements[i].validity.valid) {
       formElements[i].setAttribute('style', 'border: 2px solid red;');
@@ -467,27 +469,3 @@ function checkForm(formElements) {
     }
   }
 }
-
-/* function customValidation() {
-  if (title.validity.tooShort) {
-    title.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
-  } else if (title.validity.tooLong) {
-    title.setCustomValidity('Заголовок не должен превышать 100 символов');
-  } else if (title.validity.valueMissing) {
-    title.setCustomValidity('Обязательное поле');
-  } else {
-    title.setCustomValidity('');
-  }
-
-  if (price.validity.rangeUnderflow) {
-    price.setCustomValidity('Цена должна быть не меньше ' + minPrices[type.options[type.selectedIndex].value] + ' руб.');
-  } else if (price.validity.rangeOverflow) {
-    price.setCustomValidity('Цена должна быть не больше 1 000 000 руб.');
-  } else if (price.validity.valueMissing) {
-    price.setCustomValidity('Обязательное поле');
-  } else {
-    price.setCustomValidity('');
-  }
-
-  return address.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity('');
-}*/

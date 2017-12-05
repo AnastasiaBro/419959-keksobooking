@@ -99,16 +99,16 @@ function translatePlaceType(englishType) {
   return translate[englishType];
 }
 
-function addCorrectRoomEnding(advert) {
+function addCorrectRoomEnding(advertForRoom) {
   var ending = '';
-  if (advert.offer.rooms !== 5) {
-    ending = (advert.offer.rooms === 1) ? 'а' : 'ы';
+  if (advertForRoom.offer.rooms !== 5) {
+    ending = (advertForRoom.offer.rooms === 1) ? 'а' : 'ы';
   }
   return ending;
 }
 
-function addCorrectGuestEnding(advert) {
-  var ending = (advert.offer.guests % 10 === 1 && advert.offer.guests !== 11) === true ? 'я' : 'ей';
+function addCorrectGuestEnding(advertForGuest) {
+  var ending = (advertForGuest.offer.guests % 10 === 1 && advertForGuest.offer.guests !== 11) === true ? 'я' : 'ей';
   return ending;
 }
 

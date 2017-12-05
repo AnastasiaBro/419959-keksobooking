@@ -302,10 +302,12 @@ var address = mapForm.querySelector('#address');
 var title = mapForm.querySelector('#title');
 
 (function checkCorrectData() {
+  var left = parseInt(getComputedStyle(mainButton).getPropertyValue('left'), 10);
+  var top = parseInt(getComputedStyle(mainButton).getPropertyValue('top'), 10);
 
   address.setAttribute('readonly', '');
   address.setAttribute('required', '');
-  address.setAttribute('value', 'x: 0 y: 0');
+  address.setAttribute('value', 'x: ' + left + ' y: ' + top);
   /* address.addEventListener('invalid', function () {
     return (title.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity(''));
   });*/
@@ -340,7 +342,7 @@ var title = mapForm.querySelector('#title');
   price.setAttribute('max', '1000000');
   price.setAttribute('required', '');
 
-  /* price.addEventListener('invalid', function () {
+  price.addEventListener('input', function () {
     if (price.validity.rangeUnderflow) {
       price.setCustomValidity('Цена должна быть не меньше ' + minPrices[type.options[type.selectedIndex].value] + ' руб.');
     } else if (price.validity.rangeOverflow) {
@@ -350,7 +352,7 @@ var title = mapForm.querySelector('#title');
     } else {
       price.setCustomValidity('');
     }
-  });*/
+  });
 })();
 
 // ---------------------------------------------------------- //

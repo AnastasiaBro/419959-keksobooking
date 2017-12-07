@@ -42,9 +42,6 @@
   });
 
   window.mainButton.addEventListener('keydown', function (evt) {
-    /* if (evt.keyCode === window.ENTER_KEYCODE) {
-      openMap();
-    }*/
     window.util.isEnterEvent(evt, openMap);
   });
 
@@ -54,23 +51,14 @@
   });
 
   window.mapPins.addEventListener('keydown', function (evt) {
-    /* if (evt.keyCode === window.ENTER_KEYCODE) {
-      openAdvert(evt);
-    }*/
     window.util.isEnterEvent(evt, openAdvert);
   });
 
   function onPopupEscPress(evt) {
-    /* if (evt.keyCode === window.ESC_KEYCODE) {
-      closeAdvert();
-    }*/
     window.util.isEscEvent(evt, closeAdvert);
   }
 
   function onPopupEnterPress(evt) {
-    /* if (evt.keyCode === window.ENTER_KEYCODE) {
-      closeAdvert();
-    }*/
     window.util.isEnterEvent(evt, closeAdvert);
   }
 
@@ -119,11 +107,11 @@
 
   function getCloseButton() {
     var closeButton = window.cityMap.querySelector('.popup__close');
+    document.addEventListener('keydown', onPopupEscPress);
     closeButton.addEventListener('mouseup', function () {
       closeAdvert();
     });
 
-    document.addEventListener('keydown', onPopupEscPress);
     closeButton.addEventListener('keydown', onPopupEnterPress);
   }
 

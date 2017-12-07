@@ -18,7 +18,7 @@
       },
       isEnterEvent: function (evt, action) {
         if (evt.keyCode === window.ENTER_KEYCODE) {
-          action();
+          action(evt);
         }
       }
     };

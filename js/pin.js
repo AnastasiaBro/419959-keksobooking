@@ -12,7 +12,6 @@
 
   function insertAdvert(advertsCount) {
     var fragment = document.createDocumentFragment();
-    // var adverts = window.getArrayAdvert(advertsCount);
 
     for (var i = 0; i < advertsCount; i++) {
       fragment.appendChild(createAllAdverts(window.adverts[i]));

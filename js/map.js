@@ -31,7 +31,6 @@
   function openMap() {
     window.cityMap.classList.remove('map--faded');
     window.mapForm.classList.remove('notice__form--disabled');
-    window.mainButton.setAttribute('disabled', 'disabled');
     activeForm();
     showMapPins();
   }

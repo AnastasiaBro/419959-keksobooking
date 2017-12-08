@@ -120,4 +120,52 @@
     window.cityMap.querySelector('.map__pin--active').classList.remove('map__pin--active');
     document.removeEventListener('keydown', onPopupEscPress);
   }
+
+  // задание 5.2
+  var address = window.mapForm.querySelector('#address');
+  window.mainButton.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      window.mainButton.style.top = (window.mainButton.offsetTop - shift.y) + 'px';
+      window.mainButton.style.left = (window.mainButton.offsetLeft - shift.x) + 'px';
+      var topp = window.mainButton.offsetTop - shift.y;
+      if (topp > window.mapPins.y) {
+        topp = window.mapPins.y;
+      }
+      console.log(topp);
+
+      address.setAttribute('value', 'x: ' + (window.mainButton.offsetLeft - shift.x) + ' y: ' + (window.mainButton.offsetTop - shift.y));
+      // var lalala = window.mainButton.offsetLeft - shift.x;
+      // var parampam = window.mainButton.offsetTop - shift.y;
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+
 })();

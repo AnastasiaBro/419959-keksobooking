@@ -122,7 +122,8 @@
   }
 
   // задание 5.2
-  var address = window.mapForm.querySelector('#address');
+  var width = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10) * 2;
+
   window.mainButton.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -144,28 +145,41 @@
         y: moveEvt.clientY
       };
 
-      window.mainButton.style.top = (window.mainButton.offsetTop - shift.y) + 'px';
-      window.mainButton.style.left = (window.mainButton.offsetLeft - shift.x) + 'px';
-      var topp = window.mainButton.offsetTop - shift.y;
-      if (topp > window.mapPins.y) {
-        topp = window.mapPins.y;
-      }
-      console.log(topp);
+      var topPin = window.mainButton.offsetTop - shift.y;
+      var leftPin = window.mainButton.offsetLeft - shift.x;
 
-      address.setAttribute('value', 'x: ' + (window.mainButton.offsetLeft - shift.x) + ' y: ' + (window.mainButton.offsetTop - shift.y));
-      // var lalala = window.mainButton.offsetLeft - shift.x;
-      // var parampam = window.mainButton.offsetTop - shift.y;
+      // topPin - координата верхней границы метки, поэтому вычитаю из 100 высоту метки
+      // с учетом того, что у нее translate -50% (поэтому делю на 2) и еще есть высота псевдоэлемента
+
+      if (topPin < (100 - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT)) {
+        topPin = (100 - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT);
+      } else if (topPin > 500 - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT) {
+        topPin = 500 - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT;
+      }
+
+      if (leftPin < 0) {
+        leftPin = 0;
+      } else if (leftPin > width) {
+        leftPin = width;
+      }
+
+      // var lalala = topPin - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT;
+
+      window.mainButton.style.top = topPin + 'px';
+      window.mainButton.style.left = leftPin + 'px';
+
+
+      window.address.setAttribute('value', 'x: ' + leftPin + ' y: ' + (topPin + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
     };
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      window.mapPins.removeEventListener('mousemove', onMouseMove);
+      window.mapPins.removeEventListener('mouseup', onMouseUp);
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    window.mapPins.addEventListener('mousemove', onMouseMove);
+    window.mapPins.addEventListener('mouseup', onMouseUp);
   });
-
 })();

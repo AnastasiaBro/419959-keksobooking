@@ -9,4 +9,6 @@
   window.ENTER_KEYCODE = 13;
   window.FIELDSET_COUNT = 12;
   window.OPTION_GUESTS_COUNT = 4;
+  window.MAIN_PIN_HEIGHT = 62;
+  window.MAIN_POINTER_HEIGHT = 22;
 })();

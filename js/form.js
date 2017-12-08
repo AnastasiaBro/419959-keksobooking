@@ -2,7 +2,6 @@
 
 (function () {
   var price = window.mapForm.querySelector('#price');
-  var address = window.mapForm.querySelector('#address');
   var title = window.mapForm.querySelector('#title');
   var type = window.mapForm.querySelector('#type');
   var room = window.mapForm.querySelector('#room_number');
@@ -19,10 +18,10 @@
     var left = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10);
     var top = parseInt(getComputedStyle(window.mainButton).getPropertyValue('top'), 10);
 
-    address.setAttribute('readOnly', '');
-    address.setAttribute('required', '');
-    address.setAttribute('value', 'x: ' + left + ' y: ' + top);
-    address.addEventListener('invalid', function () {
+    window.address.setAttribute('readOnly', '');
+    window.address.setAttribute('required', '');
+    window.address.setAttribute('value', 'x: ' + left + ' y: ' + (top + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
+    window.address.addEventListener('invalid', function () {
       return (title.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity(''));
     });
 

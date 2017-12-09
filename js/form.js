@@ -15,12 +15,8 @@
   };
 
   function checkCorrectData() {
-    var left = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10);
-    var top = parseInt(getComputedStyle(window.mainButton).getPropertyValue('top'), 10);
-
     window.address.setAttribute('readOnly', '');
     window.address.setAttribute('required', '');
-    window.address.setAttribute('value', 'x: ' + left + ' y: ' + (top + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
     window.address.addEventListener('invalid', function () {
       return (window.address.validity.valueMissing === true ? window.address.setCustomValidity('Обязательное поле') : window.address.setCustomValidity(''));
     });

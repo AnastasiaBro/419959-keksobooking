@@ -28,11 +28,18 @@
     }
   }
 
+  function addAddress() {
+    var left = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10);
+    var top = parseInt(getComputedStyle(window.mainButton).getPropertyValue('top'), 10);
+    window.address.setAttribute('value', 'x: ' + left + ' y: ' + (top + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
+  }
+
   function openMap() {
     window.cityMap.classList.remove('map--faded');
     window.mapForm.classList.remove('notice__form--disabled');
     activeForm();
     showMapPins();
+    addAddress();
   }
 
   // событие - открытие формы при нажатии на пироженку

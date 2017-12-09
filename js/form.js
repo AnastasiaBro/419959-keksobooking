@@ -22,7 +22,7 @@
     window.address.setAttribute('required', '');
     window.address.setAttribute('value', 'x: ' + left + ' y: ' + (top + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
     window.address.addEventListener('invalid', function () {
-      return (title.validity.valueMissing === true ? title.setCustomValidity('Обязательное поле') : title.setCustomValidity(''));
+      return (window.address.validity.valueMissing === true ? window.address.setCustomValidity('Обязательное поле') : window.address.setCustomValidity(''));
     });
 
     title.setAttribute('minlength', '30');

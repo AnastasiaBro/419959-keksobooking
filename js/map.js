@@ -170,12 +170,8 @@
         leftPin = width;
       }
 
-      // var lalala = topPin - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT;
-
       window.mainButton.style.top = topPin + 'px';
       window.mainButton.style.left = leftPin + 'px';
-      // console.log(':)' + topPin);
-      // console.log(moveEvt.clientY);
 
       window.address.setAttribute('value', 'x: ' + leftPin + ' y: ' + (topPin + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
     };

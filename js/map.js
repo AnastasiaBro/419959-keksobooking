@@ -174,7 +174,8 @@
 
       window.mainButton.style.top = topPin + 'px';
       window.mainButton.style.left = leftPin + 'px';
-
+      // console.log(':)' + topPin);
+      // console.log(moveEvt.clientY);
 
       window.address.setAttribute('value', 'x: ' + leftPin + ' y: ' + (topPin + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
     };
@@ -189,4 +190,43 @@
     window.mapPins.addEventListener('mousemove', onMouseMove);
     window.mapPins.addEventListener('mouseup', onMouseUp);
   });
+
+// ВТОРОЙ ВАРИАНТ, работает, но с магическими числами и не понятно, как ограничить
+
+  /* window.mainButton.onmousedown = function (e) {
+
+    var coords = getCoords(window.mainButton);
+    var shiftX = e.pageX - coords.left;
+    var shiftY = e.pageY - coords.top;
+
+    moveAt(e);
+
+    function moveAt(evt) {
+      window.mainButton.style.left = evt.pageX - shiftX - 120 + 'px';  // магические числа
+      window.mainButton.style.top = evt.pageY - shiftY + 40 + 'px';
+    }
+
+    window.mapPins.onmousemove = function (evt) {
+      moveAt(evt);
+    };
+
+    window.mainButton.onmouseup = function () {
+      window.mapPins.onmousemove = null;
+      window.mainButton.onmouseup = null;
+    };
+
+  };
+
+  window.mainButton.ondragstart = function () {
+    return false;
+  };
+
+  function getCoords(elem) {
+    var box = elem.getBoundingClientRect();
+    return {
+      top: box.top + pageYOffset,
+      left: box.left + pageXOffset
+    };
+  }*/
+
 })();

@@ -154,17 +154,16 @@
 
       var topPin = window.mainButton.offsetTop - shift.y;
       var leftPin = window.mainButton.offsetLeft - shift.x;
-      window.mapPins.setAttribute('style', 'cursor: auto');
 
       // topPin - координата верхней границы метки, поэтому вычитаю из 100 высоту метки
       // с учетом того, что у нее translate -50% (поэтому делю на 2) и еще есть высота псевдоэлемента
 
       if (topPin < (100 - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT)) {
         topPin = 100 - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT;
-        window.mapPins.setAttribute('style', 'cursor: not-allowed');
+        window.mapPins.setAttribute('style', 'cursor: none');
       } else if (topPin > 500 - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT) {
         topPin = 500 - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT;
-        window.mapPins.setAttribute('style', 'cursor: not-allowed');
+        window.mapPins.setAttribute('style', 'cursor: none');
       }
 
       if (leftPin < 0) {
@@ -181,6 +180,7 @@
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
+      window.mapPins.setAttribute('style', 'cursor: auto');
 
       window.mapPins.removeEventListener('mousemove', onMouseMove);
       window.mapPins.removeEventListener('mouseup', onMouseUp);

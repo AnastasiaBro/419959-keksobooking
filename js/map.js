@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var width = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10) * 2;
+
   function hidePins(pinCount) {
     for (var i = 0; i < pinCount; i++) {
       window.mapPins.querySelectorAll('.map__pin')[i + 1].classList.add('hidden');
@@ -128,9 +130,6 @@
     document.removeEventListener('keydown', onPopupEscPress);
   }
 
-  // задание 5.2
-  var width = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10) * 2;
-
   window.mainButton.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -189,43 +188,5 @@
     window.mapPins.addEventListener('mousemove', onMouseMove);
     window.mapPins.addEventListener('mouseup', onMouseUp);
   });
-
-// ВТОРОЙ ВАРИАНТ, работает, но с магическими числами и не понятно, как ограничить
-
-  /* window.mainButton.onmousedown = function (e) {
-
-    var coords = getCoords(window.mainButton);
-    var shiftX = e.pageX - coords.left;
-    var shiftY = e.pageY - coords.top;
-
-    moveAt(e);
-
-    function moveAt(evt) {
-      window.mainButton.style.left = evt.pageX - shiftX - 120 + 'px';  // магические числа
-      window.mainButton.style.top = evt.pageY - shiftY + 40 + 'px';
-    }
-
-    window.mapPins.onmousemove = function (evt) {
-      moveAt(evt);
-    };
-
-    window.mainButton.onmouseup = function () {
-      window.mapPins.onmousemove = null;
-      window.mainButton.onmouseup = null;
-    };
-
-  };
-
-  window.mainButton.ondragstart = function () {
-    return false;
-  };
-
-  function getCoords(elem) {
-    var box = elem.getBoundingClientRect();
-    return {
-      top: box.top + pageYOffset,
-      left: box.left + pageXOffset
-    };
-  }*/
 
 })();

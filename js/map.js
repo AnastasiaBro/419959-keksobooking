@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var width = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10) * 2;
+
   function hidePins(pinCount) {
     for (var i = 0; i < pinCount; i++) {
       window.mapPins.querySelectorAll('.map__pin')[i + 1].classList.add('hidden');
@@ -28,11 +30,18 @@
     }
   }
 
+  function addAddress() {
+    var left = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10);
+    var top = parseInt(getComputedStyle(window.mainButton).getPropertyValue('top'), 10);
+    window.address.setAttribute('value', 'x: ' + left + ' y: ' + (top + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
+  }
+
   function openMap() {
     window.cityMap.classList.remove('map--faded');
     window.mapForm.classList.remove('notice__form--disabled');
     activeForm();
     showMapPins();
+    addAddress();
   }
 
   // событие - открытие формы при нажатии на пироженку
@@ -120,4 +129,64 @@
     window.cityMap.querySelector('.map__pin--active').classList.remove('map__pin--active');
     document.removeEventListener('keydown', onPopupEscPress);
   }
+
+  window.mainButton.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      var topPin = window.mainButton.offsetTop - shift.y;
+      var leftPin = window.mainButton.offsetLeft - shift.x;
+
+      // topPin - координата верхней границы метки, поэтому вычитаю из 100 высоту метки
+      // с учетом того, что у нее translate -50% (поэтому делю на 2) и еще есть высота псевдоэлемента
+
+      if (topPin < (100 - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT)) {
+        topPin = 100 - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT;
+        window.mapPins.setAttribute('style', 'cursor: none');
+      } else if (topPin > 500 - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT) {
+        topPin = 500 - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT;
+        window.mapPins.setAttribute('style', 'cursor: none');
+      }
+
+      if (leftPin < 0) {
+        leftPin = 0;
+      } else if (leftPin > width) {
+        leftPin = width;
+      }
+
+      window.mainButton.style.top = topPin + 'px';
+      window.mainButton.style.left = leftPin + 'px';
+
+      window.address.setAttribute('value', 'x: ' + leftPin + ' y: ' + (topPin + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+      window.mapPins.setAttribute('style', 'cursor: auto');
+
+      window.mapPins.removeEventListener('mousemove', onMouseMove);
+      window.mapPins.removeEventListener('mouseup', onMouseUp);
+    };
+
+    window.mapPins.addEventListener('mousemove', onMouseMove);
+    window.mapPins.addEventListener('mouseup', onMouseUp);
+  });
+
 })();

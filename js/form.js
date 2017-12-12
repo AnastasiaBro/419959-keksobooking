@@ -1,6 +1,10 @@
 'use strict';
 
 (function () {
+  var timein = window.mapForm.querySelector('#timein');
+  var timeout = window.mapForm.querySelector('#timeout');
+  var timeinArray = ['12:00', '13:00', '14:00'];
+  var timeoutArray = ['12:00', '13:00', '14:00'];
   var price = window.mapForm.querySelector('#price');
   var title = window.mapForm.querySelector('#title');
   var type = window.mapForm.querySelector('#type');
@@ -66,96 +70,41 @@
   }
   checkCorrectData();
 
-  // --------------------------------------------------------------------- //
+  function onTimeChange(evt) {
+    var firstField = timein;
+    var secondField = timeout;
 
-  var timein = window.mapForm.querySelector('#timein');
-  var timeout = window.mapForm.querySelector('#timeout');
-  var timeinArray = ['12:00', '13:00', '14:00'];
-  var timeoutArray = ['12:00', '13:00', '14:00'];
-
-  function onTimeInChange() {
+    if (evt.target === timeout) {
+      firstField = timeout;
+      secondField = timein;
+    }
     function syncValues(element, value) {
       element.value = value;
     }
-    window.synchronizeFields(timein, timeout, timeinArray, timeoutArray, syncValues);
+    window.synchronizeFields(firstField, secondField, timeoutArray, timeinArray, syncValues);
   }
 
-  function onTimeOutChange() {
-    function syncValues(element, value) {
-      element.value = value;
-    }
-    window.synchronizeFields(timeout, timein, timeoutArray, timeinArray, syncValues);
-  }
-
-  timein.addEventListener('change', onTimeInChange);
-  timeout.addEventListener('change', onTimeOutChange);
-
-  /*
-  function onGuestInputChange() {
-    var count = ['1 комната', '2 комнаты', '100 комнат'];
-    var guests = ['не для гостей', 'для 3 гостей', 'для 3 гостей'];
-    var roomsDropDown = window.mapForm.querySelector('#room_number');
-    var guestsDropDown = window.mapForm.querySelector('#capacity');
-
-    function syncValues(field, value) {
-      for (var i = 0; i < field.options.length; i++) {
-        if (field.options[i].text === value) {
-          field.options[i].selected = true;
-          return;
-        }
-      }
-    }
-
-    window.synchronizeFields(roomsDropDown, guestsDropDown, count, guests, syncValues);
-  }
+  timein.addEventListener('change', onTimeChange);
+  timeout.addEventListener('change', onTimeChange);
 
   function onPriceInputChange() {
-    var types = ['Квартира', 'Лачуга', 'Дом', 'Дворец'];
+    var types = ['flat', 'bungalo', 'house', 'palace'];
     var prices = [1000, 0, 5000, 10000];
-    var typeDropDown = window.mapForm.querySelector('#type');
-    var priceDropDown = window.mapForm.querySelector('#price');
 
-    function syncValues(field, value) {
-      field.value = value;
-      field.min = value;
+    function syncValueWithMin(element, value) {
+      element.min = value;
     }
-
-    window.synchronizeFields(typeDropDown, priceDropDown, types, prices, syncValues);
-  }*/
-
-  // ---------------------мой код---------------------------------- //
-  /*
-  function synchronizeData() {
-    var timein = window.mapForm.querySelector('#timein');
-    var timeout = window.mapForm.querySelector('#timeout');
-
-    timein.addEventListener('change', function () {
-      timeout.selectedIndex = timein.selectedIndex;
-    });
-
-    timeout.addEventListener('change', function () {
-      timein.selectedIndex = timeout.selectedIndex;
-    });
+    window.synchronizeFields(type, price, types, prices, syncValueWithMin);
   }
-  synchronizeData();
-  */
 
   function setSynchronizeForDefault() {
-    if (type.querySelectorAll('option')[0].selected === true) {
-      onPriceInputChange();
-    }
-    if (room.querySelectorAll('option')[0].selected === true) {
-      onGuestInputChange();
-    }
+    onPriceInputChange();
+    onGuestInputChange();
   }
   setSynchronizeForDefault();
 
   type.addEventListener('change', onPriceInputChange);
   room.addEventListener('change', onGuestInputChange);
-
-  function onPriceInputChange() {
-    price.setAttribute('min', minPrices[type.options[type.selectedIndex].value]);
-  }
 
   function onGuestInputChange() {
     setAllOptions(window.OPTION_GUESTS_COUNT);

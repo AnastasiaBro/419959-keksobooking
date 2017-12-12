@@ -83,7 +83,6 @@
     }
     window.synchronizeFields(firstField, secondField, timeoutArray, timeinArray, syncValues);
   }
-
   timein.addEventListener('change', onTimeInputChange);
   timeout.addEventListener('change', onTimeInputChange);
 
@@ -96,15 +95,7 @@
     }
     window.synchronizeFields(type, price, types, prices, syncValueWithMin);
   }
-
-  function setSynchronizeForDefault() {
-    onPriceInputChange();
-    onGuestInputChange();
-  }
-  setSynchronizeForDefault();
-
   type.addEventListener('change', onPriceInputChange);
-  room.addEventListener('change', onGuestInputChange);
 
   function onGuestInputChange() {
     setAllOptions(window.OPTION_GUESTS_COUNT);
@@ -143,6 +134,13 @@
       }
     }
   }
+  room.addEventListener('change', onGuestInputChange);
+
+  function setSynchronizeForDefault() {
+    onPriceInputChange();
+    onGuestInputChange();
+  }
+  setSynchronizeForDefault();
 
   window.mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
 

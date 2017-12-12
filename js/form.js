@@ -70,7 +70,7 @@
   }
   checkCorrectData();
 
-  function onTimeChange(evt) {
+  function onTimeInputChange(evt) {
     var firstField = timein;
     var secondField = timeout;
 
@@ -84,8 +84,8 @@
     window.synchronizeFields(firstField, secondField, timeoutArray, timeinArray, syncValues);
   }
 
-  timein.addEventListener('change', onTimeChange);
-  timeout.addEventListener('change', onTimeChange);
+  timein.addEventListener('change', onTimeInputChange);
+  timeout.addEventListener('change', onTimeInputChange);
 
   function onPriceInputChange() {
     var types = ['flat', 'bungalo', 'house', 'palace'];

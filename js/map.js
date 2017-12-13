@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var addressCoordinates = window.mapForm.querySelector('#address');
   var width = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10) * 2;
 
   function hidePins(pinCount) {
@@ -132,7 +133,7 @@
       window.mainButton.style.top = topPin + 'px';
       window.mainButton.style.left = leftPin + 'px';
 
-      window.address.setAttribute('value', 'x: ' + leftPin + ' y: ' + (topPin + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
+      addressCoordinates.setAttribute('value', 'x: ' + leftPin + ' y: ' + (topPin + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
     };
 
     var onMouseUp = function (upEvt) {
@@ -148,4 +149,5 @@
   });
 
   window.getCloseButton = getCloseButton;
+  window.getAddress = addressCoordinates;
 })();

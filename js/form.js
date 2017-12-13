@@ -11,6 +11,7 @@
   var room = window.mapForm.querySelector('#room_number');
   var capacity = window.mapForm.querySelector('#capacity');
   var submit = window.mapForm.querySelector('.form__submit');
+  var reset = window.mapForm.querySelector('.form__reset');
   var minPrices = {
     'bungalo': 0,
     'flat': 1000,
@@ -148,9 +149,9 @@
 
   function checkBeforeSending() {
     var allInputs = window.mapForm.querySelectorAll('input');
-    var allSelects = window.mapForm.querySelectorAll('select');
+    // var allSelects = window.mapForm.querySelectorAll('select');
     checkForm(allInputs);
-    checkForm(allSelects);
+    // checkForm(allSelects);
   }
 
   function checkForm(formElements) {
@@ -162,4 +163,8 @@
       }
     }
   }
+
+  reset.addEventListener('click', function () {
+    capacity.querySelectorAll('option')[2].setAttribute('selected', '');
+  });
 })();

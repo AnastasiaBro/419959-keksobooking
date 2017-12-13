@@ -101,34 +101,30 @@
     setAllOptions(window.OPTION_GUESTS_COUNT);
     switch (room.value) {
       case '1':
-        capacity.querySelectorAll('option')[0].classList.add('hidden');
-        capacity.querySelectorAll('option')[1].classList.add('hidden');
-        capacity.querySelectorAll('option')[3].classList.add('hidden');
-        capacity.querySelectorAll('option')[2].setAttribute('selected', '');
+        capacity.querySelectorAll('option')[2].classList.remove('hidden');
+        capacity.value = 1;
         break;
       case '2':
-        capacity.querySelectorAll('option')[0].classList.add('hidden');
-        capacity.querySelectorAll('option')[3].classList.add('hidden');
-        capacity.querySelectorAll('option')[1].setAttribute('selected', '');
+        capacity.querySelectorAll('option')[1].classList.remove('hidden');
+        capacity.querySelectorAll('option')[2].classList.remove('hidden');
+        capacity.value = 2;
         break;
       case '3':
-        capacity.querySelectorAll('option')[3].classList.add('hidden');
-        capacity.querySelectorAll('option')[0].setAttribute('selected', '');
+        capacity.querySelectorAll('option')[0].classList.remove('hidden');
+        capacity.querySelectorAll('option')[1].classList.remove('hidden');
+        capacity.querySelectorAll('option')[2].classList.remove('hidden');
+        capacity.value = 3;
         break;
       case '100':
-        capacity.querySelectorAll('option')[0].classList.add('hidden');
-        capacity.querySelectorAll('option')[1].classList.add('hidden');
-        capacity.querySelectorAll('option')[2].classList.add('hidden');
-        capacity.querySelectorAll('option')[3].setAttribute('selected', '');
+        capacity.querySelectorAll('option')[3].classList.remove('hidden');
+        capacity.value = 0;
         break;
     }
   }
 
   function setAllOptions(count) {
     for (var i = 0; i < count; i++) {
-      if (capacity.querySelectorAll('option')[i].getAttribute('class', 'hidden')) {
-        capacity.querySelectorAll('option')[i].classList.remove('hidden');
-      }
+      capacity.querySelectorAll('option')[i].setAttribute('class', 'hidden');
       if (capacity.querySelectorAll('option')[i].selected === true) {
         capacity.querySelectorAll('option')[i].removeAttribute('selected');
       }

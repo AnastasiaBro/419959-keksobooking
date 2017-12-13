@@ -1,6 +1,10 @@
 'use strict';
 
 (function () {
+  var timein = window.mapForm.querySelector('#timein');
+  var timeout = window.mapForm.querySelector('#timeout');
+  var timeinArray = ['12:00', '13:00', '14:00'];
+  var timeoutArray = ['12:00', '13:00', '14:00'];
   var price = window.mapForm.querySelector('#price');
   var title = window.mapForm.querySelector('#title');
   var type = window.mapForm.querySelector('#type');
@@ -66,36 +70,32 @@
   }
   checkCorrectData();
 
-  function synchronizeData() {
-    var timein = window.mapForm.querySelector('#timein');
-    var timeout = window.mapForm.querySelector('#timeout');
+  function onTimeInputChange(evt) {
+    var firstField = timein;
+    var secondField = timeout;
 
-    timein.addEventListener('change', function () {
-      timeout.selectedIndex = timein.selectedIndex;
-    });
-
-    timeout.addEventListener('change', function () {
-      timein.selectedIndex = timeout.selectedIndex;
-    });
-  }
-  synchronizeData();
-
-  function setSynchronizeForDefault() {
-    if (type.querySelectorAll('option')[0].selected === true) {
-      onPriceInputChange();
+    if (evt.target === timeout) {
+      firstField = timeout;
+      secondField = timein;
     }
-    if (room.querySelectorAll('option')[0].selected === true) {
-      onGuestInputChange();
+    function syncValues(element, value) {
+      element.value = value;
     }
+    window.synchronizeFields(firstField, secondField, timeoutArray, timeinArray, syncValues);
   }
-  setSynchronizeForDefault();
-
-  type.addEventListener('change', onPriceInputChange);
-  room.addEventListener('change', onGuestInputChange);
+  timein.addEventListener('change', onTimeInputChange);
+  timeout.addEventListener('change', onTimeInputChange);
 
   function onPriceInputChange() {
-    price.setAttribute('min', minPrices[type.options[type.selectedIndex].value]);
+    var types = ['flat', 'bungalo', 'house', 'palace'];
+    var prices = [1000, 0, 5000, 10000];
+
+    function syncValueWithMin(element, value) {
+      element.min = value;
+    }
+    window.synchronizeFields(type, price, types, prices, syncValueWithMin);
   }
+  type.addEventListener('change', onPriceInputChange);
 
   function onGuestInputChange() {
     setAllOptions(window.OPTION_GUESTS_COUNT);
@@ -134,6 +134,13 @@
       }
     }
   }
+  room.addEventListener('change', onGuestInputChange);
+
+  function setSynchronizeForDefault() {
+    onPriceInputChange();
+    onGuestInputChange();
+  }
+  setSynchronizeForDefault();
 
   window.mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
 

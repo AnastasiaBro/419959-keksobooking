@@ -28,7 +28,7 @@
 
   function addCorrectRoomEnding(advertForRoom) {
     var ending = '';
-    if (advertForRoom.offer.rooms !== 5) {
+    if (advertForRoom.offer.rooms % 5 !== 0 && advertForRoom.offer.rooms !== 0) {
       ending = (advertForRoom.offer.rooms === 1) ? 'а' : 'ы';
     }
     return ending;

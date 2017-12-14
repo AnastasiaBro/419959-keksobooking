@@ -18,10 +18,19 @@
     }
   }
 
-  function showMapPins() {
-    for (var i = 0; i < window.NUMBER_OF_ADVERTS; i++) {
-      window.mapPins.querySelectorAll('.map__pin')[i + 1].classList.remove('hidden');
+  function showMapPins(count) {
+    var randomIndexes = createNumbersArray(window.NUMBER_OF_ADVERTS);
+    for (var i = 0; i < count; i++) {
+      window.mapPins.querySelectorAll('.map__pin')[window.util.getUniquePart(randomIndexes)].classList.remove('hidden');
     }
+  }
+
+  function createNumbersArray(count) {
+    var numbers = [];
+    for (var i = 1; i <= count; i++) {
+      numbers.push(i);
+    }
+    return numbers;
   }
 
   function addAddress() {
@@ -34,13 +43,15 @@
     window.cityMap.classList.remove('map--faded');
     window.mapForm.classList.remove('notice__form--disabled');
     activeForm();
-    showMapPins();
+    showMapPins(window.NUMBER_OF_SHOW_PINS);
     addAddress();
   }
 
   // событие - открытие формы при нажатии на пироженку
   window.mainButton.addEventListener('mouseup', function () {
-    openMap();
+    if (window.cityMap.getAttribute('class') === 'map map--faded') {
+      openMap();
+    }
   });
 
   window.mainButton.addEventListener('keydown', function (evt) {

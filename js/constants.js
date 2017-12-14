@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  window.NUMBER_OF_ADVERTS = 8;
+  window.NUMBER_OF_ADVERTS = 10;
   window.COUNT_FEATURES = 6;
   window.MAP_HEIGHT = 44;
   window.POINTER_HEIGHT = 18;

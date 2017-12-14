@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  function getPictureNumbers(value) {
+  /* function getPictureNumbers(value) {
     var pictureNumbers = [];
     for (var i = 1; i <= value; i++) {
       pictureNumbers.push('0' + i);
@@ -68,4 +68,5 @@
     return adverts;
   }
   window.adverts = getArrayAdvert(window.NUMBER_OF_ADVERTS);
+  */
 })();

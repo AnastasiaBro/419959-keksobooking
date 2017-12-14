@@ -4,13 +4,6 @@
   var addressCoordinates = window.mapForm.querySelector('#address');
   var width = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10) * 2;
 
-  function hidePins(pinCount) {
-    for (var i = 0; i < pinCount; i++) {
-      window.mapPins.querySelectorAll('.map__pin')[i + 1].classList.add('hidden');
-    }
-  }
-  hidePins(window.NUMBER_OF_ADVERTS);
-
   function disableForm(fieldsetCount) {
     for (var i = 0; i < fieldsetCount; i++) {
       window.mapForm.querySelectorAll('fieldset')[i].setAttribute('disabled', 'disabled');

@@ -143,26 +143,32 @@
 
   submit.addEventListener('click', onSubmitClick);
 
+  var allInputs = window.mapForm.querySelectorAll('input');
+
   function onSubmitClick(evt) {
-    evt.preventDefault();
     checkBeforeSending();
-    window.backend.save(new FormData(window.mapForm), function () {
-      window.mapForm.reset();
-      onResetClick();
-    }, window.onLoadError);
+
+    if (errorCount === 0) {
+      evt.preventDefault();
+      window.backend.save(new FormData(window.mapForm), function () {
+        window.mapForm.reset();
+        onResetClick();
+      }, window.onLoadError);
+    }
   }
 
   function checkBeforeSending() {
-    var allInputs = window.mapForm.querySelectorAll('input');
-    // var allSelects = window.mapForm.querySelectorAll('select');
     checkForm(allInputs);
-    // checkForm(allSelects);
   }
 
+  var errorCount = 0; // счетчик ошибок
+
   function checkForm(formElements) {
+    errorCount = 0;
     for (var i = 0; i < formElements.length; i++) {
       if (!formElements[i].validity.valid) {
         formElements[i].setAttribute('style', 'border: 2px solid red;');
+        errorCount = errorCount + 1;
       } else {
         formElements[i].removeAttribute('style');
       }

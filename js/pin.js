@@ -43,7 +43,6 @@
 
     message.textContent = errorMessage;
     window.cityMap.appendChild(message);
-    // document.body.insertAdjacentElement('afterbegin', message);
   }
 
   window.onLoadError = onLoadError;

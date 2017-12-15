@@ -15,9 +15,6 @@
         case 400:
           onError('Неверный запрос');
           break;
-        case 401:
-          onError('Пользователь не авторизован');
-          break;
         case 404:
           onError('Ничего не найдено');
           break;

@@ -146,10 +146,10 @@
   function onSubmitClick(evt) {
     evt.preventDefault();
     checkBeforeSending();
-    window.backend.save(new FormData(window.mapForm), function (response) {
+    window.backend.save(new FormData(window.mapForm), function () {
       window.mapForm.reset();
       onResetClick();
-    });
+    }, window.onLoadError);
   }
 
   function checkBeforeSending() {

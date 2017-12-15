@@ -53,6 +53,14 @@
 
     advertElement.querySelectorAll('p')[4].textContent = advert.offer.description;
     advertElement.querySelector('.popup__avatar').setAttribute('src', advert.author.avatar);
+    var extra = advertElement.querySelector('.popup__pictures li');
+    advertElement.querySelector('.popup__pictures').removeChild(extra);
+
+    for (var i = 0; i < advert.offer.photos.length; i++) {
+      var li = document.createElement('li');
+      li.innerHTML = '<img src=' + advert.offer.photos[i] + '>';
+      advertElement.querySelector('.popup__pictures').appendChild(li);
+    }
 
     return advertElement;
   }

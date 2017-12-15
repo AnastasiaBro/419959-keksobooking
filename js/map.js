@@ -36,7 +36,7 @@
   function addAddress() {
     var left = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10);
     var top = parseInt(getComputedStyle(window.mainButton).getPropertyValue('top'), 10);
-    window.address.setAttribute('value', 'x: ' + left + ' y: ' + (top + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
+    addressCoordinates.setAttribute('value', 'x: ' + left + ' y: ' + (top + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
   }
 
   function openMap() {

@@ -143,8 +143,13 @@
 
   submit.addEventListener('click', onSubmitClick);
 
-  function onSubmitClick() {
+  function onSubmitClick(evt) {
+    evt.preventDefault();
     checkBeforeSending();
+    window.backend.save(new FormData(window.mapForm), function (response) {
+      window.mapForm.reset();
+      onResetClick();
+    });
   }
 
   function checkBeforeSending() {
@@ -164,7 +169,10 @@
     }
   }
 
-  reset.addEventListener('click', function () {
+  function onResetClick() {
     capacity.querySelectorAll('option')[2].setAttribute('selected', '');
-  });
+    price.min = 1000;
+  }
+
+  reset.addEventListener('click', onResetClick);
 })();

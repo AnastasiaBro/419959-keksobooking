@@ -19,7 +19,7 @@
   }
 
   function showMapPins(count) {
-    var randomIndexes = createNumbersArray(window.NUMBER_OF_ADVERTS);
+    var randomIndexes = createNumbersArray(window.adverts.length);
     for (var i = 0; i < count; i++) {
       window.mapPins.querySelectorAll('.map__pin')[window.util.getUniquePart(randomIndexes)].classList.remove('hidden');
     }

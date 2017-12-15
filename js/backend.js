@@ -1,13 +1,13 @@
 'use strict';
 
 (function () {
-  var SERVER_URL = 'https://1510.dump.academy/keksobooking/data';
+  var URL = 'https://1510.dump.academy/keksobooking';
   window.backend = {
     load: function (onLoad, onError) {
       var xhr = new XMLHttpRequest();
 
       xhr.responseType = 'json';
-      xhr.open('GET', SERVER_URL);
+      xhr.open('GET', URL + '/data');
 
       xhr.addEventListener('load', function () {
         onLoad(xhr.response);

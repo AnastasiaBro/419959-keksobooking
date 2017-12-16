@@ -61,7 +61,7 @@
       var li = document.createElement('li');
       li.innerHTML = '<img src=' + advert.offer.photos[i] + '>';
       advertElement.querySelector('.popup__pictures').appendChild(li);
-      advertElement.querySelectorAll('.popup__pictures img')[i].setAttribute('style', 'width: 20%; height: 20%;');
+      advertElement.querySelectorAll('.popup__pictures img')[i].setAttribute('style', 'width: 40px; height: 40px;');
     }
 
     return advertElement;

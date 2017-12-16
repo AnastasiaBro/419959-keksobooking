@@ -26,7 +26,7 @@
       }
 
       target.classList.add('map__pin--active');
-      findRightAdvert(window.NUMBER_OF_ADVERTS);
+      findRightAdvert(window.adverts.length);
 
       window.getCloseButton();
     }

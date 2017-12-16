@@ -1,14 +1,8 @@
 'use strict';
 
 (function () {
+  var addressCoordinates = window.mapForm.querySelector('#address');
   var width = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10) * 2;
-
-  function hidePins(pinCount) {
-    for (var i = 0; i < pinCount; i++) {
-      window.mapPins.querySelectorAll('.map__pin')[i + 1].classList.add('hidden');
-    }
-  }
-  hidePins(window.NUMBER_OF_ADVERTS);
 
   function disableForm(fieldsetCount) {
     for (var i = 0; i < fieldsetCount; i++) {
@@ -24,29 +18,40 @@
     }
   }
 
-  function showMapPins() {
-    for (var i = 0; i < window.NUMBER_OF_ADVERTS; i++) {
-      window.mapPins.querySelectorAll('.map__pin')[i + 1].classList.remove('hidden');
+  function showMapPins(count) {
+    var randomIndexes = createNumbersArray(window.adverts.length);
+    for (var i = 0; i < count; i++) {
+      window.mapPins.querySelectorAll('.map__pin')[window.util.getUniquePart(randomIndexes)].classList.remove('hidden');
     }
+  }
+
+  function createNumbersArray(count) {
+    var numbers = [];
+    for (var i = 1; i <= count; i++) {
+      numbers.push(i);
+    }
+    return numbers;
   }
 
   function addAddress() {
     var left = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10);
     var top = parseInt(getComputedStyle(window.mainButton).getPropertyValue('top'), 10);
-    window.address.setAttribute('value', 'x: ' + left + ' y: ' + (top + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
+    addressCoordinates.setAttribute('value', 'x: ' + left + ' y: ' + (top + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
   }
 
   function openMap() {
     window.cityMap.classList.remove('map--faded');
     window.mapForm.classList.remove('notice__form--disabled');
     activeForm();
-    showMapPins();
+    showMapPins(window.NUMBER_OF_SHOW_PINS);
     addAddress();
   }
 
   // событие - открытие формы при нажатии на пироженку
   window.mainButton.addEventListener('mouseup', function () {
-    openMap();
+    if (window.cityMap.getAttribute('class') === 'map map--faded') {
+      openMap();
+    }
   });
 
   window.mainButton.addEventListener('keydown', function (evt) {
@@ -132,7 +137,7 @@
       window.mainButton.style.top = topPin + 'px';
       window.mainButton.style.left = leftPin + 'px';
 
-      window.address.setAttribute('value', 'x: ' + leftPin + ' y: ' + (topPin + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
+      addressCoordinates.setAttribute('value', 'x: ' + leftPin + ' y: ' + (topPin + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
     };
 
     var onMouseUp = function (upEvt) {
@@ -148,4 +153,5 @@
   });
 
   window.getCloseButton = getCloseButton;
+  window.getAddress = addressCoordinates;
 })();

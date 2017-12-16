@@ -11,6 +11,7 @@
   var room = window.mapForm.querySelector('#room_number');
   var capacity = window.mapForm.querySelector('#capacity');
   var submit = window.mapForm.querySelector('.form__submit');
+  var reset = window.mapForm.querySelector('.form__reset');
   var minPrices = {
     'bungalo': 0,
     'flat': 1000,
@@ -101,34 +102,30 @@
     setAllOptions(window.OPTION_GUESTS_COUNT);
     switch (room.value) {
       case '1':
-        capacity.querySelectorAll('option')[0].classList.add('hidden');
-        capacity.querySelectorAll('option')[1].classList.add('hidden');
-        capacity.querySelectorAll('option')[3].classList.add('hidden');
-        capacity.querySelectorAll('option')[2].setAttribute('selected', '');
+        capacity.querySelectorAll('option')[2].classList.remove('hidden');
+        capacity.value = 1;
         break;
       case '2':
-        capacity.querySelectorAll('option')[0].classList.add('hidden');
-        capacity.querySelectorAll('option')[3].classList.add('hidden');
-        capacity.querySelectorAll('option')[1].setAttribute('selected', '');
+        capacity.querySelectorAll('option')[1].classList.remove('hidden');
+        capacity.querySelectorAll('option')[2].classList.remove('hidden');
+        capacity.value = 2;
         break;
       case '3':
-        capacity.querySelectorAll('option')[3].classList.add('hidden');
-        capacity.querySelectorAll('option')[0].setAttribute('selected', '');
+        capacity.querySelectorAll('option')[0].classList.remove('hidden');
+        capacity.querySelectorAll('option')[1].classList.remove('hidden');
+        capacity.querySelectorAll('option')[2].classList.remove('hidden');
+        capacity.value = 3;
         break;
       case '100':
-        capacity.querySelectorAll('option')[0].classList.add('hidden');
-        capacity.querySelectorAll('option')[1].classList.add('hidden');
-        capacity.querySelectorAll('option')[2].classList.add('hidden');
-        capacity.querySelectorAll('option')[3].setAttribute('selected', '');
+        capacity.querySelectorAll('option')[3].classList.remove('hidden');
+        capacity.value = 0;
         break;
     }
   }
 
   function setAllOptions(count) {
     for (var i = 0; i < count; i++) {
-      if (capacity.querySelectorAll('option')[i].getAttribute('class', 'hidden')) {
-        capacity.querySelectorAll('option')[i].classList.remove('hidden');
-      }
+      capacity.querySelectorAll('option')[i].setAttribute('class', 'hidden');
       if (capacity.querySelectorAll('option')[i].selected === true) {
         capacity.querySelectorAll('option')[i].removeAttribute('selected');
       }
@@ -146,24 +143,42 @@
 
   submit.addEventListener('click', onSubmitClick);
 
-  function onSubmitClick() {
+  var allInputs = window.mapForm.querySelectorAll('input');
+
+  function onSubmitClick(evt) {
     checkBeforeSending();
+
+    if (errorCount === 0) {
+      evt.preventDefault();
+      window.backend.save(new FormData(window.mapForm), function () {
+        window.mapForm.reset();
+        onResetClick();
+      }, window.onLoadError);
+    }
   }
 
   function checkBeforeSending() {
-    var allInputs = window.mapForm.querySelectorAll('input');
-    var allSelects = window.mapForm.querySelectorAll('select');
     checkForm(allInputs);
-    checkForm(allSelects);
   }
 
+  var errorCount = 0; // счетчик ошибок
+
   function checkForm(formElements) {
+    errorCount = 0;
     for (var i = 0; i < formElements.length; i++) {
       if (!formElements[i].validity.valid) {
         formElements[i].setAttribute('style', 'border: 2px solid red;');
+        errorCount = errorCount + 1;
       } else {
         formElements[i].removeAttribute('style');
       }
     }
   }
+
+  function onResetClick() {
+    capacity.querySelectorAll('option')[2].setAttribute('selected', '');
+    price.min = 1000;
+  }
+
+  reset.addEventListener('click', onResetClick);
 })();

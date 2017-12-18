@@ -152,6 +152,106 @@
     window.mapPins.addEventListener('mouseup', onMouseUp);
   });
 
+  // ------------------------------------------------------------- //
+  /* function filterProcess(selects, checkboxes) {
+    var filterResult = [];
+
+    function isOff(feature) {
+      return feature === false;
+    }
+
+    function priceToString(price) {
+      switch (true) {
+        case price < 10000:
+          return 'low';
+        case price < 50000:
+          return 'middle';
+        default:
+          return 'high';
+      }
+    }
+
+    adList.forEach(function (ad) {
+      var allOptionsIsAny = Object.keys(selects).length === 0;
+      var allCheckboxesUncheked = checkboxes.every(isOff);
+
+      if (allOptionsIsAny && allCheckboxesUncheked) {
+        filterResult.push(true);
+      } else {
+        var isSelectsPass = true;
+        var adOptions = [];
+        adOptions['housing_type'] = ad.offer.type;
+        adOptions['housing_price'] = priceToString(ad.offer.price);
+        adOptions['housing_room-number'] = ad.offer.rooms.toString();
+        adOptions['housing_guests-number'] = ad.offer.guests.toString();
+
+        for (var property in selects) {
+          if (adOptions[property] !== selects[property]) {
+            isSelectsPass = false;
+          }
+        }
+
+        var isCheckboxesPass = true;
+        var adFeatures = ad.offer.features.slice();
+
+        checkboxes.forEach(function (feature) {
+          if (!adFeatures.includes(feature)) {
+            isCheckboxesPass = false;
+          }
+        });
+
+        filterResult.push(isSelectsPass && isCheckboxesPass);
+      }
+    });
+
+    return filterResult;
+  }
+  */
+  // ------------------------------------------------------------- //
+
+  var filterOfPrice = document.querySelector('#housing-price');
+
+  filterOfPrice.addEventListener('change', onFilterPriceClick);
+
+  function hideAllPins() {
+    for (var i = 1; i <= window.adverts.length; i++) {
+      window.mapPins.querySelectorAll('.map__pin')[i].classList.add('hidden');
+    }
+  }
+
+  function priceToString(price) {
+    switch (true) {
+      case price < 10000:
+        return 'low';
+      case price > 50000:
+        return 'high';
+      default:
+        return 'middle';
+    }
+  }
+
+  function onFilterPriceClick() {
+    hideAllPins();
+    priceToString();
+    if (window.cityMap.querySelector('.map__pin--active')) {
+      closeAdvert();
+    }
+
+    var samePricePins = window.adverts.map(function (it) {
+      return filterOfPrice.value === priceToString(it.offer.price);
+    });
+    // console.log(samePricePins);
+
+    for (var i = 0; i <= samePricePins.length - 1; i++) {
+      if (samePricePins[i] === true) {
+        window.mapPins.querySelectorAll('.map__pin')[i + 1].classList.remove('hidden');
+      }
+    }
+    if (filterOfPrice.value === 'any') {
+      showMapPins(window.NUMBER_OF_SHOW_PINS);
+    }
+  }
+
   window.getCloseButton = getCloseButton;
   window.getAddress = addressCoordinates;
 })();

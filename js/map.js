@@ -263,17 +263,17 @@
     }
   }
 
-  /* function onFilterPriceClick() {
+  function onFilterPriceClick() {
     hideAllPins();
     priceToString();
     if (window.cityMap.querySelector('.map__pin--active')) {
       closeAdvert();
     }
 
-    var samePricePins = window.adverts.map(function (it) {
+    var samePricePins = window.adverts.filter(function (it) {
       return filterOfPrice.value === priceToString(it.offer.price);
     });
-    // console.log(samePricePins);
+    console.log(samePricePins);
 
     for (var i = 0; i <= samePricePins.length - 1; i++) {
       if (samePricePins[i] === true) {
@@ -281,9 +281,9 @@
       }
     }
     if (filterOfPrice.value === 'any') {
-      showMapPins(window.NUMBER_OF_SHOW_PINS);
+      window.showMapPins(window.NUMBER_OF_SHOW_PINS);
     }
-  }*/
+  }
 
   window.getCloseButton = getCloseButton;
   window.getAddress = addressCoordinates;

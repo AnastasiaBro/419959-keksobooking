@@ -138,12 +138,13 @@
     window.mapPins.addEventListener('mouseup', onMouseUp);
   });
 
-  // -----фильтр----- //
+  // -----ФИЛЬТР----- //
 
   var filterOfPrice = document.querySelector('#housing-price');
 
   filterOfPrice.addEventListener('change', onFilterPriceClick);
 
+  // удаляет все пины, кроме главного
   function hideAllPins() {
     var pinsCount = window.cityMap.querySelectorAll('.map__pin');
     for (var i = 1; i < pinsCount.length; i++) {
@@ -152,6 +153,7 @@
     }
   }
 
+  // перевод цены на соответствие селектам
   function priceToString(price) {
     switch (true) {
       case price < 10000:
@@ -163,6 +165,14 @@
     }
   }
 
+  // фильтр по цене
+  // если карточка открыта - закрываем
+  // удаляем все прошлые пины
+  // переводим цену
+  // создаем новый массив отфильтрованных элементов - samePricePins
+  // добавляем в дом-дерево - showMapPins
+  // запоминаем массив как window.newPins, чтоб потом можно было открывать карточки
+  // если выбран селект "any", то как при открытии карты создаем случ пять
   function onFilterPriceClick() {
     if (window.cityMap.querySelector('.map__pin--active')) {
       closeAdvert();
@@ -175,9 +185,10 @@
       return filterOfPrice.value === priceToString(it.offer.price);
     });
 
-    console.log(samePricePins);
+    // console.log(samePricePins);
 
     window.showMapPins(samePricePins);
+
     window.newPins = samePricePins;
 
     if (filterOfPrice.value === 'any') {

@@ -12,7 +12,7 @@
 
   // надо будет отредактить
 
-  function showMapPins(count) {
+  function getRandomStartElements(count) {
     var randomIndexes = createNumbersArray(window.adverts.length);
     var newPins = [];
     for (var i = 0; i < count; i++) {
@@ -20,13 +20,17 @@
     }
     console.log(randomIndexes);
     console.log(newPins);
+    return newPins;
+  }
+  window.getRandomStartElements = getRandomStartElements;
 
-    for (i = 0; i < count; i++) {
+  function showMapPins(array) {
+    for (var i = 0; i < array.length; i++) {
       var fragment = document.createDocumentFragment();
-      fragment.appendChild(createAllAdverts(newPins[i]));
+      fragment.appendChild(createAllAdverts(array[i]));
       window.mapPins.appendChild(fragment);
     }
-    window.newPins = newPins;
+    // window.newPins = newPins;
   }
 
   function createNumbersArray(count) {

@@ -18,21 +18,6 @@
     }
   }
 
-  function showMapPins(count) {
-    var randomIndexes = createNumbersArray(window.adverts.length);
-    for (var i = 0; i < count; i++) {
-      window.mapPins.querySelectorAll('.map__pin')[window.util.getUniquePart(randomIndexes)].classList.remove('hidden');
-    }
-  }
-
-  function createNumbersArray(count) {
-    var numbers = [];
-    for (var i = 1; i <= count; i++) {
-      numbers.push(i);
-    }
-    return numbers;
-  }
-
   function addAddress() {
     var left = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10);
     var top = parseInt(getComputedStyle(window.mainButton).getPropertyValue('top'), 10);
@@ -43,7 +28,7 @@
     window.cityMap.classList.remove('map--faded');
     window.mapForm.classList.remove('notice__form--disabled');
     activeForm();
-    showMapPins(window.NUMBER_OF_SHOW_PINS);
+    window.showMapPins(window.NUMBER_OF_SHOW_PINS);
     addAddress();
   }
 
@@ -171,7 +156,7 @@
       }
     }
 
-    adList.forEach(function (ad) {
+    window.adverts.forEach(function (ad) {
       var allOptionsIsAny = Object.keys(selects).length === 0;
       var allCheckboxesUncheked = checkboxes.every(isOff);
 
@@ -206,10 +191,12 @@
 
     return filterResult;
   }
+
+  filterProcess();
   */
   // ------------------------------------------------------------- //
 
-  var filterOfPrice = document.querySelector('#housing-price');
+  /* var filterOfPrice = document.querySelector('#housing-price');
 
   filterOfPrice.addEventListener('change', onFilterPriceClick);
 
@@ -250,7 +237,53 @@
     if (filterOfPrice.value === 'any') {
       showMapPins(window.NUMBER_OF_SHOW_PINS);
     }
+  }*/
+
+  // ------------------------------------------------------------- //
+
+  var filterOfPrice = document.querySelector('#housing-price');
+
+  filterOfPrice.addEventListener('change', hideAllPins);
+
+  function hideAllPins() {
+    for (var i = 1; i <= window.newPins.length; i++) {
+      var mapPin = window.cityMap.querySelectorAll('.map__pin')[1];
+      window.mapPins.removeChild(mapPin);
+    }
   }
+
+  function priceToString(price) {
+    switch (true) {
+      case price < 10000:
+        return 'low';
+      case price > 50000:
+        return 'high';
+      default:
+        return 'middle';
+    }
+  }
+
+  /* function onFilterPriceClick() {
+    hideAllPins();
+    priceToString();
+    if (window.cityMap.querySelector('.map__pin--active')) {
+      closeAdvert();
+    }
+
+    var samePricePins = window.adverts.map(function (it) {
+      return filterOfPrice.value === priceToString(it.offer.price);
+    });
+    // console.log(samePricePins);
+
+    for (var i = 0; i <= samePricePins.length - 1; i++) {
+      if (samePricePins[i] === true) {
+        window.mapPins.querySelectorAll('.map__pin')[i + 1].classList.remove('hidden');
+      }
+    }
+    if (filterOfPrice.value === 'any') {
+      showMapPins(window.NUMBER_OF_SHOW_PINS);
+    }
+  }*/
 
   window.getCloseButton = getCloseButton;
   window.getAddress = addressCoordinates;

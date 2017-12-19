@@ -26,7 +26,7 @@
       }
 
       target.classList.add('map__pin--active');
-      findRightAdvert(window.adverts.length);
+      findRightAdvert(window.newPins.length);
 
       window.getCloseButton();
     }
@@ -41,7 +41,7 @@
     }
 
     var fragment = document.createDocumentFragment();
-    fragment.appendChild(window.createOneAdvert(window.adverts[pinIndex]));
+    fragment.appendChild(window.createOneAdvert(window.newPins[pinIndex]));
     window.cityMap.appendChild(fragment);
   }
 

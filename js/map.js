@@ -58,15 +58,6 @@
     window.util.isEnterEvent(evt, window.showCard);
   });
 
-  function onPopupEscPress(evt) {
-    window.util.isEscEvent(evt, closeAdvert);
-  }
-
-  function onPopupEnterPress(evt) {
-    window.util.isEnterEvent(evt, closeAdvert);
-  }
-
-
   function getCloseButton() {
     var closeButton = window.cityMap.querySelector('.popup__close');
     document.addEventListener('keydown', onPopupEscPress);
@@ -77,6 +68,13 @@
     closeButton.addEventListener('keydown', onPopupEnterPress);
   }
 
+  function onPopupEscPress(evt) {
+    window.util.isEscEvent(evt, closeAdvert);
+  }
+
+  function onPopupEnterPress(evt) {
+    window.util.isEnterEvent(evt, closeAdvert);
+  }
 
   function closeAdvert() {
     var mapCard = window.cityMap.querySelector('.map__card');

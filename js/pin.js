@@ -11,8 +11,6 @@
   }
   window.createAllAdverts = createAllAdverts;
 
-  // надо будет отредактить
-
   function getRandomStartElements(count) {
     var randomIndexes = createNumbersArray(window.adverts.length);
     var newPins = [];
@@ -29,7 +27,6 @@
       fragment.appendChild(createAllAdverts(array[i]));
       window.mapPins.appendChild(fragment);
     }
-    // window.newPins = newPins;
   }
 
   function createNumbersArray(count) {
@@ -42,12 +39,6 @@
   window.showMapPins = showMapPins;
 
   function onLoadSuccess(adverts) {
-    /* var fragment = document.createDocumentFragment();
-
-    for (var i = 0; i < adverts.length; i++) {
-      fragment.appendChild(createAllAdverts(adverts[i]));
-    }
-    window.mapPins.appendChild(fragment);*/
     window.adverts = adverts;
   }
 

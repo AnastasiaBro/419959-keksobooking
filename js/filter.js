@@ -56,7 +56,6 @@
 
     window.adverts.forEach(function (advert) {
       var allAnyOptions = Object.keys(selects).length === 0;
-      // console.log(allAnyOptions);
       var allUnchekedCheckboxes = checkboxes.every(findUncheckedFeature);
       var isSelectsPass = true;
       var advertOptions = [];
@@ -93,14 +92,15 @@
   function onFiltersChange(evt) {
     var selects = evt.currentTarget.querySelectorAll('select');
     var selectsValues = [];
+    var checkboxes = evt.currentTarget.querySelectorAll('input');
+    var checkboxesValues = [];
+
     [].forEach.call(selects, function (select) {
       if (select.value !== 'any') {
         selectsValues[select.name] = select.value;
       }
     });
 
-    var checkboxes = evt.currentTarget.querySelectorAll('input');
-    var checkboxesValues = [];
     [].forEach.call(checkboxes, function (checkbox) {
       if (checkbox.checked) {
         checkboxesValues.push(checkbox.value);

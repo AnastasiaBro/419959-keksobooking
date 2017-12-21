@@ -19,8 +19,6 @@
     for (var i = 0; i < count; i++) {
       newPins.push(window.adverts[window.util.getUniquePart(randomIndexes)]);
     }
-    console.log(randomIndexes);
-    console.log(newPins);
     return newPins;
   }
   window.getRandomStartElements = getRandomStartElements;

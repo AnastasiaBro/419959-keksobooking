@@ -1,106 +1,96 @@
 'use strict';
 
 (function () {
-  function renderFilterApply(arrBools) {
-    var unCgangeArr = window.adverts;
-    var similarListElement = document.querySelector('.map__pins');
-    var activePins = similarListElement.querySelectorAll('.map__pin');
-    var fragment = document.createDocumentFragment();
-    var nameLengths = unCgangeArr.reduce(function (accumulator, currentValue, index) {
-      if (arrBools[index] === true) {
+  function closeCardAfterFilter() {
+    if (window.mapPins.querySelector('.map__pin--active')) {
+      window.closeAdvert();
+    }
+  }
+
+  function hideAllPins() {
+    var pinsCount = window.cityMap.querySelectorAll('.map__pin');
+    for (var i = 1; i < pinsCount.length; i++) {
+      var mapPin = window.cityMap.querySelectorAll('.map__pin')[1]; // главный пин остается, он [0]
+      window.mapPins.removeChild(mapPin);
+    }
+  }
+
+  function showFilteredPins(array) {
+    var filteredAdverts = window.adverts.reduce(function (accumulator, currentValue, index) {
+      if (array[index] === true) {
         accumulator.push(currentValue);
       }
       return accumulator;
     }, []);
 
-    for (var i = 0; i < nameLengths.length; i++) {
-      if (i > 4) {
-        break;
-      }
-      fragment.appendChild(window.createAllAdverts(nameLengths[i], nameLengths));
-      console.log(nameLengths);
-    }
+    closeCardAfterFilter();
+    hideAllPins();
 
-    if (similarListElement.querySelector('.map__pin--active')) {
-      window.closeAdvert();
-    }
-
-    for (var j = 0; j < activePins.length; j++) {
-      if (j !== 0) {
-        similarListElement.removeChild(activePins[j]);
-      }
-    }
-    similarListElement.appendChild(fragment);
-    if (nameLengths.length > 5) {
-      window.newPins = nameLengths.splice(0, 5);
+    if (filteredAdverts.length === window.adverts.length) {
+      window.newPins = window.getRandomStartElements(window.NUMBER_OF_SHOW_PINS);
+    } else if (filteredAdverts.length > window.NUMBER_OF_SHOW_PINS) {
+      window.newPins = filteredAdverts.splice(0, window.NUMBER_OF_SHOW_PINS);
     } else {
-      window.newPins = nameLengths;
+      window.newPins = filteredAdverts;
+    }
+    window.showMapPins(window.newPins);
+  }
+
+  function findUncheckedFeature(feature) {
+    return feature === false;
+  }
+
+  function priceToString(price) {
+    switch (true) {
+      case price < 10000:
+        return 'low';
+      case price > 50000:
+        return 'high';
+      default:
+        return 'middle';
     }
   }
 
-  // window.renderFilterApply = renderFilterApply;
-
   function filterProcess(selects, checkboxes) {
-    var filterResult = [];
-    var adList = window.adverts;
-    // console.log(adList);
-    function isOff(feature) {
-      return feature === false;
-    }
-    // console.log(selects, checkboxes);
-    function priceToString(price) {
-      switch (true) {
-        case price < 10000:
-          return 'low';
-        case price > 50000:
-          return 'high';
-        default:
-          return 'middle';
-      }
-    }
+    var result = [];
 
-    adList.forEach(function (ad) {
-      var allOptionsIsAny = Object.keys(selects).length === 0;
-      var allCheckboxesUncheked = checkboxes.every(isOff);
-      // console.log(allCheckboxesUncheked, allOptionsIsAny);
-      if (allOptionsIsAny && allCheckboxesUncheked) {
-        filterResult.push(true);
+    window.adverts.forEach(function (advert) {
+      var allAnyOptions = Object.keys(selects).length === 0;
+      var allUnchekedCheckboxes = checkboxes.every(findUncheckedFeature);
+      var isSelectsPass = true;
+      var advertOptions = [];
+      var isCheckboxesPass = true;
+      var advertFeatures = advert.offer.features.slice();
+
+      if (allAnyOptions && allUnchekedCheckboxes) {
+        result.push(true);
       } else {
-        var isSelectsPass = true;
-        var adOptions = [];
-        adOptions['housing-type'] = ad.offer.type;
-        adOptions['housing-price'] = priceToString(ad.offer.price);
-        adOptions['housing-rooms'] = ad.offer.rooms.toString();
-        adOptions['housing-guests'] = ad.offer.guests.toString();
+        advertOptions['housing-type'] = advert.offer.type;
+        advertOptions['housing-price'] = priceToString(advert.offer.price);
+        advertOptions['housing-rooms'] = advert.offer.rooms.toString();
+        advertOptions['housing-guests'] = advert.offer.guests.toString();
 
-        for (var property in selects) {
-          if (adOptions[property] !== selects[property]) {
+        for (var value in selects) {
+          if (advertOptions[value] !== selects[value]) {
             isSelectsPass = false;
           }
         }
 
-        var isCheckboxesPass = true;
-        var adFeatures = ad.offer.features.slice();
-
         checkboxes.forEach(function (feature) {
-          if (!adFeatures.includes(feature)) {
+          if (!advertFeatures.includes(feature)) {
             isCheckboxesPass = false;
           }
         });
 
-        filterResult.push(isSelectsPass && isCheckboxesPass);
+        result.push(isSelectsPass && isCheckboxesPass);
       }
     });
 
-    return filterResult;
+    return result;
   }
 
-  /* ---------------------------------------------------------------------------
-   * Handler of the filters selects and checkboxes changing
-   * @param {Object} - event object
-   */
-  function onFiltersChange(event) {
-    var selects = event.currentTarget.querySelectorAll('select');
+  function onFiltersChange(evt) {
+    var selects = evt.currentTarget.querySelectorAll('select');
     var selectsValues = [];
     [].forEach.call(selects, function (select) {
       if (select.value !== 'any') {
@@ -108,7 +98,7 @@
       }
     });
 
-    var checkboxes = event.currentTarget.querySelectorAll('input');
+    var checkboxes = evt.currentTarget.querySelectorAll('input');
     var checkboxesValues = [];
     [].forEach.call(checkboxes, function (checkbox) {
       if (checkbox.checked) {
@@ -116,14 +106,10 @@
       }
     });
 
-    var filters = filterProcess(selectsValues, checkboxesValues);
-
     window.debounce(function () {
-      // window.pin.applyFilter(filters);
-      renderFilterApply(filters);
+      showFilteredPins(filterProcess(selectsValues, checkboxesValues));
     });
   }
 
   window.onFiltersChange = onFiltersChange;
-
 })();

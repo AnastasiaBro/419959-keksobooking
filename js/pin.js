@@ -9,6 +9,7 @@
     advertElement.querySelector('img').setAttribute('src', advert.author.avatar);
     return advertElement;
   }
+  window.createAllAdverts = createAllAdverts;
 
   // надо будет отредактить
 

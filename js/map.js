@@ -31,6 +31,9 @@
     window.newPins = window.getRandomStartElements(window.NUMBER_OF_SHOW_PINS);
     window.showMapPins(window.newPins);
     addAddress();
+
+    var filterBox = document.querySelector('.map__filters');
+    filterBox.addEventListener('change', window.onFiltersChange);
   }
 
   // событие - открытие формы при нажатии на пироженку
@@ -46,6 +49,7 @@
 
   // это событие - нажатие на любой пин
   window.mapPins.addEventListener('mouseup', function (evt) {
+    console.log(window.newPins);
     window.showCard(evt, window.newPins);
   });
 
@@ -71,6 +75,7 @@
 
     closeButton.addEventListener('keydown', onPopupEnterPress);
   }
+
 
   function closeAdvert() {
     var mapCard = window.cityMap.querySelector('.map__card');
@@ -140,11 +145,10 @@
 
   // -----ФИЛЬТР----- //
 
-  var filterOfPrice = document.querySelector('#housing-price');
+  /* var pinFilters = document.querySelector('.map__filters-container');
 
-  filterOfPrice.addEventListener('change', onFilterPriceClick);
+  pinFilters.addEventListener('change', onSelectChange);
 
-  // удаляет все пины, кроме главного
   function hideAllPins() {
     var pinsCount = window.cityMap.querySelectorAll('.map__pin');
     for (var i = 1; i < pinsCount.length; i++) {
@@ -153,7 +157,6 @@
     }
   }
 
-  // перевод цены на соответствие селектам
   function priceToString(price) {
     switch (true) {
       case price < 10000:
@@ -173,7 +176,26 @@
   // добавляем в дом-дерево - showMapPins
   // запоминаем массив как window.newPins, чтоб потом можно было открывать карточки
   // если выбран селект "any", то как при открытии карты создаем случ пять
-  function onFilterPriceClick() {
+
+  function onSelectChange(event) {
+    var selects = event.currentTarget.querySelectorAll('select');
+    var selectsValues = [];
+    [].forEach.call(selects, function (select) {
+      if (select.value !== 'any') {
+        selectsValues[select.name] = select.value;
+      }
+    });
+
+    var checkboxes = event.currentTarget.querySelectorAll('input');
+    var checkboxesValues = [];
+    [].forEach.call(checkboxes, function (checkbox) {
+      if (checkbox.checked) {
+        checkboxesValues.push(checkbox.value);
+      }
+    });
+  }
+
+  function onFilterClick() {
     if (window.cityMap.querySelector('.map__pin--active')) {
       closeAdvert();
     }
@@ -197,9 +219,139 @@
     }
   }
 
+  function onFilterTypeClick() {
+    if (window.cityMap.querySelector('.map__pin--active')) {
+      closeAdvert();
+    }
+
+    hideAllPins();
+
+    var sameTypePins = window.adverts.filter(function (it) {
+      return filterOfPrice.value === priceToString(it.offer.price);
+    });
+
+    window.showMapPins(sameTypePins);
+
+    window.newPins = sameTypePins;
+
+    if (filterOfType.value === 'any') {
+      window.newPins = window.getRandomStartElements(window.NUMBER_OF_SHOW_PINS);
+      window.showMapPins(window.newPins);
+    }
+  }*/
+
   window.getCloseButton = getCloseButton;
   window.getAddress = addressCoordinates;
+  window.closeAdvert = closeAdvert;
 })();
+
+/* var filtersParent = document.querySelector('.map__filters-container');
+  var allFilters = filtersParent.querySelectorAll('select');
+
+  allFilters.addEventListener('change', selectChangeHandler);
+
+  function filterProcess(selects, checkboxes) {
+    var filterResult = [];
+
+    function isOff(feature) {
+      return feature === false;
+    }
+
+    function priceToString(price) {
+      switch (true) {
+        case price < 10000:
+          return 'low';
+        case price > 50000:
+          return 'high';
+        default:
+          return 'middle';
+      }
+    }
+
+    window.adverts.forEach(function (ad) {
+      var allOptionsIsAny = Object.keys(selects).length === 0;
+      var allCheckboxesUncheked = checkboxes.every(isOff);
+
+      if (allOptionsIsAny && allCheckboxesUncheked) {
+        filterResult.push(true);
+      } else {
+        var isSelectsPass = true;
+        var adOptions = [];
+        adOptions['housing_type'] = ad.offer.type;
+        adOptions['housing_price'] = priceToString(ad.offer.price);
+        adOptions['housing_room-number'] = ad.offer.rooms.toString();
+        adOptions['housing_guests-number'] = ad.offer.guests.toString();
+
+        for (var property in selects) {
+          if (adOptions[property] !== selects[property]) {
+            isSelectsPass = false;
+          }
+        }
+
+        var isCheckboxesPass = true;
+        var adFeatures = ad.offer.features.slice();
+
+        checkboxes.forEach(function (feature) {
+          if (!adFeatures.includes(feature)) {
+            isCheckboxesPass = false;
+          }
+        });
+
+        filterResult.push(isSelectsPass && isCheckboxesPass);
+      }
+    });
+
+    return filterResult;
+  }
+
+  function applyFilter(isShow) {
+    [].forEach.call(window.newPins, function (pin) {
+      pin.classList.add('hidden');
+    });
+    for (var i = 0; i < window.newPins.length; i++) {
+      if (isShow[i]) {
+        window.newPins[i].classList.remove('hidden');
+      }
+    }
+    card.hideCard();
+  }
+
+  function selectChangeHandler(event) {
+    var selects = event.currentTarget.querySelectorAll('select');
+    var selectsValues = [];
+    [].forEach.call(selects, function (select) {
+      if (select.value !== 'any') {
+        selectsValues[select.name] = select.value;
+      }
+    });
+
+    var checkboxes = event.currentTarget.querySelectorAll('input');
+    var checkboxesValues = [];
+    [].forEach.call(checkboxes, function (checkbox) {
+      if (checkbox.checked) {
+        checkboxesValues.push(checkbox.value);
+      }
+    });
+
+    var filters = filterProcess(selectsValues, checkboxesValues);
+    window.debounce(function () {
+      applyFilter(filters);
+    });
+
+    (function () {
+
+      var DEBOUNCE_INTERVAL = 500;
+      var lastTimeout;
+
+      window.debounce = function (callback) {
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
+        }
+        lastTimeout = window.setTimeout(callback, DEBOUNCE_INTERVAL);
+      };
+
+    })();
+  }*/
 
 /*
     for (var i = 0; i <= samePricePins.length - 1; i++) {

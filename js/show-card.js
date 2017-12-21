@@ -26,22 +26,22 @@
       }
 
       target.classList.add('map__pin--active');
-      findRightAdvert(array.length);
+      findRightAdvert(array);
 
       window.getCloseButton();
     }
   }
 
-  function findRightAdvert(advertCount) {
+  function findRightAdvert(array) {
     var pinIndex;
-    for (var i = 1; i <= advertCount; i++) {
+    for (var i = 1; i <= array.length; i++) {
       if (window.mapPins.querySelectorAll('.map__pin')[i].getAttribute('class') === 'map__pin map__pin--active') {
         pinIndex = i - 1;
       }
     }
 
     var fragment = document.createDocumentFragment();
-    fragment.appendChild(window.createOneAdvert(window.newPins[pinIndex]));
+    fragment.appendChild(window.createOneAdvert(array[pinIndex]));
     window.cityMap.appendChild(fragment);
   }
 

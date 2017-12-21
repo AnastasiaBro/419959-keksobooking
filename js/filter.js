@@ -56,6 +56,7 @@
 
     window.adverts.forEach(function (advert) {
       var allAnyOptions = Object.keys(selects).length === 0;
+      // console.log(allAnyOptions);
       var allUnchekedCheckboxes = checkboxes.every(findUncheckedFeature);
       var isSelectsPass = true;
       var advertOptions = [];

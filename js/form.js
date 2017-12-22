@@ -53,7 +53,7 @@
     });
 
     price.setAttribute('type', 'number');
-    price.setAttribute('value', '1000');
+    price.setAttribute('placeholder', '1000');
     price.setAttribute('min', '0');
     price.setAttribute('max', '1000000');
     price.setAttribute('required', '');
@@ -173,10 +173,22 @@
 
   function onResetClick() {
     capacity.querySelectorAll('option')[2].setAttribute('selected', '');
-    price.min = 1000;
+
     for (var i = 0; i < allInputs.length; i++) {
       allInputs[i].removeAttribute('style');
     }
+
+    if (window.preview.src !== 'img/muffin.png') {
+      window.preview.src = 'img/muffin.png';
+    }
+
+    /* var photoBlock = window.photoContainer.querySelectorAll('img');
+    [].forEach
+    if (photoBlock) {
+      for () {
+        window.photoContainer.removeChild(photoBlock);
+      }
+    }*/
   }
 
   timein.addEventListener('change', onTimeInputChange);

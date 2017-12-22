@@ -18,21 +18,6 @@
     }
   }
 
-  function showMapPins(count) {
-    var randomIndexes = createNumbersArray(window.adverts.length);
-    for (var i = 0; i < count; i++) {
-      window.mapPins.querySelectorAll('.map__pin')[window.util.getUniquePart(randomIndexes)].classList.remove('hidden');
-    }
-  }
-
-  function createNumbersArray(count) {
-    var numbers = [];
-    for (var i = 1; i <= count; i++) {
-      numbers.push(i);
-    }
-    return numbers;
-  }
-
   function addAddress() {
     var left = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10);
     var top = parseInt(getComputedStyle(window.mainButton).getPropertyValue('top'), 10);
@@ -43,8 +28,14 @@
     window.cityMap.classList.remove('map--faded');
     window.mapForm.classList.remove('notice__form--disabled');
     activeForm();
-    showMapPins(window.NUMBER_OF_SHOW_PINS);
+    if (window.adverts) {
+      window.newPins = window.getRandomStartElements(window.NUMBER_OF_SHOW_PINS);
+      window.showMapPins(window.newPins);
+    }
     addAddress();
+
+    var filterBox = document.querySelector('.map__filters');
+    filterBox.addEventListener('change', window.onFiltersChange);
   }
 
   // событие - открытие формы при нажатии на пироженку
@@ -60,21 +51,12 @@
 
   // это событие - нажатие на любой пин
   window.mapPins.addEventListener('mouseup', function (evt) {
-    window.showCard(evt);
+    window.showCard(evt, window.newPins);
   });
 
   window.mapPins.addEventListener('keydown', function (evt) {
     window.util.isEnterEvent(evt, window.showCard);
   });
-
-  function onPopupEscPress(evt) {
-    window.util.isEscEvent(evt, closeAdvert);
-  }
-
-  function onPopupEnterPress(evt) {
-    window.util.isEnterEvent(evt, closeAdvert);
-  }
-
 
   function getCloseButton() {
     var closeButton = window.cityMap.querySelector('.popup__close');
@@ -84,6 +66,14 @@
     });
 
     closeButton.addEventListener('keydown', onPopupEnterPress);
+  }
+
+  function onPopupEscPress(evt) {
+    window.util.isEscEvent(evt, closeAdvert);
+  }
+
+  function onPopupEnterPress(evt) {
+    window.util.isEnterEvent(evt, closeAdvert);
   }
 
   function closeAdvert() {
@@ -154,4 +144,5 @@
 
   window.getCloseButton = getCloseButton;
   window.getAddress = addressCoordinates;
+  window.closeAdvert = closeAdvert;
 })();

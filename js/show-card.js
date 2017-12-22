@@ -9,7 +9,7 @@
   // потом вставляю правильное объявление
   // потом рассматриваю закрытие объявления здесь же, т.к. каждый раз генерируется новое объявление в дом-дереве
 
-  function showCard(evt) {
+  function showCard(evt, array) {
     var target = evt.target;
     if (target.getAttribute('class') !== 'map__pin map__pin--main' && (target.getAttribute('class') === 'map__pin' || (target.tagName === 'IMG' && target.parentNode.getAttribute('class') !== 'map__pin map__pin--main'))) {
       if (target.tagName === 'IMG') {
@@ -26,22 +26,22 @@
       }
 
       target.classList.add('map__pin--active');
-      findRightAdvert(window.adverts.length);
+      findRightAdvert(array);
 
       window.getCloseButton();
     }
   }
 
-  function findRightAdvert(advertCount) {
+  function findRightAdvert(array) {
     var pinIndex;
-    for (var i = 1; i <= advertCount; i++) {
+    for (var i = 1; i <= array.length; i++) {
       if (window.mapPins.querySelectorAll('.map__pin')[i].getAttribute('class') === 'map__pin map__pin--active') {
         pinIndex = i - 1;
       }
     }
 
     var fragment = document.createDocumentFragment();
-    fragment.appendChild(window.createOneAdvert(window.adverts[pinIndex]));
+    fragment.appendChild(window.createOneAdvert(array[pinIndex]));
     window.cityMap.appendChild(fragment);
   }
 

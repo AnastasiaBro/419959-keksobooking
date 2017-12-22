@@ -23,7 +23,7 @@
     window.address.setAttribute('readOnly', '');
     window.address.setAttribute('required', '');
     window.address.addEventListener('invalid', function () {
-      return (window.address.validity.valueMissing === true ? window.address.setCustomValidity('Обязательное поле') : window.address.setCustomValidity(''));
+      return (window.address.validity.valueMissing ? window.address.setCustomValidity('Обязательное поле') : window.address.setCustomValidity(''));
     });
 
     title.setAttribute('minlength', '30');
@@ -31,11 +31,12 @@
     title.setAttribute('required', '');
 
     title.addEventListener('invalid', function () {
-      if (title.validity.tooShort) {
+      var validity = title.validity;
+      if (validity.tooShort) {
         title.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
-      } else if (title.validity.tooLong) {
+      } else if (validity.tooLong) {
         title.setCustomValidity('Заголовок не должен превышать 100 символов');
-      } else if (title.validity.valueMissing) {
+      } else if (validity.valueMissing) {
         title.setCustomValidity('Обязательное поле');
       } else {
         title.setCustomValidity('');
@@ -58,11 +59,12 @@
     price.setAttribute('required', '');
 
     price.addEventListener('input', function () {
-      if (price.validity.rangeUnderflow) {
+      var validity = price.validity;
+      if (validity.rangeUnderflow) {
         price.setCustomValidity('Цена должна быть не меньше ' + minPrices[type.options[type.selectedIndex].value] + ' руб.');
-      } else if (price.validity.rangeOverflow) {
+      } else if (validity.rangeOverflow) {
         price.setCustomValidity('Цена должна быть не больше 1 000 000 руб.');
-      } else if (price.validity.valueMissing) {
+      } else if (validity.valueMissing) {
         price.setCustomValidity('Обязательное поле');
       } else {
         price.setCustomValidity('');
@@ -84,8 +86,6 @@
     }
     window.synchronizeFields(firstField, secondField, timeoutArray, timeinArray, syncValues);
   }
-  timein.addEventListener('change', onTimeInputChange);
-  timeout.addEventListener('change', onTimeInputChange);
 
   function onPriceInputChange() {
     var types = ['flat', 'bungalo', 'house', 'palace'];
@@ -96,7 +96,6 @@
     }
     window.synchronizeFields(type, price, types, prices, syncValueWithMin);
   }
-  type.addEventListener('change', onPriceInputChange);
 
   function onGuestInputChange() {
     setAllOptions(window.OPTION_GUESTS_COUNT);
@@ -131,7 +130,6 @@
       }
     }
   }
-  room.addEventListener('change', onGuestInputChange);
 
   function setSynchronizeForDefault() {
     onPriceInputChange();
@@ -140,8 +138,6 @@
   setSynchronizeForDefault();
 
   window.mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
-
-  submit.addEventListener('click', onSubmitClick);
 
   var allInputs = window.mapForm.querySelectorAll('input');
 
@@ -178,7 +174,15 @@
   function onResetClick() {
     capacity.querySelectorAll('option')[2].setAttribute('selected', '');
     price.min = 1000;
+    for (var i = 0; i < allInputs.length; i++) {
+      allInputs[i].removeAttribute('style');
+    }
   }
 
+  timein.addEventListener('change', onTimeInputChange);
+  timeout.addEventListener('change', onTimeInputChange);
+  type.addEventListener('change', onPriceInputChange);
+  room.addEventListener('change', onGuestInputChange);
+  submit.addEventListener('click', onSubmitClick);
   reset.addEventListener('click', onResetClick);
 })();

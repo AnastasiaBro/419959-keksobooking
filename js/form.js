@@ -12,6 +12,8 @@
   var capacity = window.mapForm.querySelector('#capacity');
   var submit = window.mapForm.querySelector('.form__submit');
   var reset = window.mapForm.querySelector('.form__reset');
+  var address = window.mapForm.querySelector('#address');
+  var allInputs = window.mapForm.querySelectorAll('input');
   var minPrices = {
     'bungalo': 0,
     'flat': 1000,
@@ -20,10 +22,10 @@
   };
 
   function checkCorrectData() {
-    window.address.setAttribute('readOnly', '');
-    window.address.setAttribute('required', '');
-    window.address.addEventListener('invalid', function () {
-      return (window.address.validity.valueMissing ? window.address.setCustomValidity('Обязательное поле') : window.address.setCustomValidity(''));
+    address.setAttribute('readOnly', '');
+    address.setAttribute('required', '');
+    address.addEventListener('invalid', function () {
+      return (address.validity.valueMissing ? address.setCustomValidity('Обязательное поле') : address.setCustomValidity(''));
     });
 
     title.setAttribute('minlength', '30');
@@ -139,10 +141,9 @@
 
   window.mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
 
-  var allInputs = window.mapForm.querySelectorAll('input');
-
   function onSubmitClick(evt) {
     checkBeforeSending();
+    window.addAddress(address);
 
     if (errorCount === 0) {
       evt.preventDefault();
@@ -175,6 +176,8 @@
     capacity.querySelectorAll('option')[2].setAttribute('selected', '');
     hideRedBorders();
     resetImages();
+    window.mainButton.style = '';
+    window.addAddress(address);
   }
 
   function hideRedBorders() {

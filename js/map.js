@@ -50,12 +50,8 @@
   });
 
   // это событие - нажатие на любой пин
-  window.mapPins.addEventListener('mouseup', function (evt) {
+  window.mapPins.addEventListener('click', function (evt) {
     window.showCard(evt, window.newPins);
-  });
-
-  window.mapPins.addEventListener('keydown', function (evt) {
-    window.util.isEnterEvent(evt, window.showCard);
   });
 
   function getCloseButton() {

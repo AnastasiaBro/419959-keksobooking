@@ -50,7 +50,7 @@
 
     title.addEventListener('input', function (evt) {
       var target = evt.target;
-      if (target.value.length < 30) {
+      if (target.value.length < window.MIN_LENGTH) {
         target.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
       } else {
         target.setCustomValidity('');

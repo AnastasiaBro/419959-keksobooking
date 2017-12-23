@@ -15,7 +15,7 @@
     }
   }
 
-  function showFilteredPins(array) {
+  function showFilteredPins(array, count) {
     var filteredAdverts = window.adverts.reduce(function (accumulator, currentValue, index) {
       if (array[index] === true) {
         accumulator.push(currentValue);
@@ -27,9 +27,9 @@
     hideAllPins();
 
     if (filteredAdverts.length === window.adverts.length) {
-      window.newPins = window.getRandomStartElements(window.NUMBER_OF_SHOW_PINS);
-    } else if (filteredAdverts.length > window.NUMBER_OF_SHOW_PINS) {
-      window.newPins = filteredAdverts.splice(0, window.NUMBER_OF_SHOW_PINS);
+      window.newPins = window.getRandomStartElements(count);
+    } else if (filteredAdverts.length > count) {
+      window.newPins = filteredAdverts.splice(0, count);
     } else {
       window.newPins = filteredAdverts;
     }
@@ -57,9 +57,9 @@
     window.adverts.forEach(function (advert) {
       var allAnyOptions = Object.keys(selects).length === 0;
       var allUnchekedCheckboxes = checkboxes.every(findUncheckedFeature);
-      var isSelectsPass = true;
+      var matchedSelect = true;
+      var matchedCheckbox = true;
       var advertOptions = [];
-      var isCheckboxesPass = true;
       var advertFeatures = advert.offer.features.slice();
 
       if (allAnyOptions && allUnchekedCheckboxes) {
@@ -72,17 +72,17 @@
 
         for (var value in selects) {
           if (advertOptions[value] !== selects[value]) {
-            isSelectsPass = false;
+            matchedSelect = false;
           }
         }
 
         checkboxes.forEach(function (feature) {
           if (!advertFeatures.includes(feature)) {
-            isCheckboxesPass = false;
+            matchedCheckbox = false;
           }
         });
 
-        result.push(isSelectsPass && isCheckboxesPass);
+        result.push(matchedSelect && matchedCheckbox);
       }
     });
 
@@ -108,7 +108,7 @@
     });
 
     window.debounce(function () {
-      showFilteredPins(filterProcess(selectsValues, checkboxesValues));
+      showFilteredPins(filterProcess(selectsValues, checkboxesValues), window.NUMBER_OF_SHOW_PINS);
     });
   }
 

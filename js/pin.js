@@ -9,7 +9,6 @@
     advertElement.querySelector('img').setAttribute('src', advert.author.avatar);
     return advertElement;
   }
-  window.createAllAdverts = createAllAdverts;
 
   function getRandomStartElements(count) {
     var randomIndexes = createNumbersArray(window.adverts.length);
@@ -19,7 +18,6 @@
     }
     return newPins;
   }
-  window.getRandomStartElements = getRandomStartElements;
 
   function showMapPins(array) {
     for (var i = 0; i < array.length; i++) {
@@ -36,7 +34,6 @@
     }
     return numbers;
   }
-  window.showMapPins = showMapPins;
 
   function onLoadSuccess(adverts) {
     window.adverts = adverts;
@@ -66,6 +63,10 @@
     message.textContent = errorMessage;
     window.cityMap.appendChild(message);
   }
+
+  window.createAllAdverts = createAllAdverts;
+  window.getRandomStartElements = getRandomStartElements;
+  window.showMapPins = showMapPins;
 
   window.onLoadError = onLoadError;
   window.backend.load(onLoadSuccess, onLoadError);

@@ -14,12 +14,15 @@
   var reset = window.mapForm.querySelector('.form__reset');
   var address = window.mapForm.querySelector('#address');
   var allInputs = window.mapForm.querySelectorAll('input');
+  var errorCount = 0; // счетчик ошибок
   var minPrices = {
     'bungalo': 0,
     'flat': 1000,
     'house': 5000,
     'palace': 10000
   };
+
+  window.mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
 
   function checkCorrectData() {
     address.setAttribute('readOnly', '');
@@ -139,8 +142,6 @@
   }
   setSynchronizeForDefault();
 
-  window.mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
-
   function onSubmitClick(evt) {
     checkBeforeSending();
     window.addAddress(address);
@@ -157,8 +158,6 @@
   function checkBeforeSending() {
     checkForm(allInputs);
   }
-
-  var errorCount = 0; // счетчик ошибок
 
   function checkForm(formElements) {
     errorCount = 0;

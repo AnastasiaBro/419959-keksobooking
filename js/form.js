@@ -127,6 +127,7 @@
     }
   }
 
+  // скрываем все options перед новой синхронизацией
   function setAllOptions(count) {
     for (var i = 0; i < count; i++) {
       capacity.querySelectorAll('option')[i].setAttribute('class', 'hidden');

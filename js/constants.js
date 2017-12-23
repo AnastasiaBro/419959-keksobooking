@@ -12,4 +12,5 @@
   window.MAIN_PIN_HEIGHT = 62;
   window.MAIN_POINTER_HEIGHT = 22;
   window.DEBOUNCE_INTERVAL = 500;
+  window.FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 })();

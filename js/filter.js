@@ -15,6 +15,7 @@
     }
   }
 
+  // после фильтрации полученный массив передаем в showMapPins
   function showFilteredPins(array, count) {
     var filteredAdverts = window.adverts.reduce(function (accumulator, currentValue, index) {
       if (array[index] === true) {

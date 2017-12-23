@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-
   var avatarChooser = window.avatarContainer.querySelector('input[type=file]');
   var photoChooser = window.photoContainer.querySelector('input[type=file]');
 
@@ -11,7 +9,7 @@
     var file = fileChooser.files[0];
     var fileName = file.name.toLowerCase();
 
-    var matches = FILE_TYPES.some(function (it) {
+    var matches = window.FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
     });
 

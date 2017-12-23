@@ -12,6 +12,9 @@
   var capacity = window.mapForm.querySelector('#capacity');
   var submit = window.mapForm.querySelector('.form__submit');
   var reset = window.mapForm.querySelector('.form__reset');
+  var address = window.mapForm.querySelector('#address');
+  var allInputs = window.mapForm.querySelectorAll('input');
+  var errorCount = 0; // счетчик ошибок
   var minPrices = {
     'bungalo': 0,
     'flat': 1000,
@@ -19,11 +22,13 @@
     'palace': 10000
   };
 
+  window.mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
+
   function checkCorrectData() {
-    window.address.setAttribute('readOnly', '');
-    window.address.setAttribute('required', '');
-    window.address.addEventListener('invalid', function () {
-      return (window.address.validity.valueMissing ? window.address.setCustomValidity('Обязательное поле') : window.address.setCustomValidity(''));
+    address.setAttribute('readOnly', '');
+    address.setAttribute('required', '');
+    address.addEventListener('invalid', function () {
+      return (address.validity.valueMissing ? address.setCustomValidity('Обязательное поле') : address.setCustomValidity(''));
     });
 
     title.setAttribute('minlength', '30');
@@ -53,7 +58,7 @@
     });
 
     price.setAttribute('type', 'number');
-    price.setAttribute('value', '1000');
+    price.setAttribute('placeholder', '1000');
     price.setAttribute('min', '0');
     price.setAttribute('max', '1000000');
     price.setAttribute('required', '');
@@ -137,12 +142,9 @@
   }
   setSynchronizeForDefault();
 
-  window.mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
-
-  var allInputs = window.mapForm.querySelectorAll('input');
-
   function onSubmitClick(evt) {
     checkBeforeSending();
+    window.addAddress(address);
 
     if (errorCount === 0) {
       evt.preventDefault();
@@ -156,8 +158,6 @@
   function checkBeforeSending() {
     checkForm(allInputs);
   }
-
-  var errorCount = 0; // счетчик ошибок
 
   function checkForm(formElements) {
     errorCount = 0;
@@ -173,9 +173,27 @@
 
   function onResetClick() {
     capacity.querySelectorAll('option')[2].setAttribute('selected', '');
-    price.min = 1000;
+    hideRedBorders();
+    resetImages();
+    window.mainButton.style = '';
+    window.addAddress(address);
+  }
+
+  function hideRedBorders() {
     for (var i = 0; i < allInputs.length; i++) {
       allInputs[i].removeAttribute('style');
+    }
+  }
+
+  function resetImages() {
+    var allImages = window.photoContainer.querySelectorAll('img');
+    if (window.preview.src !== 'img/muffin.png') {
+      window.preview.src = 'img/muffin.png';
+    }
+    if (allImages) {
+      for (var i = 0; i < allImages.length; i++) {
+        window.photoContainer.removeChild(allImages[i]);
+      }
     }
   }
 

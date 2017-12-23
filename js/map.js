@@ -18,10 +18,10 @@
     }
   }
 
-  function addAddress() {
+  function addAddress(input) {
     var left = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10);
     var top = parseInt(getComputedStyle(window.mainButton).getPropertyValue('top'), 10);
-    addressCoordinates.setAttribute('value', 'x: ' + left + ' y: ' + (top + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
+    input.setAttribute('value', 'x: ' + left + ' y: ' + (top + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
   }
 
   function openMap() {
@@ -32,7 +32,7 @@
       window.newPins = window.getRandomStartElements(window.NUMBER_OF_SHOW_PINS);
       window.showMapPins(window.newPins);
     }
-    addAddress();
+    addAddress(addressCoordinates);
 
     var filterBox = document.querySelector('.map__filters');
     filterBox.addEventListener('change', window.onFiltersChange);
@@ -50,12 +50,8 @@
   });
 
   // это событие - нажатие на любой пин
-  window.mapPins.addEventListener('mouseup', function (evt) {
+  window.mapPins.addEventListener('click', function (evt) {
     window.showCard(evt, window.newPins);
-  });
-
-  window.mapPins.addEventListener('keydown', function (evt) {
-    window.util.isEnterEvent(evt, window.showCard);
   });
 
   function getCloseButton() {
@@ -143,6 +139,6 @@
   });
 
   window.getCloseButton = getCloseButton;
-  window.getAddress = addressCoordinates;
+  window.addAddress = addAddress;
   window.closeAdvert = closeAdvert;
 })();

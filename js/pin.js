@@ -1,8 +1,9 @@
 'use strict';
 
 (function () {
-  function createAllAdverts(advert) {
+  function createOnePin(advert) {
     var advertElement = document.createElement('button');
+    advertElement.setAttribute('tabindex', '0');
     advertElement.setAttribute('class', 'map__pin');
     advertElement.setAttribute('style', 'left: ' + advert.location.x + 'px; top: ' + (advert.location.y - window.PIN_HEIGHT / 2 - window.POINTER_HEIGHT) + 'px;');
     advertElement.innerHTML = '<img width="40" height="40" draggable="false">';
@@ -22,7 +23,7 @@
   function showMapPins(array) {
     for (var i = 0; i < array.length; i++) {
       var fragment = document.createDocumentFragment();
-      fragment.appendChild(createAllAdverts(array[i]));
+      fragment.appendChild(createOnePin(array[i]));
       window.mapPins.appendChild(fragment);
     }
   }
@@ -64,7 +65,6 @@
     window.cityMap.appendChild(message);
   }
 
-  window.createAllAdverts = createAllAdverts;
   window.getRandomStartElements = getRandomStartElements;
   window.showMapPins = showMapPins;
 

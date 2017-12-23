@@ -3,6 +3,7 @@
 (function () {
   var addressCoordinates = window.mapForm.querySelector('#address');
   var width = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10) * 2;
+  window.mainButton.setAttribute('tabindex', '0');
 
   function disableForm(fieldsetCount) {
     for (var i = 0; i < fieldsetCount; i++) {
@@ -56,6 +57,7 @@
 
   function getCloseButton() {
     var closeButton = window.cityMap.querySelector('.popup__close');
+    closeButton.setAttribute('tabindex', '0');
     document.addEventListener('keydown', onPopupEscPress);
     closeButton.addEventListener('mouseup', function () {
       closeAdvert();
@@ -87,7 +89,7 @@
       y: evt.clientY
     };
 
-    var onMouseMove = function (moveEvt) {
+    function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
 
       var shift = {
@@ -106,11 +108,11 @@
       // topPin - координата верхней границы метки, поэтому вычитаю из 100 высоту метки
       // с учетом того, что у нее translate -50% (поэтому делю на 2) и еще есть высота псевдоэлемента
 
-      if (topPin < (100 - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT)) {
-        topPin = 100 - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT;
+      if (topPin < (window.LIMIT_TOP - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT)) {
+        topPin = window.LIMIT_TOP - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT;
         window.mapPins.setAttribute('style', 'cursor: none');
-      } else if (topPin > 500 - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT) {
-        topPin = 500 - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT;
+      } else if (topPin > window.LIMIT_BOTTOM - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT) {
+        topPin = window.LIMIT_BOTTOM - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT;
         window.mapPins.setAttribute('style', 'cursor: none');
       }
 
@@ -124,15 +126,15 @@
       window.mainButton.style.left = leftPin + 'px';
 
       addressCoordinates.setAttribute('value', 'x: ' + leftPin + ' y: ' + (topPin + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
-    };
+    }
 
-    var onMouseUp = function (upEvt) {
+    function onMouseUp(upEvt) {
       upEvt.preventDefault();
       window.mapPins.setAttribute('style', 'cursor: auto');
 
       window.mapPins.removeEventListener('mousemove', onMouseMove);
       window.mapPins.removeEventListener('mouseup', onMouseUp);
-    };
+    }
 
     window.mapPins.addEventListener('mousemove', onMouseMove);
     window.mapPins.addEventListener('mouseup', onMouseUp);

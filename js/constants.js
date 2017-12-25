@@ -16,5 +16,9 @@
   window.LIMIT_BOTTOM = 500;
   window.TIMEOUT = 10000;
   window.MIN_LENGTH = 30;
+  window.MIN_FLAT_PRICE = 1000;
+  window.MIN_BUNGALO_PRICE = 0;
+  window.MIN_HOUSE_PRICE = 5000;
+  window.MIN_PALACE_PRICE = 10000;
   window.FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 })();

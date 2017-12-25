@@ -21,4 +21,6 @@
   window.MIN_HOUSE_PRICE = 5000;
   window.MIN_PALACE_PRICE = 10000;
   window.FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  window.TIMEIN_VALUES = ['12:00', '13:00', '14:00'];
+  window.TIMEOUT_VALUES = ['12:00', '13:00', '14:00'];
 })();

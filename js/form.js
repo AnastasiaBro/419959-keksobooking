@@ -3,8 +3,6 @@
 (function () {
   var timein = window.mapForm.querySelector('#timein');
   var timeout = window.mapForm.querySelector('#timeout');
-  var timeinArray = ['12:00', '13:00', '14:00'];
-  var timeoutArray = ['12:00', '13:00', '14:00'];
   var price = window.mapForm.querySelector('#price');
   var title = window.mapForm.querySelector('#title');
   var type = window.mapForm.querySelector('#type');
@@ -93,7 +91,7 @@
     function syncValues(element, value) {
       element.value = value;
     }
-    window.synchronizeFields(firstField, secondField, timeoutArray, timeinArray, syncValues);
+    window.synchronizeFields(firstField, secondField, window.TIMEOUT_VALUES, window.TIMEIN_VALUES, syncValues);
   }
 
   function onPriceInputChange() {

@@ -16,7 +16,7 @@
   }
 
   // после фильтрации полученный массив передаем в showMapPins
-  function showFilteredPins(array, count) {
+  function filterPins(array, count) {
     var filteredAdverts = window.adverts.reduce(function (accumulator, currentValue, index) {
       if (array[index] === true) {
         accumulator.push(currentValue);
@@ -109,7 +109,7 @@
     });
 
     window.debounce(function () {
-      showFilteredPins(setFilterProcess(selectsValues, checkboxesValues), window.NUMBER_OF_SHOW_PINS);
+      filterPins(setFilterProcess(selectsValues, checkboxesValues), window.NUMBER_OF_SHOW_PINS);
     });
   }
 

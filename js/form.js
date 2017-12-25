@@ -13,12 +13,6 @@
   var address = window.mapForm.querySelector('#address');
   var allInputs = window.mapForm.querySelectorAll('input');
   var errorCount = 0; // счетчик ошибок
-  var minPrices = {
-    'bungalo': 0,
-    'flat': 1000,
-    'house': 5000,
-    'palace': 10000
-  };
 
   window.mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
 
@@ -70,7 +64,7 @@
   function checkPriceValidity() {
     var validity = price.validity;
     if (validity.rangeUnderflow) {
-      price.setCustomValidity('Цена должна быть не меньше ' + minPrices[type.options[type.selectedIndex].value] + ' руб.');
+      price.setCustomValidity('Цена должна быть не меньше ' + window.MIN_PRICES[type.options[type.selectedIndex].value] + ' руб.');
     } else if (validity.rangeOverflow) {
       price.setCustomValidity('Цена должна быть не больше 1 000 000 руб.');
     } else if (validity.valueMissing) {

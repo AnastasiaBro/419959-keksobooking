@@ -54,10 +54,10 @@
 
   function setFilterProcess(selects, checkboxes) {
     var results = [];
+    var allUnchekedCheckboxes = checkboxes.every(findUncheckedFeature);
 
     window.adverts.forEach(function (advert) {
       var allAnyOptions = Object.keys(selects).length === 0;
-      var allUnchekedCheckboxes = checkboxes.every(findUncheckedFeature);
       var matchedSelect = true;
       var matchedCheckbox = true;
       var advertOptions = [];

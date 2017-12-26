@@ -101,27 +101,28 @@
 
   function onGuestInputChange() {
     setAllOptions(window.OPTION_GUESTS_COUNT);
-    switch (room.value) {
-      case '1':
-        capacity.querySelectorAll('option')[2].classList.remove('hidden');
-        capacity.value = 1;
-        break;
-      case '2':
-        capacity.querySelectorAll('option')[1].classList.remove('hidden');
-        capacity.querySelectorAll('option')[2].classList.remove('hidden');
-        capacity.value = 2;
-        break;
-      case '3':
-        capacity.querySelectorAll('option')[0].classList.remove('hidden');
-        capacity.querySelectorAll('option')[1].classList.remove('hidden');
-        capacity.querySelectorAll('option')[2].classList.remove('hidden');
-        capacity.value = 3;
-        break;
-      case '100':
-        capacity.querySelectorAll('option')[3].classList.remove('hidden');
-        capacity.value = 0;
-        break;
-    }
+    var capacityMapping = {
+      '1': {
+        value: 1,
+        items: [2]
+      },
+      '2': {
+        value: 2,
+        items: [1, 2]
+      },
+      '3': {
+        value: 3,
+        items: [0, 1, 2]
+      },
+      '100': {
+        value: 0,
+        items: [3]
+      }
+    };
+    capacityMapping[room.value].items.forEach(function (item) {
+      capacity.querySelectorAll('option')[item].classList.remove('hidden');
+    });
+    capacity.value = capacityMapping[room.value].value;
   }
 
   // скрываем все options перед новой синхронизацией

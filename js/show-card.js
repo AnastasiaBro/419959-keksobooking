@@ -8,7 +8,11 @@
 
   function showCard(evt, array) {
     var target = evt.target;
-    if (target.getAttribute('class') !== 'map__pin map__pin--main' && (target.getAttribute('class') === 'map__pin' || (target.tagName === 'IMG' && target.parentNode.getAttribute('class') !== 'map__pin map__pin--main'))) {
+    var elementClass = target.getAttribute('class');
+    var elementTag = target.tagName;
+    var elementParentClass = target.parentNode.getAttribute('class');
+
+    if (elementClass !== 'map__pin map__pin--main' && (elementClass === 'map__pin' || (elementTag === 'IMG' && elementParentClass !== 'map__pin map__pin--main'))) {
       if (target.tagName === 'IMG') {
         target = target.parentNode;
       }

@@ -189,10 +189,8 @@
     if (window.preview.src !== 'img/muffin.png') {
       window.preview.src = 'img/muffin.png';
     }
-    if (allImages) {
-      for (var i = 0; i < allImages.length; i++) {
-        window.photoContainer.removeChild(allImages[i]);
-      }
+    for (var i = 0; i < allImages.length; i++) {
+      window.photoContainer.removeChild(allImages[i]);
     }
   }
 

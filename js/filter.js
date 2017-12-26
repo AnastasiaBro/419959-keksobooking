@@ -53,11 +53,11 @@
   }
 
   function setFilterProcess(selects, checkboxes) {
-    var results = [];
+    var allAnyOptions = Object.keys(selects).length === 0;
     var allUnchekedCheckboxes = checkboxes.every(findUncheckedFeature);
+    var results = [];
 
     window.adverts.forEach(function (advert) {
-      var allAnyOptions = Object.keys(selects).length === 0;
       var matchedSelect = true;
       var matchedCheckbox = true;
       var advertOptions = [];

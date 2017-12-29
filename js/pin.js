@@ -21,11 +21,11 @@
   }
 
   function showMapPins(array) {
+    var fragment = document.createDocumentFragment();
     for (var i = 0; i < array.length; i++) {
-      var fragment = document.createDocumentFragment();
       fragment.appendChild(createOnePin(array[i]));
-      window.elements.mapPins.appendChild(fragment);
     }
+    window.elements.mapPins.appendChild(fragment);
   }
 
   function createNumbersArray(count) {

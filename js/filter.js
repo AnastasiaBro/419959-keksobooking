@@ -102,7 +102,7 @@
 
     window.debounce(function () {
       var results = setFilterProcess(selectsValues, checkboxesValues);
-      filterPins(results, window.NUMBER_OF_SHOW_PINS);
+      filterPins(results, window.constants.NUMBER_OF_SHOW_PINS);
     });
   }
 

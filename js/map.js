@@ -10,11 +10,11 @@
       window.mapForm.querySelectorAll('fieldset')[i].setAttribute('disabled', 'disabled');
     }
   }
-  disableForm(window.FIELDSET_COUNT);
+  disableForm(window.constants.FIELDSET_COUNT);
 
   // активация формы, произойдет при openMap
   function activeForm() {
-    for (var i = 0; i < window.FIELDSET_COUNT; i++) {
+    for (var i = 0; i < window.constants.FIELDSET_COUNT; i++) {
       window.mapForm.querySelectorAll('fieldset')[i].removeAttribute('disabled');
     }
   }
@@ -22,7 +22,7 @@
   function addAddress(input) {
     var left = parseInt(getComputedStyle(window.mainButton).getPropertyValue('left'), 10);
     var top = parseInt(getComputedStyle(window.mainButton).getPropertyValue('top'), 10);
-    input.setAttribute('value', 'x: ' + left + ' y: ' + (top + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
+    input.setAttribute('value', 'x: ' + left + ' y: ' + (top + window.constants.MAIN_PIN_HEIGHT / 2 + window.constants.MAIN_POINTER_HEIGHT));
   }
 
   function openMap() {
@@ -30,7 +30,7 @@
     window.mapForm.classList.remove('notice__form--disabled');
     activeForm();
     if (window.adverts) {
-      window.newPins = window.getRandomStartElements(window.NUMBER_OF_SHOW_PINS);
+      window.newPins = window.getRandomStartElements(window.constants.NUMBER_OF_SHOW_PINS);
       window.showMapPins(window.newPins);
     }
     addAddress(addressCoordinates);
@@ -108,11 +108,11 @@
       // topPin - координата верхней границы метки, поэтому вычитаю из 100 высоту метки
       // с учетом того, что у нее translate -50% (поэтому делю на 2) и еще есть высота псевдоэлемента
 
-      if (topPin < (window.LIMIT_TOP - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT)) {
-        topPin = window.LIMIT_TOP - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT;
+      if (topPin < (window.constants.LIMIT_TOP - window.constants.MAIN_PIN_HEIGHT / 2 - window.constants.MAIN_POINTER_HEIGHT)) {
+        topPin = window.constants.LIMIT_TOP - window.constants.MAIN_PIN_HEIGHT / 2 - window.constants.MAIN_POINTER_HEIGHT;
         window.mapPins.setAttribute('style', 'cursor: none');
-      } else if (topPin > window.LIMIT_BOTTOM - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT) {
-        topPin = window.LIMIT_BOTTOM - window.MAIN_PIN_HEIGHT / 2 - window.MAIN_POINTER_HEIGHT;
+      } else if (topPin > window.constants.LIMIT_BOTTOM - window.constants.MAIN_PIN_HEIGHT / 2 - window.constants.MAIN_POINTER_HEIGHT) {
+        topPin = window.constants.LIMIT_BOTTOM - window.constants.MAIN_PIN_HEIGHT / 2 - window.constants.MAIN_POINTER_HEIGHT;
         window.mapPins.setAttribute('style', 'cursor: none');
       }
 
@@ -125,7 +125,7 @@
       window.mainButton.style.top = topPin + 'px';
       window.mainButton.style.left = leftPin + 'px';
 
-      addressCoordinates.setAttribute('value', 'x: ' + leftPin + ' y: ' + (topPin + window.MAIN_PIN_HEIGHT / 2 + window.MAIN_POINTER_HEIGHT));
+      addressCoordinates.setAttribute('value', 'x: ' + leftPin + ' y: ' + (topPin + window.constants.MAIN_PIN_HEIGHT / 2 + window.constants.MAIN_POINTER_HEIGHT));
     }
 
     function onMouseUp(upEvt) {

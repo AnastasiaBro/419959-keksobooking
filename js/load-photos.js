@@ -9,7 +9,7 @@
     var file = fileChooser.files[0];
     var fileName = file.name.toLowerCase();
 
-    var matches = window.FILE_TYPES.some(function (it) {
+    var matches = window.constants.FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
     });
 

@@ -1,6 +1,11 @@
 'use strict';
 
 (function () {
+  var translate = {
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalo: 'Бунгало'
+  };
   var similarMapCardTemplate = document.querySelector('template').content;
   var mapCardTemplate = similarMapCardTemplate.querySelector('article.map__card');
 
@@ -20,11 +25,6 @@
   }
 
   function translatePlaceType(englishType) {
-    var translate = {
-      flat: 'Квартира',
-      house: 'Дом',
-      bungalo: 'Бунгало'
-    };
     return translate[englishType];
   }
 

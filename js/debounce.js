@@ -7,6 +7,6 @@
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
     }
-    lastTimeout = window.setTimeout(callback, window.DEBOUNCE_INTERVAL);
+    lastTimeout = window.setTimeout(callback, window.constants.DEBOUNCE_INTERVAL);
   };
 })();

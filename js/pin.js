@@ -5,7 +5,7 @@
     var advertElement = document.createElement('button');
     advertElement.setAttribute('tabindex', '0');
     advertElement.setAttribute('class', 'map__pin');
-    advertElement.setAttribute('style', 'left: ' + advert.location.x + 'px; top: ' + (advert.location.y - window.PIN_HEIGHT / 2 - window.POINTER_HEIGHT) + 'px;');
+    advertElement.setAttribute('style', 'left: ' + advert.location.x + 'px; top: ' + (advert.location.y - window.constants.PIN_HEIGHT / 2 - window.constants.POINTER_HEIGHT) + 'px;');
     advertElement.innerHTML = '<img width="40" height="40" draggable="false">';
     advertElement.querySelector('img').setAttribute('src', advert.author.avatar);
     return advertElement;

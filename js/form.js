@@ -91,12 +91,12 @@
     function syncValues(element, value) {
       element.value = value;
     }
-    window.synchronizeFields(firstField, secondField, window.TIMEOUT_VALUES, window.TIMEIN_VALUES, syncValues);
+    window.synchronizeFields(firstField, secondField, window.constants.TIMEOUT_VALUES, window.constants.TIMEIN_VALUES, syncValues);
   }
 
   function onPriceInputChange() {
     var types = ['flat', 'bungalo', 'house', 'palace'];
-    var prices = [window.MIN_FLAT_PRICE, window.MIN_BUNGALO_PRICE, window.MIN_HOUSE_PRICE, window.MIN_PALACE_PRICE];
+    var prices = [window.constants.MIN_FLAT_PRICE, window.constants.MIN_BUNGALO_PRICE, window.constants.MIN_HOUSE_PRICE, window.constants.MIN_PALACE_PRICE];
 
     function syncValueWithMin(element, value) {
       element.min = value;
@@ -106,7 +106,7 @@
   }
 
   function onGuestInputChange() {
-    setAllOptions(window.OPTION_GUESTS_COUNT);
+    setAllOptions(window.constants.OPTION_GUESTS_COUNT);
     var capacityMapping = {
       '1': {
         value: 1,
@@ -178,7 +178,7 @@
 
   function onResetClick() {
     capacity.querySelectorAll('option')[2].setAttribute('selected', '');
-    price.min = window.MIN_FLAT_PRICE;
+    price.min = window.constants.MIN_FLAT_PRICE;
     hideRedBorders();
     resetImages();
     window.mainButton.style = '';

@@ -10,12 +10,12 @@
       return array.splice(index, 1);
     },
     isEscEvent: function (evt, action) {
-      if (evt.keyCode === window.ESC_KEYCODE) {
+      if (evt.keyCode === window.constants.ESC_KEYCODE) {
         action();
       }
     },
     isEnterEvent: function (evt, action) {
-      if (evt.keyCode === window.ENTER_KEYCODE) {
+      if (evt.keyCode === window.constants.ENTER_KEYCODE) {
         action(evt);
       }
     }

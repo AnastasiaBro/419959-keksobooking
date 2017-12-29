@@ -24,7 +24,7 @@
     for (var i = 0; i < array.length; i++) {
       var fragment = document.createDocumentFragment();
       fragment.appendChild(createOnePin(array[i]));
-      window.mapPins.appendChild(fragment);
+      window.elements.mapPins.appendChild(fragment);
     }
   }
 
@@ -62,7 +62,7 @@
     style.fontSize = '20px';
 
     message.textContent = errorMessage;
-    window.cityMap.appendChild(message);
+    window.elements.cityMap.appendChild(message);
   }
 
   window.getRandomStartElements = getRandomStartElements;

@@ -2,15 +2,15 @@
 
 (function () {
   function closeCardAfterFilter() {
-    if (window.mapPins.querySelector('.map__pin--active')) {
+    if (window.elements.mapPins.querySelector('.map__pin--active')) {
       window.closeAdvert();
     }
   }
 
   function hideAllPins() {
-    var pinElements = window.mapPins.querySelectorAll('.map__pin');
+    var pinElements = window.elements.mapPins.querySelectorAll('.map__pin');
     for (var i = 1; i < pinElements.length; i++) {
-      window.mapPins.removeChild(pinElements[i]);
+      window.elements.mapPins.removeChild(pinElements[i]);
     }
   }
 

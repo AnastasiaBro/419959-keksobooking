@@ -7,20 +7,20 @@
     'house': 5000,
     'palace': 10000
   };
-  var timein = window.mapForm.querySelector('#timein');
-  var timeout = window.mapForm.querySelector('#timeout');
-  var price = window.mapForm.querySelector('#price');
-  var title = window.mapForm.querySelector('#title');
-  var type = window.mapForm.querySelector('#type');
-  var room = window.mapForm.querySelector('#room_number');
-  var capacity = window.mapForm.querySelector('#capacity');
-  var submit = window.mapForm.querySelector('.form__submit');
-  var reset = window.mapForm.querySelector('.form__reset');
-  var address = window.mapForm.querySelector('#address');
-  var allInputs = window.mapForm.querySelectorAll('input');
+  var timein = window.elements.mapForm.querySelector('#timein');
+  var timeout = window.elements.mapForm.querySelector('#timeout');
+  var price = window.elements.mapForm.querySelector('#price');
+  var title = window.elements.mapForm.querySelector('#title');
+  var type = window.elements.mapForm.querySelector('#type');
+  var room = window.elements.mapForm.querySelector('#room_number');
+  var capacity = window.elements.mapForm.querySelector('#capacity');
+  var submit = window.elements.mapForm.querySelector('.form__submit');
+  var reset = window.elements.mapForm.querySelector('.form__reset');
+  var address = window.elements.mapForm.querySelector('#address');
+  var allInputs = window.elements.mapForm.querySelectorAll('input');
   var errorCount = 0; // счетчик ошибок
 
-  window.mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
+  window.elements.mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
 
   function checkCorrectData() {
     address.setAttribute('readOnly', '');
@@ -48,7 +48,7 @@
 
     title.addEventListener('input', function (evt) {
       var target = evt.target;
-      if (target.value.length < window.MIN_LENGTH) {
+      if (target.value.length < window.constants.MIN_LENGTH) {
         target.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
       } else {
         target.setCustomValidity('');
@@ -153,8 +153,8 @@
 
     if (errorCount === 0) {
       evt.preventDefault();
-      window.backend.save(new FormData(window.mapForm), function () {
-        window.mapForm.reset();
+      window.backend.save(new FormData(window.elements.mapForm), function () {
+        window.elements.mapForm.reset();
         onResetClick();
       }, window.onLoadError);
     }
@@ -181,7 +181,7 @@
     price.min = window.constants.MIN_FLAT_PRICE;
     hideRedBorders();
     resetImages();
-    window.mainButton.style = '';
+    window.elements.mainButton.style = '';
     window.addAddress(address);
   }
 
@@ -192,12 +192,12 @@
   }
 
   function resetImages() {
-    var allImages = window.photoContainer.querySelectorAll('img');
-    if (window.preview.src !== 'img/muffin.png') {
-      window.preview.src = 'img/muffin.png';
+    var allImages = window.elements.photoContainer.querySelectorAll('img');
+    if (window.elements.preview.src !== 'img/muffin.png') {
+      window.elements.preview.src = 'img/muffin.png';
     }
     for (var i = 0; i < allImages.length; i++) {
-      window.photoContainer.removeChild(allImages[i]);
+      window.elements.photoContainer.removeChild(allImages[i]);
     }
   }
 

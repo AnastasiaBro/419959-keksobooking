@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  var avatarChooser = window.avatarContainer.querySelector('input[type=file]');
-  var photoChooser = window.photoContainer.querySelector('input[type=file]');
+  var avatarChooser = window.elements.avatarContainer.querySelector('input[type=file]');
+  var photoChooser = window.elements.photoContainer.querySelector('input[type=file]');
 
   function onLoadChange(evt) {
     var fileChooser = evt.target;
@@ -20,14 +20,14 @@
         var result = reader.result;
         switch (fileChooser) {
           case avatarChooser:
-            window.preview.src = result;
+            window.elements.preview.src = result;
             break;
           case photoChooser:
             var imgElement = document.createElement('img');
             imgElement.src = result;
             imgElement.style.maxWidth = '70px';
             imgElement.style.maxHeight = '70px';
-            window.photoContainer.appendChild(imgElement);
+            window.elements.photoContainer.appendChild(imgElement);
             break;
         }
       });

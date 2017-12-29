@@ -23,10 +23,4 @@
   window.FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   window.TIMEIN_VALUES = ['12:00', '13:00', '14:00'];
   window.TIMEOUT_VALUES = ['12:00', '13:00', '14:00'];
-  window.MIN_PRICES = {
-    'bungalo': 0,
-    'flat': 1000,
-    'house': 5000,
-    'palace': 10000
-  };
 })();

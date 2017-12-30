@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var minPrices = {
+  var minPrice = {
     'bungalo': 0,
     'flat': 1000,
     'house': 5000,
@@ -70,7 +70,7 @@
   function checkPriceValidity() {
     var validity = price.validity;
     if (validity.rangeUnderflow) {
-      price.setCustomValidity('Цена должна быть не меньше ' + minPrices[type.options[type.selectedIndex].value] + ' руб.');
+      price.setCustomValidity('Цена должна быть не меньше ' + minPrice[type.options[type.selectedIndex].value] + ' руб.');
     } else if (validity.rangeOverflow) {
       price.setCustomValidity('Цена должна быть не больше 1 000 000 руб.');
     } else if (validity.valueMissing) {

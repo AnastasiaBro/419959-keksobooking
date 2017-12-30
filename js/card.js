@@ -24,10 +24,6 @@
     });
   }
 
-  function translatePlaceType(englishType) {
-    return Translation[englishType];
-  }
-
   function addCorrectRoomEnding(advertForRoom) {
     var ending = '';
     if (advertForRoom.offer.rooms % 5 !== 0 && advertForRoom.offer.rooms !== 0) {
@@ -51,7 +47,7 @@
     advertElement.querySelector('h3').textContent = advert.offer.title;
     advertElement.querySelector('small').textContent = advert.offer.address;
     advertElement.querySelector('.popup__price').textContent = advert.offer.price + ' ' + String.fromCharCode(8381) + ' / ночь';
-    advertElement.querySelector('h4').textContent = translatePlaceType(advert.offer.type.toUpperCase());
+    advertElement.querySelector('h4').textContent = Translation[advert.offer.type.toUpperCase()];
 
     textElements[2].textContent = advert.offer.rooms + ' комнат' + addCorrectRoomEnding(advert) + ' для ' + advert.offer.guests + ' гост' + addCorrectGuestEnding(advert);
     textElements[3].textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;

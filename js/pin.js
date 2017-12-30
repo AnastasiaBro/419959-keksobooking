@@ -22,9 +22,12 @@
 
   function showMapPins(array) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < array.length; i++) {
+    /* for (var i = 0; i < array.length; i++) {
       fragment.appendChild(createOnePin(array[i]));
-    }
+    }*/
+    array.forEach(function (item) {
+      fragment.appendChild(createOnePin(item));
+    });
     window.elements.mapPins.appendChild(fragment);
   }
 

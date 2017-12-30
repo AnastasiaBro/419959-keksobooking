@@ -15,7 +15,7 @@
   }
 
   // после фильтрации полученный массив передаем в showMapPins
-  function filterPins(array, count) {
+  function getFilteredPins(array, count) {
     closeCardAfterFilter();
     hideAllPins();
 
@@ -104,7 +104,7 @@
 
     window.debounce(function () {
       var results = setFilterProcess(selectsValues, checkboxesValues);
-      filterPins(results, window.constants.NUMBER_OF_SHOW_PINS);
+      getFilteredPins(results, window.constants.NUMBER_OF_SHOW_PINS);
     });
   }
 

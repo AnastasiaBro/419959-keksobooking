@@ -8,18 +8,22 @@
 
   function showCard(evt, array) {
     var target = evt.target;
-    if (target.getAttribute('class') !== 'map__pin map__pin--main' && (target.getAttribute('class') === 'map__pin' || (target.tagName === 'IMG' && target.parentNode.getAttribute('class') !== 'map__pin map__pin--main'))) {
+    var element = target.getAttribute('class');
+    var elementTag = target.tagName;
+    var elementParent = target.parentNode.getAttribute('class');
+
+    if (element !== 'map__pin map__pin--main' && (element === 'map__pin' || (elementTag === 'IMG' && elementParent !== 'map__pin map__pin--main'))) {
       if (target.tagName === 'IMG') {
         target = target.parentNode;
       }
 
-      if (window.cityMap.querySelector('.map__card')) {
-        var mapCard = window.cityMap.querySelector('.map__card');
-        window.cityMap.removeChild(mapCard);
+      if (window.elements.cityMap.querySelector('.map__card')) {
+        var mapCard = window.elements.cityMap.querySelector('.map__card');
+        window.elements.cityMap.removeChild(mapCard);
       }
 
-      if (window.mapPins.querySelector('.map__pin--active')) {
-        window.mapPins.querySelector('.map__pin--active').classList.remove('map__pin--active');
+      if (window.elements.mapPins.querySelector('.map__pin--active')) {
+        window.elements.mapPins.querySelector('.map__pin--active').classList.remove('map__pin--active');
       }
 
       target.classList.add('map__pin--active');
@@ -32,14 +36,14 @@
   function findRightAdvert(array) {
     var pinIndex;
     for (var i = 1; i <= array.length; i++) {
-      if (window.mapPins.querySelectorAll('.map__pin')[i].getAttribute('class') === 'map__pin map__pin--active') {
+      if (window.elements.mapPins.querySelectorAll('.map__pin')[i].getAttribute('class') === 'map__pin map__pin--active') {
         pinIndex = i - 1;
       }
     }
 
     var fragment = document.createDocumentFragment();
     fragment.appendChild(window.createOneAdvert(array[pinIndex]));
-    window.cityMap.appendChild(fragment);
+    window.elements.cityMap.appendChild(fragment);
   }
 
   window.showCard = showCard;

@@ -1,28 +1,26 @@
 'use strict';
 
 (function () {
-  var timein = window.mapForm.querySelector('#timein');
-  var timeout = window.mapForm.querySelector('#timeout');
-  var timeinArray = ['12:00', '13:00', '14:00'];
-  var timeoutArray = ['12:00', '13:00', '14:00'];
-  var price = window.mapForm.querySelector('#price');
-  var title = window.mapForm.querySelector('#title');
-  var type = window.mapForm.querySelector('#type');
-  var room = window.mapForm.querySelector('#room_number');
-  var capacity = window.mapForm.querySelector('#capacity');
-  var submit = window.mapForm.querySelector('.form__submit');
-  var reset = window.mapForm.querySelector('.form__reset');
-  var address = window.mapForm.querySelector('#address');
-  var allInputs = window.mapForm.querySelectorAll('input');
-  var errorCount = 0; // счетчик ошибок
-  var minPrices = {
+  var minPrice = {
     'bungalo': 0,
     'flat': 1000,
     'house': 5000,
     'palace': 10000
   };
+  var timein = window.elements.mapForm.querySelector('#timein');
+  var timeout = window.elements.mapForm.querySelector('#timeout');
+  var price = window.elements.mapForm.querySelector('#price');
+  var title = window.elements.mapForm.querySelector('#title');
+  var type = window.elements.mapForm.querySelector('#type');
+  var room = window.elements.mapForm.querySelector('#room_number');
+  var capacity = window.elements.mapForm.querySelector('#capacity');
+  var submit = window.elements.mapForm.querySelector('.form__submit');
+  var reset = window.elements.mapForm.querySelector('.form__reset');
+  var address = window.elements.mapForm.querySelector('#address');
+  var allInputs = window.elements.mapForm.querySelectorAll('input');
+  var errorCount = 0; // счетчик ошибок
 
-  window.mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
+  window.elements.mapForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
 
   function checkCorrectData() {
     address.setAttribute('readOnly', '');
@@ -50,7 +48,7 @@
 
     title.addEventListener('input', function (evt) {
       var target = evt.target;
-      if (target.value.length < window.MIN_LENGTH) {
+      if (target.value.length < window.constants.MIN_LENGTH) {
         target.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
       } else {
         target.setCustomValidity('');
@@ -64,67 +62,68 @@
     price.setAttribute('required', '');
 
     price.addEventListener('input', function () {
-      var validity = price.validity;
-      if (validity.rangeUnderflow) {
-        price.setCustomValidity('Цена должна быть не меньше ' + minPrices[type.options[type.selectedIndex].value] + ' руб.');
-      } else if (validity.rangeOverflow) {
-        price.setCustomValidity('Цена должна быть не больше 1 000 000 руб.');
-      } else if (validity.valueMissing) {
-        price.setCustomValidity('Обязательное поле');
-      } else {
-        price.setCustomValidity('');
-      }
+      checkPriceValidity();
     });
   }
   checkCorrectData();
 
-  function onTimeInputChange(evt) {
-    var firstField = timein;
-    var secondField = timeout;
-
-    if (evt.target === timeout) {
-      firstField = timeout;
-      secondField = timein;
+  function checkPriceValidity() {
+    var validity = price.validity;
+    if (validity.rangeUnderflow) {
+      price.setCustomValidity('Цена должна быть не меньше ' + minPrice[type.options[type.selectedIndex].value] + ' руб.');
+    } else if (validity.rangeOverflow) {
+      price.setCustomValidity('Цена должна быть не больше 1 000 000 руб.');
+    } else if (validity.valueMissing) {
+      price.setCustomValidity('Обязательное поле');
+    } else {
+      price.setCustomValidity('');
     }
+  }
+
+  function onTimeInputChange(evt) {
+    var firstField = evt.target === timeout ? timeout : timein;
+    var secondField = evt.target === timeout ? timein : timeout;
     function syncValues(element, value) {
       element.value = value;
     }
-    window.synchronizeFields(firstField, secondField, timeoutArray, timeinArray, syncValues);
+    window.synchronizeFields(firstField, secondField, window.constants.TIMEOUT_VALUES, window.constants.TIMEIN_VALUES, syncValues);
   }
 
   function onPriceInputChange() {
     var types = ['flat', 'bungalo', 'house', 'palace'];
-    var prices = [1000, 0, 5000, 10000];
+    var prices = [window.constants.MIN_FLAT_PRICE, window.constants.MIN_BUNGALO_PRICE, window.constants.MIN_HOUSE_PRICE, window.constants.MIN_PALACE_PRICE];
 
     function syncValueWithMin(element, value) {
       element.min = value;
     }
     window.synchronizeFields(type, price, types, prices, syncValueWithMin);
+    checkPriceValidity();
   }
 
   function onGuestInputChange() {
-    setAllOptions(window.OPTION_GUESTS_COUNT);
-    switch (room.value) {
-      case '1':
-        capacity.querySelectorAll('option')[2].classList.remove('hidden');
-        capacity.value = 1;
-        break;
-      case '2':
-        capacity.querySelectorAll('option')[1].classList.remove('hidden');
-        capacity.querySelectorAll('option')[2].classList.remove('hidden');
-        capacity.value = 2;
-        break;
-      case '3':
-        capacity.querySelectorAll('option')[0].classList.remove('hidden');
-        capacity.querySelectorAll('option')[1].classList.remove('hidden');
-        capacity.querySelectorAll('option')[2].classList.remove('hidden');
-        capacity.value = 3;
-        break;
-      case '100':
-        capacity.querySelectorAll('option')[3].classList.remove('hidden');
-        capacity.value = 0;
-        break;
-    }
+    setAllOptions(window.constants.OPTION_GUESTS_COUNT);
+    var capacityMapping = {
+      '1': {
+        value: 1,
+        items: [2]
+      },
+      '2': {
+        value: 2,
+        items: [1, 2]
+      },
+      '3': {
+        value: 3,
+        items: [0, 1, 2]
+      },
+      '100': {
+        value: 0,
+        items: [3]
+      }
+    };
+    capacityMapping[room.value].items.forEach(function (item) {
+      capacity.querySelectorAll('option')[item].classList.remove('hidden');
+    });
+    capacity.value = capacityMapping[room.value].value;
   }
 
   // скрываем все options перед новой синхронизацией
@@ -149,8 +148,8 @@
 
     if (errorCount === 0) {
       evt.preventDefault();
-      window.backend.save(new FormData(window.mapForm), function () {
-        window.mapForm.reset();
+      window.backend.save(new FormData(window.elements.mapForm), function () {
+        window.elements.mapForm.reset();
         onResetClick();
       }, window.onLoadError);
     }
@@ -174,9 +173,10 @@
 
   function onResetClick() {
     capacity.querySelectorAll('option')[2].setAttribute('selected', '');
+    price.min = window.constants.MIN_FLAT_PRICE;
     hideRedBorders();
     resetImages();
-    window.mainButton.style = '';
+    window.elements.mainButton.style = '';
     window.addAddress(address);
   }
 
@@ -187,14 +187,12 @@
   }
 
   function resetImages() {
-    var allImages = window.photoContainer.querySelectorAll('img');
-    if (window.preview.src !== 'img/muffin.png') {
-      window.preview.src = 'img/muffin.png';
+    var allImages = window.elements.photoContainer.querySelectorAll('img');
+    if (window.elements.preview.src !== 'img/muffin.png') {
+      window.elements.preview.src = 'img/muffin.png';
     }
-    if (allImages) {
-      for (var i = 0; i < allImages.length; i++) {
-        window.photoContainer.removeChild(allImages[i]);
-      }
+    for (var i = 0; i < allImages.length; i++) {
+      window.elements.photoContainer.removeChild(allImages[i]);
     }
   }
 

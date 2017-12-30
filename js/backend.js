@@ -29,7 +29,7 @@
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = window.TIMEOUT;
+    xhr.timeout = window.constants.TIMEOUT;
 
     return xhr;
   }

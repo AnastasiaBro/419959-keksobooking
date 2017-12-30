@@ -1,11 +1,13 @@
 'use strict';
 
 (function () {
-  window.cityMap = document.querySelector('.map');
-  window.mainButton = window.cityMap.querySelector('.map__pin--main'); // это пироженка
-  window.mapForm = document.querySelector('.notice__form'); // это форма
-  window.mapPins = document.querySelector('.map__pins');
-  window.avatarContainer = document.querySelector('.upload');
-  window.preview = window.avatarContainer.querySelector('img');
-  window.photoContainer = document.querySelector('.form__photo-container');
+  window.elements = {
+    cityMap: document.querySelector('.map'),
+    mainButton: document.querySelector('.map__pin--main'),
+    mapForm: document.querySelector('.notice__form'),
+    mapPins: document.querySelector('.map__pins'),
+    avatarContainer: document.querySelector('.upload'),
+    preview: document.querySelector('.notice__preview img'),
+    photoContainer: document.querySelector('.form__photo-container')
+  };
 })();

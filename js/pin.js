@@ -5,7 +5,7 @@
     var advertElement = document.createElement('button');
     advertElement.setAttribute('tabindex', '0');
     advertElement.setAttribute('class', 'map__pin');
-    advertElement.setAttribute('style', 'left: ' + advert.location.x + 'px; top: ' + (advert.location.y - window.PIN_HEIGHT / 2 - window.POINTER_HEIGHT) + 'px;');
+    advertElement.setAttribute('style', 'left: ' + advert.location.x + 'px; top: ' + (advert.location.y - window.constants.PIN_HEIGHT / 2 - window.constants.POINTER_HEIGHT) + 'px;');
     advertElement.innerHTML = '<img width="40" height="40" draggable="false">';
     advertElement.querySelector('img').setAttribute('src', advert.author.avatar);
     return advertElement;
@@ -21,11 +21,11 @@
   }
 
   function showMapPins(array) {
-    for (var i = 0; i < array.length; i++) {
-      var fragment = document.createDocumentFragment();
-      fragment.appendChild(createOnePin(array[i]));
-      window.mapPins.appendChild(fragment);
-    }
+    var fragment = document.createDocumentFragment();
+    array.forEach(function (item) {
+      fragment.appendChild(createOnePin(item));
+    });
+    window.elements.mapPins.appendChild(fragment);
   }
 
   function createNumbersArray(count) {
@@ -62,7 +62,7 @@
     style.fontSize = '20px';
 
     message.textContent = errorMessage;
-    window.cityMap.appendChild(message);
+    window.elements.cityMap.appendChild(message);
   }
 
   window.getRandomStartElements = getRandomStartElements;

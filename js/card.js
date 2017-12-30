@@ -2,9 +2,9 @@
 
 (function () {
   var Translate = {
-    flat: 'Квартира',
-    house: 'Дом',
-    bungalo: 'Бунгало'
+    FLAT: 'Квартира',
+    HOUSE: 'Дом',
+    BUNGALO: 'Бунгало'
   };
   var similarMapCardTemplate = document.querySelector('template').content;
   var mapCardTemplate = similarMapCardTemplate.querySelector('article.map__card');
@@ -51,7 +51,7 @@
     advertElement.querySelector('h3').textContent = advert.offer.title;
     advertElement.querySelector('small').textContent = advert.offer.address;
     advertElement.querySelector('.popup__price').textContent = advert.offer.price + ' ' + String.fromCharCode(8381) + ' / ночь';
-    advertElement.querySelector('h4').textContent = translatePlaceType(advert.offer.type);
+    advertElement.querySelector('h4').textContent = translatePlaceType(advert.offer.type.toUpperCase());
 
     textElements[2].textContent = advert.offer.rooms + ' комнат' + addCorrectRoomEnding(advert) + ' для ' + advert.offer.guests + ' гост' + addCorrectGuestEnding(advert);
     textElements[3].textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;

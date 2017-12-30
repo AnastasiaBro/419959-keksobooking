@@ -68,12 +68,14 @@
             break;
           }
         }
-
-        checkboxes.forEach(function (feature) {
-          if (!advertFeatures.includes(feature)) {
-            matchedCheckbox = false;
+        if (matchedSelect !== false) {
+          for (var i = 0; i < checkboxes.length; i++) {
+            if (!advertFeatures.includes(checkboxes[i])) {
+              matchedCheckbox = false;
+              break;
+            }
           }
-        });
+        }
 
         return (matchedSelect && matchedCheckbox);
       }

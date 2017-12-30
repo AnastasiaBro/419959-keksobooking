@@ -81,13 +81,8 @@
   }
 
   function onTimeInputChange(evt) {
-    var firstField = timein;
-    var secondField = timeout;
-
-    if (evt.target === timeout) {
-      firstField = timeout;
-      secondField = timein;
-    }
+    var firstField = evt.target === timeout ? timeout : timein;
+    var secondField = evt.target === timeout ? timein : timeout;
     function syncValues(element, value) {
       element.value = value;
     }

@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var Translate = {
+  var Translation = {
     FLAT: 'Квартира',
     HOUSE: 'Дом',
     BUNGALO: 'Бунгало'
@@ -25,7 +25,7 @@
   }
 
   function translatePlaceType(englishType) {
-    return Translate[englishType];
+    return Translation[englishType];
   }
 
   function addCorrectRoomEnding(advertForRoom) {

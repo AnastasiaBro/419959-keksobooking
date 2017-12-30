@@ -7,7 +7,7 @@
     mapForm: document.querySelector('.notice__form'),
     mapPins: document.querySelector('.map__pins'),
     avatarContainer: document.querySelector('.upload'),
-    preview: document.querySelector('img'),
+    preview: document.querySelector('.notice__preview img'),
     photoContainer: document.querySelector('.form__photo-container')
   };
 })();

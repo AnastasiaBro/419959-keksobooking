@@ -51,7 +51,7 @@
     var results = window.adverts.filter(function (advert) {
       var matchedSelect = true;
       var matchedCheckbox = true;
-      var advertOptions = [];
+      var advertOptions = {}; // и это тоже объект
       var advertFeatures = advert.offer.features.slice();
 
       if (allAnyOptions && allUnchekedCheckboxes) {
@@ -86,13 +86,13 @@
 
   function onFiltersChange(evt) {
     var selects = evt.currentTarget.querySelectorAll('select');
-    var selectsValues = [];
+    var selectsValues = {};
     var checkboxes = evt.currentTarget.querySelectorAll('input');
     var checkboxesValues = [];
 
     [].forEach.call(selects, function (select) {
       if (select.value !== 'any') {
-        selectsValues[select.name] = select.value;
+        selectsValues[select.name] = select.value; // теперь объект
       }
     });
 

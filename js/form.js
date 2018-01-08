@@ -7,6 +7,24 @@
     'house': 5000,
     'palace': 10000
   };
+  var capacityMapping = {
+    '1': {
+      value: 1,
+      items: [2]
+    },
+    '2': {
+      value: 2,
+      items: [1, 2]
+    },
+    '3': {
+      value: 3,
+      items: [0, 1, 2]
+    },
+    '100': {
+      value: 0,
+      items: [3]
+    }
+  };
   var timein = window.elements.mapForm.querySelector('#timein');
   var timeout = window.elements.mapForm.querySelector('#timeout');
   var price = window.elements.mapForm.querySelector('#price');
@@ -90,36 +108,17 @@
   }
 
   function onPriceInputChange() {
-    var types = ['flat', 'bungalo', 'house', 'palace'];
     var prices = [window.constants.MIN_FLAT_PRICE, window.constants.MIN_BUNGALO_PRICE, window.constants.MIN_HOUSE_PRICE, window.constants.MIN_PALACE_PRICE];
 
     function syncValueWithMin(element, value) {
       element.min = value;
     }
-    window.synchronizeFields(type, price, types, prices, syncValueWithMin);
+    window.synchronizeFields(type, price, window.constants.TYPES, prices, syncValueWithMin);
     checkPriceValidity();
   }
 
   function onGuestInputChange() {
     setAllOptions(window.constants.OPTION_GUESTS_COUNT);
-    var capacityMapping = {
-      '1': {
-        value: 1,
-        items: [2]
-      },
-      '2': {
-        value: 2,
-        items: [1, 2]
-      },
-      '3': {
-        value: 3,
-        items: [0, 1, 2]
-      },
-      '100': {
-        value: 0,
-        items: [3]
-      }
-    };
     capacityMapping[room.value].items.forEach(function (item) {
       capacity.querySelectorAll('option')[item].classList.remove('hidden');
     });
@@ -144,14 +143,14 @@
 
   function onSubmitClick(evt) {
     checkBeforeSending();
-    window.addAddress(address);
+    window.map.addAddress(address);
 
     if (errorCount === 0) {
       evt.preventDefault();
       window.backend.save(new FormData(window.elements.mapForm), function () {
         window.elements.mapForm.reset();
         onResetClick();
-      }, window.onLoadError);
+      }, window.pin.onLoadError);
     }
   }
 
@@ -177,7 +176,7 @@
     hideRedBorders();
     resetImages();
     window.elements.mainButton.style = '';
-    window.addAddress(address);
+    window.map.addAddress(address);
   }
 
   function hideRedBorders() {

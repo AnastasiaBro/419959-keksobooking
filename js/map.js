@@ -30,8 +30,8 @@
     window.elements.mapForm.classList.remove('notice__form--disabled');
     activeForm();
     if (window.adverts) {
-      window.newPins = window.getRandomStartElements(window.constants.NUMBER_OF_SHOW_PINS);
-      window.showMapPins(window.newPins);
+      window.newPins = window.pin.getRandomStartElements(window.constants.NUMBER_OF_SHOW_PINS);
+      window.pin.showMapPins(window.newPins);
     }
     addAddress(addressCoordinates);
 
@@ -140,7 +140,9 @@
     window.elements.mapPins.addEventListener('mouseup', onMouseUp);
   });
 
-  window.getCloseButton = getCloseButton;
-  window.addAddress = addAddress;
-  window.closeAdvert = closeAdvert;
+  window.map = {
+    getCloseButton: getCloseButton,
+    addAddress: addAddress,
+    closeAdvert: closeAdvert
+  };
 })();

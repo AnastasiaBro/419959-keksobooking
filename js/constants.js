@@ -23,6 +23,7 @@
     MIN_PALACE_PRICE: 10000,
     FILE_TYPES: ['gif', 'jpg', 'jpeg', 'png'],
     TIMEIN_VALUES: ['12:00', '13:00', '14:00'],
-    TIMEOUT_VALUES: ['12:00', '13:00', '14:00']
+    TIMEOUT_VALUES: ['12:00', '13:00', '14:00'],
+    TYPES: ['flat', 'bungalo', 'house', 'palace']
   };
 })();

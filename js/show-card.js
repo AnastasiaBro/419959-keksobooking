@@ -29,7 +29,7 @@
       target.classList.add('map__pin--active');
       findRightAdvert(array);
 
-      window.getCloseButton();
+      window.map.getCloseButton();
     }
   }
 

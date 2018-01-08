@@ -3,7 +3,7 @@
 (function () {
   function closeCardAfterFilter() {
     if (window.elements.mapPins.querySelector('.map__pin--active')) {
-      window.closeAdvert();
+      window.map.closeAdvert();
     }
   }
 
@@ -20,13 +20,13 @@
     hideAllPins();
 
     if (array.length === window.adverts.length) {
-      window.newPins = window.getRandomStartElements(count);
+      window.newPins = window.pin.getRandomStartElements(count);
     } else if (array.length > count) {
       window.newPins = array.slice(0, count);
     } else {
       window.newPins = array;
     }
-    window.showMapPins(window.newPins);
+    window.pin.showMapPins(window.newPins);
   }
 
   function findUncheckedFeature(feature) {

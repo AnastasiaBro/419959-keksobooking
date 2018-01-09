@@ -108,12 +108,12 @@
   }
 
   function onPriceInputChange() {
-    var prices = [window.constants.MIN_FLAT_PRICE, window.constants.MIN_BUNGALO_PRICE, window.constants.MIN_HOUSE_PRICE, window.constants.MIN_PALACE_PRICE];
+    var PRICES = [window.constants.MIN_FLAT_PRICE, window.constants.MIN_BUNGALO_PRICE, window.constants.MIN_HOUSE_PRICE, window.constants.MIN_PALACE_PRICE];
 
     function syncValueWithMin(element, value) {
       element.min = value;
     }
-    window.synchronizeFields(type, price, window.constants.TYPES, prices, syncValueWithMin); // types стал TYPES и переехал в constants
+    window.synchronizeFields(type, price, window.constants.TYPES, PRICES, syncValueWithMin); // types стал TYPES и переехал в constants
     checkPriceValidity();
   }
 

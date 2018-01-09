@@ -1,4 +1,7 @@
 'use strict';
+// types стал TYPES и переехал в constants
+// про prices ничего не сказано, но с prices была дилемма - из-за прошлого замечания про маг. числа он выглядит так,
+// но по сути является конст. массивом (поэтому все-таки ставлю заглавные буквы)
 
 (function () {
   var minPrice = {
@@ -25,6 +28,7 @@
       items: [3]
     }
   };
+  var PRICES = [window.constants.MIN_FLAT_PRICE, window.constants.MIN_BUNGALO_PRICE, window.constants.MIN_HOUSE_PRICE, window.constants.MIN_PALACE_PRICE];
   var timein = window.elements.mapForm.querySelector('#timein');
   var timeout = window.elements.mapForm.querySelector('#timeout');
   var price = window.elements.mapForm.querySelector('#price');
@@ -108,12 +112,10 @@
   }
 
   function onPriceInputChange() {
-    var PRICES = [window.constants.MIN_FLAT_PRICE, window.constants.MIN_BUNGALO_PRICE, window.constants.MIN_HOUSE_PRICE, window.constants.MIN_PALACE_PRICE];
-
     function syncValueWithMin(element, value) {
       element.min = value;
     }
-    window.synchronizeFields(type, price, window.constants.TYPES, PRICES, syncValueWithMin); // types стал TYPES и переехал в constants, а prices - PRICES
+    window.synchronizeFields(type, price, window.constants.TYPES, PRICES, syncValueWithMin);
     checkPriceValidity();
   }
 

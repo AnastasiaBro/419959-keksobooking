@@ -86,7 +86,7 @@
 
   function onFiltersChange(evt) {
     var selects = evt.currentTarget.querySelectorAll('select');
-    var selectsValues = {};
+    var selectsValues = {}; // теперь объект
     var checkboxes = evt.currentTarget.querySelectorAll('input');
     var checkboxesValues = [];
 

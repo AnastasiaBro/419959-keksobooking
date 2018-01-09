@@ -113,7 +113,7 @@
     function syncValueWithMin(element, value) {
       element.min = value;
     }
-    window.synchronizeFields(type, price, window.constants.TYPES, PRICES, syncValueWithMin); // types стал TYPES и переехал в constants
+    window.synchronizeFields(type, price, window.constants.TYPES, PRICES, syncValueWithMin); // types стал TYPES и переехал в constants, а prices - PRICES
     checkPriceValidity();
   }
 
